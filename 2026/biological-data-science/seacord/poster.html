@@ -1,962 +1,459 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<title>disassembler poster, CSHL BDS 2026</title>
+<title>disassembler: planetary-scale sequence extraction from Logan — CSHL BDS 2026</title>
 <style>
-  @import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap");
-  /* 1m x 1m square conference poster, print-first.
-     Two parallel routes through Logan, converging at HyphAeon.
-     Palette: warm paper, two route accents (teal / terracotta), Logan gold. */
-  @page {
-    size: 1000mm 1000mm;
-    margin: 0;
-  }
-  :root {
-    --paper:        #f6f1e8;
-    --paper-sunk:   #ede6d7;
-    --ink:          #1a1a1a;
-    --ink-mute:     #4a4a4a;
-    --rule:         #c9c0ad;
-    --rule-soft:    #e2dcc9;
-    --route-a:      #1f6f5c;
-    --route-a-tint: #d5e5df;
-    --route-b:      #a04a2a;
-    --route-b-tint: #ead6c7;
-    --logan:        #b78b2a;
-    --accent:       #4a4e8f;
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-Italic.ttf') format('truetype'); font-weight: 400; font-style: italic; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-ExtraBold.ttf') format('truetype'); font-weight: 800; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Mono'; src: url('../chilton/fonts/AtkinsonHyperlegibleMono-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Mono'; src: url('../chilton/fonts/AtkinsonHyperlegibleMono-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Mono'; src: url('../chilton/fonts/AtkinsonHyperlegibleMono-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+@font-face { font-family: 'IBM Plex Sans'; src: url('../chilton/fonts/IBMPlexSans-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'IBM Plex Mono'; src: url('../chilton/fonts/IBMPlexMono-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
 
-    --f-display: "Fraunces", "Playfair Display", Georgia, serif;
-    --f-body:    "Inter", "Helvetica Neue", system-ui, sans-serif;
-    --f-mono:    "JetBrains Mono", "SF Mono", Menlo, monospace;
-  }
-  * { box-sizing: border-box; }
-  html, body { width: 1000mm; margin: 0; padding: 0; }
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: var(--f-body);
-    font-size: 7mm;
-    line-height: 1.38;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
+@page { size: 44in 44in; margin: 0; }
+:root {
+  --ink: #18243a;
+  --navy: #2c3143;
+  --muted: #4f5b70;
+  --line: #d5dbe5;
+  --panel: #f4f6fa;
+  --paper: #ffffff;
+  --gold: #ffd700;
+  --gold-border: #eab308;
+  --gold-soft: #fffbeb;
+  --teal: #0b7a75;
+  --teal-soft: #e0f2f0;
+  --route-a: #0b7a75;
+  --route-a-tint: #dff2ef;
+  --route-b: #a04a2a;
+  --route-b-tint: #f8e5dc;
+  --logan: #c98a00;
+  --accent: #3f4685;
+  --code-inline: #e3e8f0;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; width: 44in; height: 44in; overflow: hidden; background: var(--paper); }
+body {
+  font-family: "Atkinson Hyperlegible Next", "IBM Plex Sans", sans-serif;
+  color: var(--ink); font-size: 24pt; line-height: 1.28;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  display: grid; grid-template-rows: auto 1fr auto;
+}
+code, pre, .mono { font-family: "Atkinson Hyperlegible Mono", "IBM Plex Mono", monospace; }
+code { font-size: 0.88em; background: var(--code-inline); padding: 0.01in 0.08in; border-radius: 0.06in; font-weight: 600; }
+.sym { font-family: "IBM Plex Sans", sans-serif; font-weight: 400; font-style: normal; }
+h2 i, b i, strong i { font-weight: 400; }
 
-  .poster {
-    width: 1000mm;
-    padding: 4mm 22mm 4mm 22mm;
-    /* Block, not flex: WeasyPrint gives a nested flex container used as a
-       flex item a phantom line box, which added ~35mm of dead space under
-       the title. Margins stand in for the former column gap. */
-    display: block;
-  }
-  .poster > * { margin-top: 5mm; }
-  .poster > *:first-child { margin-top: 0; }
+/* Header — Style 1 Galaxy Classic Masthead */
+header {
+  background: var(--navy); color: #fff;
+  padding: 0.5in 1in 0.48in; display: grid;
+  grid-template-columns: 1fr auto; gap: 0.85in; align-items: center;
+  border-bottom: 0.2in solid var(--gold);
+}
+.kicker { font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 22pt; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.15in; }
+header h1 { margin: 0; font-size: 86pt; line-height: 1.04; font-weight: 800; letter-spacing: -0.015em; }
+header h1 .udt { color: var(--gold); }
+.authors { margin-top: 0.2in; font-size: 33pt; font-weight: 700; line-height: 1.18; }
+.authors sup, .affil sup { font-size: 0.6em; }
+.affil { display: block; margin-top: 0.06in; font-size: 23.5pt; font-weight: 400; color: #cfd6e6; }
+.lede { margin-top: 0.18in; font-size: 29.5pt; line-height: 1.26; max-width: 31.8in; color: #eef2f8; }
+.lede b { color: var(--gold); }
+header code, footer code { background: rgba(255, 255, 255, 0.14); color: var(--gold); }
+.head-right { display: grid; justify-items: stretch; gap: 0.32in; width: 8.3in; }
+.logo { width: 5.8in; justify-self: end; }
+.logo img { width: 100%; display: block; }
+.qr-card { background: #fff; color: var(--ink); border-radius: 0.22in; padding: 0.26in 0.28in; display: grid; grid-template-columns: auto 1fr; gap: 0.26in; align-items: center; }
+.qr-card img { width: 2.25in; height: 2.25in; display: block; }
+.qr-card .t { font-size: 27pt; font-weight: 800; line-height: 1.12; color: var(--navy); }
+.qr-card .u { font-size: 19.5pt; color: var(--muted); margin-top: 0.08in; line-height: 1.24; }
 
-  /* --------- Logo strip --------- */
-  .logos {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12mm;
-    padding-bottom: 2mm;
-    border-bottom: 0.3mm solid var(--rule);
-    margin-bottom: -2mm;
-  }
-  /* Four marks as direct flex items, not two groups: WeasyPrint lays a nested
-     flex container out from its images' intrinsic pixel widths rather than the
-     widths they take at the given height, so a group of 2400px logos measured
-     ~540mm each and the strip ran 22mm past the right margin.
-     The marks are cropped to their own ink by scripts/prepare_logos.py, so one
-     height makes them optically equal. Untrimmed, the Penn State file alone
-     carries 45% vertical padding and prints at half the size of the rest. */
-  .logos img { display: block; height: 30mm; width: auto; flex: 0 0 auto; }
+/* Main body stack */
+main {
+  padding: 0.44in 1in 0.42in;
+  display: flex; flex-direction: column; gap: 0.42in;
+  min-height: 0;
+}
+section {
+  background: var(--panel); border-radius: 0.24in; padding: 0.34in 0.44in 0.38in;
+  border: 2px solid #dfe5ef; border-top: 0.13in solid var(--navy);
+  display: flex; flex-direction: column; min-height: 0;
+}
+h2 {
+  margin: 0 0 0.16in; font-size: 38pt; line-height: 1.08; font-weight: 800; color: var(--navy);
+  display: flex; align-items: center; gap: 0.22in; letter-spacing: -0.01em;
+}
+h2 .k {
+  flex: none; width: 0.74in; height: 0.74in; border-radius: 50%; background: var(--gold); color: var(--navy);
+  display: grid; place-items: center; font-size: 31pt; font-weight: 800;
+}
 
-  /* --------- Title band --------- */
-  .title {
-    border-bottom: 0.3mm solid var(--rule);
-    padding: 0 0 5mm 0;
-    /* Block, with the headline/brand/byline row inside it: the standfirst has
-       to run the full width underneath, and as a flex item it would have been
-       penned into the headline's column and wrapped to a second line. */
-    display: block;
-  }
-  .title-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12mm;
-  }
-  /* Never shrink: the headline wraps to a third line the moment it does, and
-     a wrapped headline pushes every section below it down the page. */
-  .title-row > .headline { flex: 0 0 auto; }
-  /* The product marks live in the gap the two-line headline leaves beside the
-     byline. The basis is stated rather than measured from content for the same
-     reason the logo strip is flat: WeasyPrint sizes a nested flex container
-     from its images' intrinsic pixel widths, which here came out at ~550mm and
-     squeezed the headline into three lines. Keep it >= the marks' real widths
-     (90mm x 1.832 + 10mm gap + 72mm + 4mm matting). */
-  .brand {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10mm;
-    flex: 0 0 255mm;
-    font-size: 0;
-    line-height: 0;
-  }
-  .brand img { display: block; width: auto; flex: 0 0 auto; }
-  .brand .b-dis { height: 90mm; }
-  .brand .b-hyph {
-    /* Brand mark reads on light paper when matted; keep its own black ground.
-       Smaller than the disassembler mark because a filled square carries more
-       weight than line art at equal height. */
-    height: 72mm;
-    background: #0a0a10;
-    padding: 2mm;
-  }
-  .eyebrow {
-    font-family: var(--f-mono);
-    font-size: 5mm;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink-mute);
-    margin-bottom: 2mm;
-  }
-  .title h1 {
-    font-family: var(--f-display);
-    font-weight: 600;
-    font-size: 34mm;
-    line-height: 1.0;
-    letter-spacing: -0.01em;
-    margin: 0;
-    /* The break is the explicit <br>; nothing else may wrap. Its flex column
-       resolves to exactly the longest line's width, and a sub-millimetre
-       rounding there was enough to spill "Logan" onto a third line. */
-    white-space: nowrap;
-  }
-  .title h1 em {
-    font-style: italic;
-    font-weight: 500;
-    color: var(--route-a);
-  }
-  .title .sub {
-    font-family: var(--f-display);
-    font-style: italic;
-    font-weight: 400;
-    font-size: 9mm;
-    color: var(--ink-mute);
-    margin-top: 3mm;
-    max-width: 620mm;
-    line-height: 1.2;
-  }
-  .title .meta {
-    font-size: 6mm;
-    color: var(--ink-mute);
-    text-align: right;
-    min-width: 150mm;
-    line-height: 1.45;
-  }
-  .title .meta .who {
-    font-size: 8mm;
-    color: var(--ink);
-    font-weight: 600;
-  }
-  .title .meta .code {
-    font-family: var(--f-mono);
-    font-size: 5mm;
-    background: var(--paper-sunk);
-    padding: 1mm 2mm;
-    margin-top: 3mm;
-    display: inline-block;
-  }
+/* Row 1: Section A — Overview + Brand/Institutions + Workflow */
+.sec-a-top {
+  display: grid; grid-template-columns: 1fr auto auto; gap: 0.36in; align-items: stretch; margin-bottom: 0.24in;
+}
+.sec-a-head h2 { margin-bottom: 0.1in; }
+.sec-a-sub { font-size: 24.5pt; color: var(--muted); margin: 0 0 0.16in; line-height: 1.24; }
+.brand-bar {
+  display: flex; align-items: center; gap: 0.32in;
+  background: #fff; border: 2px solid var(--line); border-radius: 0.16in;
+  padding: 0.14in 0.28in; width: fit-content;
+}
+.brand-bar .b-dis { height: 1.05in; width: auto; display: block; }
+.brand-bar .b-hyph { height: 0.96in; width: auto; display: block; background: #0a0a10; padding: 0.05in; border-radius: 0.08in; }
+.brand-bar .sep { width: 2px; height: 0.78in; background: var(--line); }
+.brand-bar .inst { height: 0.62in; width: auto; display: block; }
 
-  /* --------- Intro row --------- */
-  .intro {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 10mm;
-  }
-  .intro h2 {
-    font-family: var(--f-display);
-    font-weight: 600;
-    font-size: 12mm;
-    margin: 0 0 4mm 0;
-    line-height: 1.1;
-  }
-  .intro .lede { font-size: 7mm; line-height: 1.3; margin: 0 0 3mm 0; }
-  .intro .lede strong { color: var(--route-a); font-weight: 600; }
-  .intro .lede em { font-style: normal; color: var(--route-b); font-weight: 600; }
-  .stat-tile {
-    background: var(--paper-sunk);
-    border-left: 2mm solid var(--logan);
-    padding: 6mm 7mm;
-  }
-  .stat-tile .label {
-    font-family: var(--f-mono);
-    font-size: 4.5mm;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-mute);
-  }
-  .stat-tile .num {
-    font-family: var(--f-display);
-    font-weight: 600;
-    font-size: 20mm;
-    line-height: 1.05;
-    font-variant-numeric: tabular-nums;
-    margin: 2mm 0;
-  }
-  .stat-tile .note { font-size: 6mm; color: var(--ink-mute); line-height: 1.3; }
+.stat-tile {
+  background: #fff; border: 2px solid var(--line); border-left: 0.12in solid var(--gold-border);
+  border-radius: 0.16in; padding: 0.2in 0.28in; width: 7.4in;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.stat-tile.teal { border-left-color: var(--route-a); }
+.stat-tile .label { font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 16.5pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.stat-tile .num { font-size: 46pt; font-weight: 800; line-height: 1.05; color: var(--navy); margin: 0.05in 0; font-variant-numeric: tabular-nums; }
+.stat-tile.teal .num { color: var(--route-a); }
+.stat-tile .note { font-size: 19.5pt; color: var(--muted); line-height: 1.22; }
 
-  /* --------- Workflow --------- */
-  .workflow {
-    background: var(--paper-sunk);
-    border: 0.3mm solid var(--rule);
-    padding: 8mm;
-  }
-  .workflow-row {
-    display: flex;
-    gap: 6mm;
-    align-items: stretch;
-  }
-  .workflow-row .side-box { width: 210mm; flex-shrink: 0; }
-  .workflow-row .diagram { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: center; }
-  .side-box {
-    background: var(--paper);
-    border: 0.3mm solid var(--rule);
-    padding: 8mm;
-    display: grid;
-    gap: 5mm;
-    align-content: start;
-  }
-  .side-box .tag {
-    font-family: var(--f-mono);
-    font-size: 5mm;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 2mm 3.5mm;
-    justify-self: start;
-  }
-  .side-box.left .tag { background: var(--route-a-tint); color: var(--route-a); }
-  .side-box.right .tag { background: var(--route-b-tint); color: var(--route-b); }
-  .side-box h3 {
-    font-family: var(--f-display);
-    font-weight: 600;
-    font-size: 12mm;
-    margin: 0;
-    line-height: 1.08;
-  }
-  .side-box p { margin: 0; font-size: 7mm; color: var(--ink-mute); line-height: 1.3; }
-  .side-box ul { margin: 2mm 0 0 0; padding-left: 7mm; font-size: 7mm; line-height: 1.3; }
-  .side-box li { margin-bottom: 4mm; }
-  .side-box li strong { color: var(--ink); font-weight: 600; }
-  .side-box code {
-    font-family: var(--f-mono);
-    font-size: 6mm;
-    background: var(--paper-sunk);
-    padding: 0.5mm 1.5mm;
-  }
+.workflow-row {
+  display: grid; grid-template-columns: 8.6in 1fr 8.6in; gap: 0.32in; align-items: stretch;
+}
+.side-box {
+  background: #fff; border: 2px solid var(--line); border-radius: 0.16in;
+  padding: 0.24in 0.3in; display: flex; flex-direction: column; gap: 0.1in;
+}
+.side-box.left { border-top: 0.1in solid var(--route-a); }
+.side-box.right { border-top: 0.1in solid var(--route-b); }
+.side-box .tag {
+  font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 17pt; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; padding: 0.05in 0.14in; border-radius: 0.08in; align-self: flex-start;
+}
+.side-box.left .tag { background: var(--route-a-tint); color: var(--route-a); }
+.side-box.right .tag { background: var(--route-b-tint); color: var(--route-b); }
+.side-box h3 { margin: 0.02in 0; font-size: 28pt; font-weight: 800; color: var(--navy); line-height: 1.1; }
+.side-box ul { margin: 0.04in 0 0; padding-left: 0.34in; font-size: 21pt; line-height: 1.24; }
+.side-box li { margin-bottom: 0.08in; }
+.side-box li:last-child { margin-bottom: 0; }
+.diagram {
+  background: #fff; border: 2px solid var(--line); border-radius: 0.16in;
+  padding: 0.14in 0.2in; display: flex; align-items: center; justify-content: center;
+}
+.diagram svg { width: 100%; height: auto; display: block; }
 
-  .diagram {
-    background: var(--paper);
-    border: 0.3mm solid var(--rule);
-    padding: 4mm;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-  .diagram svg { display: block; }
-  .workflow > h2 {
-    font-family: var(--f-display);
-    font-weight: 600;
-    font-size: 13mm;
-    margin: 0 0 4mm 0;
-    flex-shrink: 0;
-  }
+/* Row 2: 3 Case Studies (B, C, D) */
+.cases-row {
+  flex: 1; min-height: 0;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.44in;
+}
+.case-top { display: flex; justify-content: space-between; align-items: center; gap: 0.16in; margin-bottom: 0.1in; }
+.case-top h2 { margin: 0; font-size: 33pt; }
+.ribbon { display: flex; gap: 0.1in; flex: none; }
+.chip {
+  font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 15.5pt; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase; padding: 0.05in 0.14in; border-radius: 0.08in; white-space: nowrap;
+}
+.chip.a { background: var(--route-a-tint); color: var(--route-a); }
+.chip.b { background: var(--route-b-tint); color: var(--route-b); }
+.finding { margin: 0 0 0.14in; font-size: 21.5pt; line-height: 1.24; color: var(--ink); min-height: 0.84in; }
+.finding b { color: var(--navy); }
 
-  /* --------- Case studies --------- */
-  .cases {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10mm;
-  }
-  .case {
-    background: var(--paper);
-    border: 0.3mm solid var(--rule);
-    padding: 7mm;
-    display: flex;
-    flex-direction: column;
-    gap: 4mm;
-  }
-  .case .ribbon {
-    display: flex;
-    /* nowrap + fixed height: with flex-wrap WeasyPrint reserved a second
-       flex line for the two-chip SARS ribbon, pushing that card's title and
-       stat table ~6mm below the other two. The chips never need to wrap. */
-    flex-wrap: nowrap;
-    height: 9.3mm;
-    gap: 3mm;
-    align-items: center;
-    font-family: var(--f-mono);
-    font-size: 4.5mm;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-mute);
-  }
-  .case .ribbon .chip, .case .ribbon .chip-a, .case .ribbon .chip-b { padding: 1.5mm 3mm; }
-  .case.ca .ribbon .chip { background: var(--route-a-tint); color: var(--route-a); }
-  .case.cb .ribbon .chip { background: var(--route-b-tint); color: var(--route-b); }
-  .case.cab .ribbon .chip-a { background: var(--route-a-tint); color: var(--route-a); }
-  .case.cab .ribbon .chip-b { background: var(--route-b-tint); color: var(--route-b); }
-  .case h3 {
-    font-family: var(--f-display);
-    font-weight: 600;
-    font-size: 12mm;
-    margin: 0;
-    line-height: 1.05;
-  }
-  .case h3 .italic { font-style: italic; }
-  .case .scope { font-size: 6.5mm; color: var(--ink-mute); margin: 0; line-height: 1.3; }
-  .case .findings { margin: 2mm 0 0 0; padding-left: 7mm; font-size: 6.5mm; line-height: 1.3; }
-  .case .findings li { margin-bottom: 3mm; }
-  .case .findings code { font-family: var(--f-mono); font-size: 5.5mm; background: var(--paper-sunk); padding: 0.5mm 1.5mm; }
-  .case .numbers {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2mm;
-    margin-top: 2mm;
-    /* Size to content and never absorb slack: otherwise the row stretches by
-       a different amount per card and the three tables end at different
-       depths even though their tops line up. */
-    align-content: start;
-    flex: 0 0 auto;
-  }
-  .case .numbers .cell {
-    background: var(--paper-sunk);
-    padding: 4mm 3mm 4.5mm 3mm;
-    border-left: 1mm solid var(--rule);
-    min-width: 0;
-  }
-  .case.ca .numbers .cell { border-left-color: var(--route-a); }
-  .case.cb .numbers .cell { border-left-color: var(--route-b); }
-  .case.cab .numbers .cell { border-left-color: var(--accent); }
-  .case .numbers .k {
-    font-family: var(--f-mono);
-    font-size: 4mm;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--ink-mute);
-    display: block;
-  }
-  .case .numbers .v {
-    font-family: var(--f-display);
-    font-weight: 600;
-    font-size: 9mm;
-    font-variant-numeric: tabular-nums;
-    line-height: 1.05;
-    display: block;
-    margin-top: 1mm;
-  }
-  .case .numbers .vn {
-    font-size: 4.2mm;
-    color: var(--ink-mute);
-    font-weight: 400;
-    font-family: var(--f-body);
-    margin-left: 1mm;
-    display: block;
-    margin-top: 0.5mm;
-  }
-  .case .fig {
-    margin-top: 2mm;
-    margin-left: -7mm;
-    margin-right: -7mm;
-    margin-bottom: -7mm;
-    background: transparent;
-    padding: 0;
-    border: none;
-    display: flex;
-    flex-direction: column;
-    /* Absorb whatever height the card has left so all three figures
-       bottom-align at the card edge instead of leaving ragged slack. */
-    flex: 1 1 auto;
-    min-height: 0;
-  }
-  .case .fig img {
-    width: 100%;
-    /* 178mm = 168mm of heatmap plus the 5.66% of image height that the
-       nucleotide ruler occupies, so the map prints the size it did before
-       the ruler was added. All three figures carry the same fraction. */
-    flex: 1 1 178mm;
-    min-height: 0;
-    object-fit: fill;
-    display: block;
-  }
-  .case .fig .legend {
-    padding: 4mm 7mm 5mm 7mm;
-    border-top: 0.2mm solid var(--rule);
-    background: var(--paper);
-  }
-  .case .fig .legend .summary {
-    font-size: 5mm;
-    line-height: 1.3;
-    color: var(--ink);
-    margin: 0 0 3mm 0;
-  }
-  .case .fig .legend .summary em { font-style: italic; }
-  .case .fig .legend .swatches {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2mm 4.5mm;
-    font-family: var(--f-mono);
-    font-size: 4.2mm;
-    color: var(--ink-mute);
-    letter-spacing: 0.04em;
-  }
-  .case .fig .legend .sw {
-    display: inline-flex;
-    align-items: center;
-    gap: 1.2mm;
-    white-space: nowrap;
-  }
-  .case .fig .legend .sw i {
-    display: inline-block;
-    width: 4mm;
-    height: 4mm;
-    border: 0.15mm solid var(--rule);
-  }
+.numbers {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.12in; margin-bottom: 0.16in; flex: none;
+}
+.cell {
+  background: #fff; border: 2px solid var(--line); border-left: 0.09in solid var(--navy);
+  border-radius: 0.12in; padding: 0.12in 0.14in; min-width: 0;
+}
+.ca .cell { border-left-color: var(--route-a); }
+.cab .cell { border-left-color: var(--accent); }
+.cb .cell { border-left-color: var(--route-b); }
+.cell .ck {
+  font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 13.5pt; font-weight: 700;
+  letter-spacing: 0.03em; text-transform: uppercase; color: var(--muted); display: block; line-height: 1.12;
+}
+.cell .cv {
+  font-size: 28pt; font-weight: 800; color: var(--navy); line-height: 1.06; display: block; margin-top: 0.04in;
+  font-variant-numeric: tabular-nums;
+}
+.cell .cvn { font-size: 15.5pt; font-weight: 400; color: var(--muted); display: block; margin-top: 0.02in; line-height: 1.1; }
 
-  /* --------- Metadata section --------- */
-  .metadata {
-    display: block;
-    width: 100%;
-    background: var(--paper-sunk);
-    border: 0.3mm solid var(--rule);
-    padding: 8mm;
-  }
-  .metadata > h2 {
-    font-family: var(--f-display);
-    font-weight: 600;
-    font-size: 13mm;
-    margin: 0 0 5mm 0;
-    line-height: 1.1;
-  }
-  .meta-row {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: 8mm;
-  }
-  /* Metadata and HyphAeon selection share one row. The bar chart is ~7.9:1
-     so it keeps the wider column; the selection panel is ~3.4:1. */
-  .bottom-row {
-    display: grid;
-    grid-template-columns: 1.15fr 1fr;
-    gap: 8mm;
-    align-items: stretch;
-  }
-  .bottom-row > section { min-width: 0; }
-  .metadata .meta-stats {
-    grid-template-columns: 1fr 1fr;
-    margin-top: 5mm;
-  }
+.msa-fig {
+  flex: 1; min-height: 0;
+  background: #fff; border: 2.5px solid var(--line); border-radius: 0.16in; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.msa-fig img {
+  width: 100%; flex: 1; min-height: 0; object-fit: fill; display: block;
+}
+.msa-legend {
+  padding: 0.14in 0.2in 0.16in; border-top: 2px solid var(--line); background: #fff; flex: none;
+}
+.msa-summary { margin: 0 0 0.08in; font-size: 18.5pt; line-height: 1.22; color: var(--ink); }
+.swatches {
+  display: flex; flex-wrap: wrap; gap: 0.08in 0.22in;
+  font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 15.5pt; font-weight: 600; color: var(--muted);
+}
+.sw { display: inline-flex; align-items: center; gap: 0.06in; white-space: nowrap; }
+.sw i { display: inline-block; width: 0.19in; height: 0.19in; border: 1.5px solid #94a3b8; border-radius: 0.03in; }
 
-  /* --------- HyphAeon selection --------- */
-  .selection {
-    background: var(--paper-sunk);
-    border: 0.3mm solid var(--rule);
-    border-left: 2mm solid var(--accent);
-    padding: 8mm;
-    display: flex;
-    flex-direction: column;
-  }
-  .selection > h2 {
-    font-family: var(--f-display);
-    font-weight: 600;
-    font-size: 13mm;
-    margin: 0 0 5mm 0;
-    line-height: 1.1;
-  }
-  .sel-fig {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 auto;
-    min-height: 0;
-  }
-  .sel-fig img {
-    /* Rendered standalone at the panel's own 3.18:1, so no crop or stretch. */
-    width: 100%;
-    height: auto;
-    display: block;
-    background: #ffffff;
-  }
-  .sel-fig .legend {
-    padding: 4mm 0 0 0;
-  }
-  .sel-fig .legend .summary {
-    font-size: 5mm;
-    line-height: 1.3;
-    color: var(--ink);
-    margin: 0 0 3mm 0;
-  }
-  .sel-fig .legend .swatches {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2mm 5mm;
-    font-family: var(--f-mono);
-    font-size: 4.2mm;
-    color: var(--ink-mute);
-    letter-spacing: 0.04em;
-  }
-  .sel-fig .legend .sw {
-    display: inline-flex;
-    align-items: center;
-    gap: 1.5mm;
-    white-space: nowrap;
-  }
-  .sel-fig .legend .sw i {
-    display: inline-block;
-    width: 4mm;
-    height: 4mm;
-    border: 0.15mm solid var(--rule);
-  }
-  .sel-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3mm;
-    margin-top: 5mm;
-  }
-  .sel-stats .cell {
-    background: var(--paper);
-    padding: 3mm 4mm;
-    border-left: 1mm solid var(--accent);
-    min-width: 0;
-  }
-  .sel-stats .k {
-    font-family: var(--f-mono);
-    font-size: 4.2mm;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ink-mute);
-    display: block;
-  }
-  .sel-stats .v {
-    font-family: var(--f-display);
-    font-weight: 600;
-    font-size: 10mm;
-    font-variant-numeric: tabular-nums;
-    line-height: 1.05;
-    display: block;
-    margin-top: 1mm;
-  }
-  .sel-stats .vn {
-    font-size: 4.4mm;
-    color: var(--ink-mute);
-    font-weight: 400;
-    font-family: var(--f-body);
-    display: block;
-    margin-top: 0.5mm;
-  }
-  .meta-fig {
-    background: var(--paper);
-    border: 0.3mm solid var(--rule);
-    padding: 4mm;
-    display: block;
-    min-width: 0;
-  }
-  .meta-fig .cap { margin-top: 3mm; }
-  .meta-fig {
-    padding: 0 !important;
-    overflow: hidden;
-    background: transparent !important;
-    border: none !important;
-    display: flex;
-    flex-direction: column;
-  }
-  .meta-fig img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-  .meta-fig .cap {
-    padding: 3mm 5mm 4mm 5mm;
-    border-top: 0.2mm solid var(--rule);
-    background: var(--paper);
-    font-family: var(--f-body);
-    font-size: 5mm;
-    letter-spacing: 0;
-    text-transform: none;
-    color: var(--ink);
-    line-height: 1.3;
-    display: block;
-  }
-  .meta-fig .cap .swatches {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2mm 6mm;
-    font-family: var(--f-mono);
-    font-size: 4.2mm;
-    color: var(--ink-mute);
-    margin-top: 2.5mm;
-    letter-spacing: 0.04em;
-  }
-  .meta-fig .cap .sw {
-    display: inline-flex;
-    align-items: center;
-    gap: 1.2mm;
-    white-space: nowrap;
-  }
-  .meta-fig .cap .sw i {
-    display: inline-block;
-    width: 4mm;
-    height: 4mm;
-    border: 0.15mm solid var(--rule);
-  }
-  .meta-fig .cap {
-    font-family: var(--f-body);
-    font-size: 5mm;
-    letter-spacing: 0;
-    color: var(--ink);
-    line-height: 1.3;
-  }
-  .meta-right {
-    display: flex;
-    flex-direction: column;
-    gap: 4mm;
-    min-width: 0;
-  }
-  .meta-lede {
-    margin: 0;
-    font-size: 6mm;
-    line-height: 1.3;
-  }
-  .meta-lede strong {
-    color: var(--route-a);
-    font-weight: 600;
-  }
-  .meta-lede em {
-    font-style: normal;
-    color: var(--route-b);
-    font-weight: 600;
-  }
-  .meta-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4mm;
-  }
-  .meta-stats .cell {
-    background: var(--paper);
-    /* Deep padding: the bar chart's 7.9:1 aspect leaves this column short
-       next to the selection panel, so the stat cards take up the slack. */
-    padding: 7mm 5mm;
-    border-left: 1mm solid var(--accent);
-  }
-  .meta-stats .k {
-    font-family: var(--f-mono);
-    font-size: 4.2mm;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ink-mute);
-    display: block;
-  }
-  .meta-stats .v {
-    font-family: var(--f-display);
-    font-weight: 600;
-    font-size: 10mm;
-    font-variant-numeric: tabular-nums;
-    line-height: 1.05;
-    display: block;
-    margin-top: 1mm;
-  }
-  .meta-stats .vn {
-    font-size: 4.4mm;
-    color: var(--ink-mute);
-    font-weight: 400;
-    font-family: var(--f-body);
-    margin-left: 1.5mm;
-    display: block;
-    margin-top: 0.5mm;
-  }
+/* Row 3: Metadata (E) + HyphAeon Selection (F) */
+.bottom-row {
+  display: grid; grid-template-columns: 1.16fr 1fr; gap: 0.44in; align-items: stretch;
+}
+.meta-box {
+  background: #fff; border: 2.5px solid var(--line); border-radius: 0.16in; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.meta-box img { width: 100%; height: auto; display: block; padding: 0.1in 0.12in 0.04in; background: #fff; }
+.meta-cap {
+  padding: 0.12in 0.2in 0.14in; border-top: 2px solid var(--line); font-size: 19pt; line-height: 1.24; color: var(--ink);
+}
+.meta-cap .swatches { margin-top: 0.07in; }
+.meta-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.14in; margin-top: auto; padding-top: 0.16in;
+}
+.meta-stats .cell { border-left-color: var(--route-a); padding: 0.14in 0.16in; }
 
-  /* --------- Author strip --------- */
-  .authors {
-    border-top: 0.3mm solid var(--rule);
-    padding-top: 4mm;
-    text-align: center;
-    line-height: 1.3;
-  }
-  .authors .names {
-    font-size: 6.5mm;
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .authors .names sup { font-size: 4mm; font-weight: 400; }
-  .authors .affil {
-    font-size: 5mm;
-    color: var(--ink-mute);
-    margin-top: 2mm;
-  }
-  .authors .affil sup { font-size: 3.6mm; }
-  .authors .links {
-    margin-top: 3mm;
-    display: flex;
-    justify-content: center;
-    gap: 6mm;
-  }
-  .authors .links .code {
-    font-family: var(--f-mono);
-    font-size: 5mm;
-    color: var(--ink);
-    background: var(--paper-sunk);
-    padding: 1mm 2.5mm;
-  }
+.sel-body {
+  flex: 1; min-height: 0;
+  display: grid; grid-template-columns: 12.6in 1fr; gap: 0.24in; align-items: stretch;
+}
+.sel-fig-card {
+  background: #fff; border: 2.5px solid var(--line); border-radius: 0.16in; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.sel-fig-card img { width: 100%; height: auto; display: block; padding: 0.1in 0.12in 0.04in; background: #fff; }
+.sel-fig-card .msa-legend { padding: 0.12in 0.2in 0.14in; }
+.sel-stats {
+  display: flex; flex-direction: column; justify-content: space-between; gap: 0.14in;
+}
+.sel-stats .cell {
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+  border-left-color: var(--accent); padding: 0.14in 0.2in;
+}
+.sel-stats .cell .cv { font-size: 32pt; }
 
+/* Footer — Style 1 Galaxy Classic Footer */
+footer {
+  background: var(--navy); color: #fff; padding: 0.34in 1in 0.38in;
+  display: grid; grid-template-columns: 1fr auto; gap: 0.8in; align-items: center;
+  border-top: 0.2in solid var(--gold);
+}
+.axes { display: flex; flex-wrap: wrap; gap: 0.54in; font-size: 25.5pt; font-weight: 700; margin-bottom: 0.14in; }
+.axes span { color: var(--gold); padding: 0 0.08in; font-family: "IBM Plex Sans", sans-serif; font-weight: 400; }
+.ack { font-size: 18.8pt; color: #dce3f0; line-height: 1.29; max-width: 31.8in; }
+.ack b { color: var(--gold); }
+.qrs { display: flex; gap: 0.3in; }
+.qr { background: #fff; color: var(--navy); border-radius: 0.18in; padding: 0.16in; text-align: center; width: 2.5in; }
+.qr img { width: 2.1in; height: 2.1in; display: block; margin: 0 auto 0.06in; }
+.qr div { font-size: 19.5pt; font-weight: 800; line-height: 1.1; }
 </style>
 </head>
-
 <body>
-<div class="poster">
-
-  <!-- =================== LOGOS =================== -->
-  <div class="logos">
-    <img src="logo_pennstate.png" alt="Penn State">
-    <img src="logo_pasteur.png" alt="Institut Pasteur">
-    <img src="logo_temple.png" alt="Temple University">
-    <img src="logo_nbis.png" alt="NBIS">
+<header>
+  <div>
+    <div class="kicker">CSHL Biological Data Science · November 4–7, 2026</div>
+    <h1><span class="udt">disassembler</span>: planetary-scale sequence extraction from Logan</h1>
+    <div class="authors">Andrew C. Seacord<sup>1</sup>, Rayan Chikhi<sup>2</sup>, Danielle Callan<sup>3</sup>, Steven Weaver<sup>3</sup>, Patrik Smeds<sup>4</sup>, Sergei L. Kosakovsky Pond<sup>3</sup>, Anton Nekrutenko<sup>1</sup>
+      <span class="affil"><sup>1</sup>Dept. of Biochemistry and Molecular Biology, The Pennsylvania State University · <sup>2</sup>Institut Pasteur, Université Paris Cité · <sup>3</sup>IGEM, Temple University · <sup>4</sup>NBIS, SciLifeLab, Uppsala University</span>
+    </div>
+    <div class="lede">Logan indexes the SRA petabase as <b>unitig graphs</b> and <b>assembled contigs</b>. Given one reference CDS, <code>disassembler</code> reconstructs full-length haplotypes from either—ending in the same <b>codon MSA, haplotype catalog, and tree</b>.</div>
   </div>
-
-  <!-- =================== TITLE =================== -->
-  <header class="title">
-    <div class="title-row">
-      <div class="headline">
-        <h1><em>disassembler</em>: planetary-scale<br>sequence extraction from Logan</h1>
-      </div>
-      <div class="brand">
-        <img src="logo_disassembler.png" alt="logan-disassembler" class="b-dis">
-        <img src="hyphaeon_logo.jpeg" alt="HyphAeon" class="b-hyph">
-      </div>
-      <div class="meta">
-        <div class="who">Andrew C Seacord</div>
-        <div>The Pennsylvania State University</div>
-        <div>Nekrutenko Lab · Galaxy Project</div>
-        <div class="code">github.com/nekrut/disassembler</div>
+  <div class="head-right">
+    <div class="logo"><img src="../chilton/assets/galaxy_logo_white.svg" alt="Galaxy Project"></div>
+    <div class="qr-card">
+      <img src="qr-disassembler.svg" alt="QR: logan-disassembler">
+      <div>
+        <div class="t">logan-disassembler</div>
+        <div class="u">github.com/nekrut/disassembler — Graph path-walker &amp; contig streamer over Logan.</div>
       </div>
     </div>
-    <div class="sub">A graph path-walker on Logan unitigs and a streaming assembler on Logan contigs, over the same petabase.</div>
-  </header>
+  </div>
+</header>
 
-  <!-- =================== INTRO ROW =================== -->
-  <section class="intro">
-    <div>
-      <h2>One gene, many planetary samples</h2>
-      <p class="lede">
-        Logan indexes the SRA petabase as <strong>unitig graphs</strong> and <em>assembled contigs</em>. Given one reference CDS, <code style="font-family:var(--f-mono);font-size:7mm">disassembler</code> reconstructs full-length haplotypes from either, ending in the same codon MSA, haplotype catalog, and tree.
-      </p>
+<main>
+  <!-- ROW 1: OVERVIEW + WORKFLOW -->
+  <section>
+    <div class="sec-a-top">
+      <div class="sec-a-head">
+        <h2><span class="k">A</span>Two routes, one cohort shape</h2>
+        <p class="sec-a-sub">A graph path-walker on Logan unitigs and a streaming assembler on Logan contigs, scanning the same planetary SRA petabase from one reference CDS.</p>
+        <div class="brand-bar">
+          <img src="logo_disassembler_white.png" alt="logan-disassembler" class="b-dis">
+          <img src="hyphaeon_logo.jpeg" alt="HyphAeon" class="b-hyph">
+          <div class="sep"></div>
+          <img src="logo_pennstate.png" alt="Penn State" class="inst">
+          <img src="logo_pasteur.png" alt="Institut Pasteur" class="inst">
+          <img src="logo_temple.png" alt="Temple University" class="inst">
+          <img src="logo_nbis.png" alt="NBIS" class="inst">
+        </div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Logan universe</div>
+        <div class="num">4.99 M</div>
+        <div class="note">subject genomes in the LexicMap index—the universe each query scans.</div>
+      </div>
+      <div class="stat-tile teal">
+        <div class="label">Walker contamination filter</div>
+        <div class="num">0.555% <span class="sym">→</span> 0%</div>
+        <div class="note">mislabeled spike accessions, raw unitig hits <span class="sym">→</span> <code>CLEAN_FULL_LENGTH</code>.</div>
+      </div>
     </div>
-    <div class="stat-tile">
-      <div class="label">Logan universe</div>
-      <div class="num">4.99 M</div>
-      <div class="note">subject genomes in the LexicMap index, the universe each query scans.</div>
-    </div>
-    <div class="stat-tile">
-      <div class="label">walker contamination filter</div>
-      <div class="num">0.555% → 0%</div>
-      <div class="note">mislabeled spike accessions, raw unitig hits → CLEAN_FULL_LENGTH.</div>
-    </div>
-  </section>
 
-  <!-- =================== WORKFLOW DIAGRAM =================== -->
-  <section class="workflow">
-    <h2>Two routes, one cohort shape</h2>
     <div class="workflow-row">
+      <aside class="side-box left">
+        <span class="tag">Route A · unitig graph</span>
+        <h3>When the walker route wins</h3>
+        <ul>
+          <li><b>Shattered genes.</b> Zika NS5: ~50 contig fragments, one clean walk.</li>
+          <li><b>Divergent tails</b> a single-reference search never reaches.</li>
+          <li><b>Intra-host variation</b> kept, not collapsed: per-site allele frequencies.</li>
+        </ul>
+      </aside>
 
-    <aside class="side-box left">
-      <span class="tag">Route A · unitig graph</span>
-      <h3>When the walker route wins</h3>
-      <ul>
-        <li><strong>Shattered genes.</strong> Zika NS5: ~50 contig fragments, one clean walk.</li>
-        <li><strong>Divergent tails</strong> a single-reference search never reaches.</li>
-        <li><strong>Intra-host variation</strong> kept, not collapsed: per-site allele frequencies.</li>
-      </ul>
-    </aside>
+      <div class="diagram">
+        <svg viewBox="0 0 1200 268" preserveAspectRatio="xMidYMid meet" role="img" aria-label="disassembler workflow" xmlns="http://www.w3.org/2000/svg">
+          <style>
+            .n-title { font-family: "Atkinson Hyperlegible Next", sans-serif; font-weight: 700; fill: #18243a; }
+            .n-sub   { font-family: "Atkinson Hyperlegible Mono", monospace; font-weight: 600; fill: #4f5b70; letter-spacing: 0.07em; }
+            .e-A { stroke: #0b7a75; stroke-width: 3.2; fill: none; }
+            .e-B { stroke: #a04a2a; stroke-width: 3.2; fill: none; }
+            .e-L { stroke: #c98a00; stroke-width: 3.6; fill: none; }
+            .e-D { stroke: #3f4685; stroke-width: 3.2; fill: none; }
+          </style>
+          <defs>
+            <marker id="mA" viewBox="0 0 12 10" refX="0" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+              <path d="M0,0 L12,5 L0,10 Z" fill="#0b7a75"/>
+            </marker>
+            <marker id="mB" viewBox="0 0 12 10" refX="0" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+              <path d="M0,0 L12,5 L0,10 Z" fill="#a04a2a"/>
+            </marker>
+            <marker id="mL" viewBox="0 0 12 10" refX="0" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+              <path d="M0,0 L12,5 L0,10 Z" fill="#c98a00"/>
+            </marker>
+            <marker id="mD" viewBox="0 0 12 10" refX="0" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+              <path d="M0,0 L12,5 L0,10 Z" fill="#3f4685"/>
+            </marker>
+          </defs>
 
-    <div class="diagram">
-      <svg viewBox="0 0 1200 280" width="480mm" height="112mm" preserveAspectRatio="xMidYMid meet" role="img" aria-label="disassembler workflow" xmlns="http://www.w3.org/2000/svg">
-        <style>
-          .n-title { font-family: "Inter", sans-serif; font-weight: 600; fill: #1a1a1a; }
-          .n-sub   { font-family: "JetBrains Mono", monospace; fill: #4a4a4a; letter-spacing: 0.08em; }
-          .e-A { stroke: #1f6f5c; stroke-width: 3; fill: none; }
-          .e-B { stroke: #a04a2a; stroke-width: 3; fill: none; }
-          .e-L { stroke: #b78b2a; stroke-width: 3.5; fill: none; }
-          .e-D { stroke: #4a4e8f; stroke-width: 3; fill: none; }
-        </style>
-        <defs>
-          <!-- refX=0 anchors the back of the triangle to the line endpoint,
-               so the line attaches at the back-center of the arrowhead instead
-               of running into the center of the triangle. markerUnits set to
-               userSpaceOnUse so arrow size is consistent across stroke widths. -->
-          <marker id="mA" viewBox="0 0 12 10" refX="0" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
-            <path d="M0,0 L12,5 L0,10 Z" fill="#1f6f5c"/>
-          </marker>
-          <marker id="mB" viewBox="0 0 12 10" refX="0" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
-            <path d="M0,0 L12,5 L0,10 Z" fill="#a04a2a"/>
-          </marker>
-          <marker id="mL" viewBox="0 0 12 10" refX="0" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
-            <path d="M0,0 L12,5 L0,10 Z" fill="#b78b2a"/>
-          </marker>
-          <marker id="mD" viewBox="0 0 12 10" refX="0" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
-            <path d="M0,0 L12,5 L0,10 Z" fill="#4a4e8f"/>
-          </marker>
-        </defs>
+          <!-- TOP: three reference-query panels -->
+          <text x="560" y="18" class="n-sub" font-size="11.5" text-anchor="middle">REFERENCE CDS QUERIES</text>
 
-        <!-- =============================================================
-             TOP: three reference-query panels, centered above the pipeline.
-             Which route each query was run through is shown by the colored
-             bar under its box (teal = route A, terracotta = route B).
-             Connector lines were tried and abandoned: LexicMap sits on the
-             lower row, so every line from here had to thread back through
-             the unitig row to reach it.
-             ============================================================= -->
-        <text x="600" y="20" class="n-sub" font-size="11" text-anchor="middle">REFERENCE CDS QUERIES</text>
+          <rect x="330" y="28" width="130" height="44" fill="#f4f6fa" stroke="#2c3143" stroke-width="1.5" rx="5"/>
+          <text x="395" y="56" class="n-title" font-size="17" text-anchor="middle">Obelisks</text>
+          <rect x="330" y="76" width="130" height="8" rx="2" fill="#0b7a75"/>
 
-        <rect x="330" y="30" width="130" height="44" fill="#f6f1e8" stroke="#4a4a4a" stroke-width="1.2" rx="4"/>
-        <text x="395" y="58" class="n-title" font-size="17" text-anchor="middle">Obelisks</text>
-        <rect x="330" y="78" width="130" height="9" fill="#1f6f5c"/>
+          <rect x="475" y="28" width="170" height="44" fill="#f4f6fa" stroke="#2c3143" stroke-width="1.5" rx="5"/>
+          <text x="560" y="56" class="n-title" font-size="17" text-anchor="middle">SARS-CoV-2</text>
+          <rect x="475" y="76" width="85" height="8" fill="#0b7a75"/>
+          <rect x="560" y="76" width="85" height="8" fill="#a04a2a"/>
 
-        <rect x="475" y="30" width="170" height="44" fill="#f6f1e8" stroke="#4a4a4a" stroke-width="1.2" rx="4"/>
-        <text x="560" y="58" class="n-title" font-size="17" text-anchor="middle">SARS-CoV-2</text>
-        <rect x="475" y="78" width="85" height="9" fill="#1f6f5c"/>
-        <rect x="560" y="78" width="85" height="9" fill="#a04a2a"/>
+          <rect x="660" y="28" width="130" height="44" fill="#f4f6fa" stroke="#2c3143" stroke-width="1.5" rx="5"/>
+          <text x="725" y="56" class="n-title" font-size="17" style="font-style:italic;font-weight:400" text-anchor="middle">H. pylori</text>
+          <rect x="660" y="76" width="130" height="8" rx="2" fill="#a04a2a"/>
 
-        <rect x="660" y="30" width="130" height="44" fill="#f6f1e8" stroke="#4a4a4a" stroke-width="1.2" rx="4"/>
-        <text x="725" y="58" class="n-title" font-size="17" font-style="italic" text-anchor="middle">H. pylori</text>
-        <rect x="660" y="78" width="130" height="9" fill="#a04a2a"/>
+          <!-- LEFT: Logan root -->
+          <rect x="34" y="138" width="156" height="62" fill="#fffbeb" stroke="#eab308" stroke-width="2.5" rx="6"/>
+          <text x="112" y="169" class="n-title" font-size="23" text-anchor="middle">Logan</text>
+          <text x="112" y="188" class="n-sub" font-size="10.5" text-anchor="middle">SRA PETABASE</text>
 
-        <!-- =============================================================
-             LEFT: Logan root. Center at y=170.
-             ============================================================= -->
-        <rect x="40" y="140" width="150" height="60" fill="#b78b2a" fill-opacity="0.16" stroke="#b78b2a" stroke-width="2" rx="4"/>
-        <text x="115" y="172" class="n-title" font-size="22" text-anchor="middle">Logan</text>
-        <text x="115" y="190" class="n-sub" font-size="10" text-anchor="middle">SRA PETABASE</text>
+          <path class="e-L" d="M 190 163 C 218 163, 218 138, 233 138" marker-end="url(#mL)"/>
+          <path class="e-L" d="M 190 175 C 218 175, 218 218, 233 218" marker-end="url(#mL)"/>
 
-        <!-- Route A branch out of Logan: horizontal start, horizontal end -->
-        <path class="e-L" d="M 190 165 C 218 165, 218 140, 233 140" marker-end="url(#mL)"/>
-        <!-- Route B branch out of Logan: horizontal start, horizontal end -->
-        <path class="e-L" d="M 190 175 C 218 175, 218 220, 233 220" marker-end="url(#mL)"/>
+          <!-- ROUTE A (unitig graph) -->
+          <rect x="245" y="118" width="125" height="40" rx="20" fill="#dff2ef" stroke="#0b7a75" stroke-width="2"/>
+          <text x="307" y="144" class="n-title" font-size="17" text-anchor="middle" fill="#0b7a75">unitigs</text>
+          <path class="e-A" d="M 370 138 L 388 138" marker-end="url(#mA)"/>
 
-        <!-- =============================================================
-             ROUTE A (unitig graph): y=120-160. Teal.
-             unitigs -> kmindex -> logan-walker -> sieve
-             ============================================================= -->
-        <!-- unitigs (route-A entry pill) -->
-        <rect x="245" y="120" width="125" height="40" rx="20" fill="#d5e5df" stroke="#1f6f5c" stroke-width="1.8"/>
-        <text x="307" y="146" class="n-title" font-size="17" text-anchor="middle">unitigs</text>
+          <rect x="400" y="118" width="150" height="40" fill="#ffffff" stroke="#0b7a75" stroke-width="2" rx="5"/>
+          <text x="475" y="138" class="n-title" font-size="16" text-anchor="middle">kmindex</text>
+          <text x="475" y="152" class="n-sub" font-size="9" text-anchor="middle">HARVEST · STRATIFY</text>
+          <path class="e-A" d="M 550 138 L 568 138" marker-end="url(#mA)"/>
 
-        <path class="e-A" d="M 370 140 L 388 140" marker-end="url(#mA)"/>
+          <rect x="580" y="118" width="180" height="40" fill="#ffffff" stroke="#0b7a75" stroke-width="2" rx="5"/>
+          <text x="670" y="138" class="n-title" font-size="16" text-anchor="middle">logan-walker</text>
+          <text x="670" y="152" class="n-sub" font-size="9" text-anchor="middle">RUST · GRAPHALIGNER</text>
+          <path class="e-A" d="M 760 138 L 778 138" marker-end="url(#mA)"/>
 
-        <!-- kmindex -->
-        <rect x="400" y="120" width="150" height="40" fill="#f6f1e8" stroke="#1f6f5c" stroke-width="1.8" rx="4"/>
-        <text x="475" y="140" class="n-title" font-size="16" text-anchor="middle">kmindex</text>
-        <text x="475" y="153" class="n-sub" font-size="9" text-anchor="middle">HARVEST · STRATIFY</text>
+          <rect x="790" y="118" width="110" height="40" fill="#ffffff" stroke="#0b7a75" stroke-width="2" rx="5"/>
+          <text x="845" y="144" class="n-title" font-size="16" text-anchor="middle">sieve</text>
 
-        <path class="e-A" d="M 550 140 L 568 140" marker-end="url(#mA)"/>
+          <!-- ROUTE B (contig assemblies) -->
+          <rect x="245" y="198" width="125" height="40" rx="20" fill="#f8e5dc" stroke="#a04a2a" stroke-width="2"/>
+          <text x="307" y="224" class="n-title" font-size="17" text-anchor="middle" fill="#a04a2a">contigs</text>
+          <path class="e-B" d="M 370 218 L 388 218" marker-end="url(#mB)"/>
 
-        <!-- logan-walker -->
-        <rect x="580" y="120" width="180" height="40" fill="#f6f1e8" stroke="#1f6f5c" stroke-width="1.8" rx="4"/>
-        <text x="670" y="140" class="n-title" font-size="16" text-anchor="middle">logan-walker</text>
-        <text x="670" y="153" class="n-sub" font-size="9" text-anchor="middle">RUST · GRAPHALIGNER</text>
+          <rect x="400" y="198" width="150" height="40" fill="#ffffff" stroke="#a04a2a" stroke-width="2" rx="5"/>
+          <text x="475" y="218" class="n-title" font-size="16" text-anchor="middle">LexicMap</text>
+          <text x="475" y="232" class="n-sub" font-size="9" text-anchor="middle">PLANETARY SEARCH</text>
+          <path class="e-B" d="M 550 218 L 568 218" marker-end="url(#mB)"/>
 
-        <path class="e-A" d="M 760 140 L 778 140" marker-end="url(#mA)"/>
+          <rect x="580" y="198" width="180" height="40" fill="#ffffff" stroke="#a04a2a" stroke-width="2" rx="5"/>
+          <text x="670" y="218" class="n-title" font-size="16" text-anchor="middle">streamer</text>
+          <text x="670" y="232" class="n-sub" font-size="9" text-anchor="middle">MULTI-HSP · CODON QC</text>
+          <path class="e-B" d="M 760 218 L 778 218" marker-end="url(#mB)"/>
 
-        <!-- sieve A -->
-        <rect x="790" y="120" width="110" height="40" fill="#f6f1e8" stroke="#1f6f5c" stroke-width="1.8" rx="4"/>
-        <text x="845" y="146" class="n-title" font-size="16" text-anchor="middle">sieve</text>
+          <rect x="790" y="198" width="110" height="40" fill="#ffffff" stroke="#a04a2a" stroke-width="2" rx="5"/>
+          <text x="845" y="224" class="n-title" font-size="16" text-anchor="middle">sieve</text>
 
-        <!-- =============================================================
-             ROUTE B (contig assemblies): y=200-240. Terracotta.
-             contigs -> LexicMap -> streamer -> sieve
-             ============================================================= -->
-        <rect x="245" y="200" width="125" height="40" rx="20" fill="#ead6c7" stroke="#a04a2a" stroke-width="1.8"/>
-        <text x="307" y="226" class="n-title" font-size="17" text-anchor="middle">contigs</text>
+          <!-- RIGHT: merge into Aeon suite -->
+          <path class="e-A" d="M 900 138 C 913 138, 913 168, 921 168"/>
+          <path class="e-B" d="M 900 218 C 913 218, 913 168, 921 168"/>
+          <circle cx="925" cy="168" r="5.5" fill="#3f4685"/>
 
-        <path class="e-B" d="M 370 220 L 388 220" marker-end="url(#mB)"/>
+          <path class="e-D" d="M 930 168 C 946 168, 950 120, 968 120" marker-end="url(#mD)"/>
+          <path class="e-D" d="M 930 168 L 968 168" marker-end="url(#mD)"/>
+          <path class="e-D" d="M 930 168 C 946 168, 950 216, 968 216" marker-end="url(#mD)"/>
 
-        <rect x="400" y="200" width="150" height="40" fill="#f6f1e8" stroke="#a04a2a" stroke-width="1.8" rx="4"/>
-        <text x="475" y="220" class="n-title" font-size="16" text-anchor="middle">LexicMap</text>
-        <text x="475" y="233" class="n-sub" font-size="9" text-anchor="middle">PLANETARY SEARCH</text>
+          <rect x="980" y="100" width="190" height="40" fill="#eef0fa" stroke="#3f4685" stroke-width="2" rx="5"/>
+          <text x="1075" y="120" class="n-title" font-size="17.5" text-anchor="middle" fill="#3f4685">HyphAeon</text>
+          <text x="1075" y="134" class="n-sub" font-size="9" text-anchor="middle" fill="#3f4685">SELECTION · dN/dS</text>
 
-        <path class="e-B" d="M 550 220 L 568 220" marker-end="url(#mB)"/>
+          <rect x="980" y="148" width="190" height="40" fill="#eef0fa" stroke="#3f4685" stroke-width="2" rx="5"/>
+          <text x="1075" y="168" class="n-title" font-size="17.5" text-anchor="middle" fill="#3f4685">ChronAeon</text>
+          <text x="1075" y="182" class="n-sub" font-size="9" text-anchor="middle" fill="#3f4685">DATING · PHYLODYNAMICS</text>
 
-        <rect x="580" y="200" width="180" height="40" fill="#f6f1e8" stroke="#a04a2a" stroke-width="1.8" rx="4"/>
-        <text x="670" y="220" class="n-title" font-size="16" text-anchor="middle">streamer</text>
-        <text x="670" y="233" class="n-sub" font-size="9" text-anchor="middle">MULTI-HSP · CODON QC</text>
+          <rect x="980" y="196" width="190" height="40" fill="#eef0fa" stroke="#3f4685" stroke-width="2" rx="5"/>
+          <text x="1075" y="216" class="n-title" font-size="17.5" text-anchor="middle" fill="#3f4685">RhizAeon</text>
+          <text x="1075" y="230" class="n-sub" font-size="9" text-anchor="middle" fill="#3f4685">RECOMBINATION · MOSAICS</text>
+        </svg>
+      </div>
 
-        <path class="e-B" d="M 760 220 L 778 220" marker-end="url(#mB)"/>
-
-        <rect x="790" y="200" width="110" height="40" fill="#f6f1e8" stroke="#a04a2a" stroke-width="1.8" rx="4"/>
-        <text x="845" y="226" class="n-title" font-size="16" text-anchor="middle">sieve</text>
-
-        <!-- =============================================================
-             RIGHT: both sieves merge at one junction, then the merged
-             cohort fans out to the three Aeon modules. Routing it through a
-             junction keeps this to five lines rather than the six crossing
-             ones a sieve-to-every-tool fan-out would need.
-             ============================================================= -->
-        <path class="e-A" d="M 900 140 C 913 140, 913 170, 921 170"/>
-        <path class="e-B" d="M 900 220 C 913 220, 913 170, 921 170"/>
-        <circle cx="925" cy="170" r="5" fill="#4a4e8f"/>
-
-        <path class="e-D" d="M 930 170 C 946 170, 950 122, 968 122" marker-end="url(#mD)"/>
-        <path class="e-D" d="M 930 170 L 968 170" marker-end="url(#mD)"/>
-        <path class="e-D" d="M 930 170 C 946 170, 950 218, 968 218" marker-end="url(#mD)"/>
-
-        <rect x="980" y="102" width="180" height="40" fill="#4a4e8f" fill-opacity="0.14" stroke="#4a4e8f" stroke-width="2" rx="4"/>
-        <text x="1070" y="122" class="n-title" font-size="18" text-anchor="middle" fill="#4a4e8f">HyphAeon</text>
-        <text x="1070" y="135" class="n-sub" font-size="9" text-anchor="middle" fill="#4a4e8f">SELECTION · dN/dS</text>
-
-        <rect x="980" y="150" width="180" height="40" fill="#4a4e8f" fill-opacity="0.14" stroke="#4a4e8f" stroke-width="2" rx="4"/>
-        <text x="1070" y="170" class="n-title" font-size="18" text-anchor="middle" fill="#4a4e8f">ChronAeon</text>
-        <text x="1070" y="183" class="n-sub" font-size="9" text-anchor="middle" fill="#4a4e8f">DATING · PHYLODYNAMICS</text>
-
-        <rect x="980" y="198" width="180" height="40" fill="#4a4e8f" fill-opacity="0.14" stroke="#4a4e8f" stroke-width="2" rx="4"/>
-        <text x="1070" y="218" class="n-title" font-size="18" text-anchor="middle" fill="#4a4e8f">RhizAeon</text>
-        <text x="1070" y="231" class="n-sub" font-size="9" text-anchor="middle" fill="#4a4e8f">RECOMBINATION · MOSAICS</text>
-      </svg>
-    </div>
-
-    <aside class="side-box right">
-      <span class="tag">Route B · contig streamer</span>
-      <h3>When the LexicMap route wins</h3>
-      <ul>
-        <li><strong>Split genes.</strong> Collinear tiling stitches a 55/45 HSP pair that fails <code>qcovHSP ≥ 80</code>.</li>
-        <li><strong>Planetary scale.</strong> 24 GB streamed; memory is <em>O(haplotypes)</em>, not O(rows).</li>
-        <li><strong>Hands off to the walker</strong> below 85% median identity.</li>
-      </ul>
-    </aside>
+      <aside class="side-box right">
+        <span class="tag">Route B · contig streamer</span>
+        <h3>When the LexicMap route wins</h3>
+        <ul>
+          <li><b>Split genes.</b> Collinear tiling stitches a 55/45 HSP pair that fails <code>qcovHSP ≥ 80</code>.</li>
+          <li><b>Planetary scale.</b> 24 GB streamed; memory is <i>O</i>(haplotypes), not <i>O</i>(rows).</li>
+          <li><b>Hands off to the walker</b> below 85% median identity.</li>
+        </ul>
+      </aside>
     </div>
   </section>
 
-  <!-- =================== CASE STUDIES =================== -->
-  <section class="cases">
-
-    <article class="case ca">
-      <div class="ribbon">
-        <span class="chip">Route A · kmindex → walker</span>
+  <!-- ROW 2: THREE CASE STUDIES -->
+  <div class="cases-row">
+    <section class="ca">
+      <div class="case-top">
+        <h2><span class="k">B</span>Obelisks across microbiomes</h2>
+        <div class="ribbon"><span class="chip a">Route A · walker</span></div>
       </div>
-      <h3>Obelisks across human + bacterial microbiomes</h3>
-      <ul class="findings">
-        <li><strong>METATRANSCRIPTOMIC_BCT dominates</strong>: obelisks live in bacterial microbiome transcriptomes.</li>
-      </ul>
+      <p class="finding"><b>METATRANSCRIPTOMIC_BCT dominates:</b> obelisks live in bacterial microbiome transcriptomes across human and microbial cohorts.</p>
       <div class="numbers">
-        <div class="cell"><span class="k">kmindex candidates</span><span class="v">924<span class="vn">unique runs</span></span></div>
-        <div class="cell"><span class="k">max containment</span><span class="v">0.97<span class="vn">alpha</span></span></div>
-        <div class="cell"><span class="k">shards queried</span><span class="v">141<span class="vn">meta + metaT</span></span></div>
-        <div class="cell"><span class="k">centroids</span><span class="v">5<span class="vn">α β γ ε Ss</span></span></div>
+        <div class="cell"><span class="ck">kmindex hits</span><span class="cv">924</span><span class="cvn">unique runs</span></div>
+        <div class="cell"><span class="ck">max contain.</span><span class="cv">0.97</span><span class="cvn">alpha</span></div>
+        <div class="cell"><span class="ck">shards queried</span><span class="cv">141</span><span class="cvn">meta + metaT</span></div>
+        <div class="cell"><span class="ck">centroids</span><span class="cv">5</span><span class="cvn">α β γ ε Ss</span></div>
       </div>
-      <div class="fig">
+      <div class="msa-fig">
         <img src="figures/obelisk_alpha_poster.png" alt="alpha obelisk MSA map">
-        <div class="legend">
-          <p class="summary">Obelisk-<em>alpha</em>. Reference strip on top: <strong>Oblin-1</strong> brown, <strong>Oblin-2</strong> blue. Rows sorted by edit count.</p>
+        <div class="msa-legend">
+          <p class="msa-summary">Obelisk-<i>alpha</i>. Reference strip on top: <b>Oblin-1</b> brown, <b>Oblin-2</b> blue. Rows sorted by edit count.</p>
           <div class="swatches">
             <span class="sw"><i style="background:#f3ecdc"></i>match</span>
             <span class="sw"><i style="background:#2e8b57"></i>A</span>
@@ -967,27 +464,24 @@
           </div>
         </div>
       </div>
-    </article>
+    </section>
 
-    <article class="case cab">
-      <div class="ribbon">
-        <span class="chip-a">Route A</span>
-        <span class="chip-b">Route B</span>
+    <section class="cab">
+      <div class="case-top">
+        <h2><span class="k">C</span>SARS-CoV-2 spike: two routes</h2>
+        <div class="ribbon"><span class="chip a">Route A</span><span class="chip b">Route B</span></div>
       </div>
-      <h3>SARS-CoV-2 spike: two routes, one reference</h3>
-      <ul class="findings">
-        <li><strong>The routes are complementary.</strong> Only the walker touches the divergent tail; only LexicMap-permissive catches the 1.15 M Alpha/Delta-era accessions strict loses.</li>
-      </ul>
+      <p class="finding"><b>The routes are complementary.</b> Only the walker touches the divergent tail; only LexicMap-permissive catches 1.15 M Alpha/Delta-era runs strict loses.</p>
       <div class="numbers">
-        <div class="cell"><span class="k">LexicMap raw HSPs</span><span class="v">5.88 M<span class="vn">24 GB</span></span></div>
-        <div class="cell"><span class="k">walker20k success</span><span class="v">47.2%<span class="vn">9,448 / 20k</span></span></div>
-        <div class="cell"><span class="k">CLEAN_FULL_LENGTH</span><span class="v">6,827<span class="vn">pid 98.75</span></span></div>
-        <div class="cell"><span class="k">perm. sieved</span><span class="v">79,621<span class="vn">of 1.15 M</span></span></div>
+        <div class="cell"><span class="ck">LexicMap HSPs</span><span class="cv">5.88 M</span><span class="cvn">24 GB</span></div>
+        <div class="cell"><span class="ck">walker20k ok</span><span class="cv">47.2%</span><span class="cvn">9,448 / 20k</span></div>
+        <div class="cell"><span class="ck">CLEAN_FULL</span><span class="cv">6,827</span><span class="cvn">pid 98.75</span></div>
+        <div class="cell"><span class="ck">perm. sieved</span><span class="cv">79,621</span><span class="cvn">of 1.15 M</span></div>
       </div>
-      <div class="fig">
+      <div class="msa-fig">
         <img src="figures/spike_poster.png" alt="SARS-CoV-2 spike MSA map">
-        <div class="legend">
-          <p class="summary">Shared spike reference on top, <strong>RBD</strong> brown. <strong>Top:</strong> kmindex → walker 20k. <strong>Bottom:</strong> LexicMap permissive. Columns align.</p>
+        <div class="msa-legend">
+          <p class="msa-summary">Shared spike reference on top, <b>RBD</b> brown. <b>Top:</b> kmindex <span class="sym">→</span> walker 20k. <b>Bottom:</b> LexicMap permissive. Columns align.</p>
           <div class="swatches">
             <span class="sw"><i style="background:#f3ecdc"></i>match</span>
             <span class="sw"><i style="background:#2e8b57"></i>A</span>
@@ -998,26 +492,24 @@
           </div>
         </div>
       </div>
-    </article>
+    </section>
 
-    <article class="case cb">
-      <div class="ribbon">
-        <span class="chip">Route B · LexicMap → streamer</span>
+    <section class="cb">
+      <div class="case-top">
+        <h2><span class="k">D</span><span><i>H. pylori</i>: 25-gene panel</span></h2>
+        <div class="ribbon"><span class="chip b">Route B · streamer</span></div>
       </div>
-      <h3><span class="italic">Helicobacter pylori</span>: 25-gene marker panel</h3>
-      <ul class="findings">
-        <li><strong>Four audit tiers per marker</strong>, one reference frame: clean full-length through low-coverage fragment, every accession accounted for.</li>
-      </ul>
+      <p class="finding"><b>Four audit tiers per marker</b> in one reference frame: clean full-length through low-coverage fragment, every accession accounted for.</p>
       <div class="numbers">
-        <div class="cell"><span class="k">strict markers</span><span class="v">20</span></div>
-        <div class="cell"><span class="k">loose markers</span><span class="v">5<span class="vn">selection</span></span></div>
-        <div class="cell"><span class="k">audit tiers</span><span class="v">4<span class="vn">per marker</span></span></div>
-        <div class="cell"><span class="k">HyphAeon pass</span><span class="v">oipA<span class="vn">done</span></span></div>
+        <div class="cell"><span class="ck">strict markers</span><span class="cv">20</span><span class="cvn">conserved</span></div>
+        <div class="cell"><span class="ck">loose markers</span><span class="cv">5</span><span class="cvn">selection</span></div>
+        <div class="cell"><span class="ck">audit tiers</span><span class="cv">4</span><span class="cvn">per marker</span></div>
+        <div class="cell"><span class="ck">HyphAeon pass</span><span class="cv">oipA</span><span class="cvn">done</span></div>
       </div>
-      <div class="fig">
+      <div class="msa-fig">
         <img src="figures/oipa_poster.png" alt="H. pylori oipA MSA map">
-        <div class="legend">
-          <p class="summary"><em>oipA</em> strict panel: 1,042 clean accessions, sorted by substitution count.</p>
+        <div class="msa-legend">
+          <p class="msa-summary"><i>oipA</i> strict panel: 1,042 clean accessions, sorted by substitution count.</p>
           <div class="swatches">
             <span class="sw"><i style="background:#f3ecdc"></i>match</span>
             <span class="sw"><i style="background:#2e8b57"></i>A</span>
@@ -1028,72 +520,66 @@
           </div>
         </div>
       </div>
-    </article>
-
-  </section>
-
-  <!-- =================== METADATA + SELECTION =================== -->
-  <div class="bottom-row">
-
-  <section class="metadata">
-    <h2>SRA metadata: the walker drives contamination to zero</h2>
-    <div class="meta-fig">
-      <img src="figures/metadata_bars_poster.png" alt="SRA-metadata bucket mix per SARS-CoV-2 cohort, lexicmap and walker20k side by side">
-      <div class="cap">
-        Six cohorts against the 2026-09-11 ENA snapshot, zoomed to 90–100%.
-        <div class="swatches">
-          <span class="sw"><i style="background:#efefe6"></i>A labeled SARS-CoV-2</span>
-          <span class="sw"><i style="background:#d79b2f"></i>B mixed-sample plausible</span>
-          <span class="sw"><i style="background:#8b1a2b"></i>C mislabeled</span>
-          <span class="sw"><i style="background:#9c9c9c"></i>D no ENA record</span>
-        </div>
-      </div>
-    </div>
-    <div class="meta-stats">
-      <div class="cell"><span class="k">walker20k input</span><span class="v">0.555%<span class="vn">C-mislabeled, raw unitig hits</span></span></div>
-      <div class="cell"><span class="k">walker20k success</span><span class="v">0.011%<span class="vn">1 in ~9,500</span></span></div>
-      <div class="cell"><span class="k">CLEAN_FULL_LENGTH</span><span class="v">0.000%<span class="vn">0 / 6,827</span></span></div>
-      <div class="cell"><span class="k">lexicmap permissive</span><span class="v">0.084%<span class="vn">no walker filter</span></span></div>
-    </div>
-  </section>
-
-  <!-- =================== HYPHAEON SELECTION =================== -->
-  <section class="selection">
-    <h2>HyphAeon: selection on the recovered cohort</h2>
-    <div class="sel-fig">
-      <img src="figures/hyphaeon_selection_poster.png"
-           alt="SARS-CoV-2 spike adaptive landscape: episodic selection by codon">
-      <div class="legend">
-        <p class="summary"><strong>27 diversifying sites</strong> across 161 global spike haplotypes, led by the antibody-escape hub <strong>E484K</strong>. Shaded bands are spike domains.</p>
-      </div>
-    </div>
-    <div class="sel-stats">
-      <div class="cell"><span class="k">haplotypes</span><span class="v">161<span class="vn">&gt;500k SRA runs</span></span></div>
-      <div class="cell"><span class="k">top site</span><span class="v">E484K<span class="vn">LRT 16.3</span></span></div>
-      <div class="cell"><span class="k">runtime</span><span class="v">29.5 s<span class="vn">no input tree</span></span></div>
-    </div>
-  </section>
-
+    </section>
   </div>
 
-  <!-- =================== AUTHORS =================== -->
-  <footer class="authors">
-    <div class="names">
-      Andrew&nbsp;C&nbsp;Seacord<sup>1</sup>, Rayan&nbsp;Chikhi<sup>2</sup>, Danielle&nbsp;Callan<sup>3</sup>, Steven&nbsp;Weaver<sup>3</sup>, Patrik&nbsp;Smeds<sup>4</sup>, Sergei&nbsp;L.&nbsp;Kosakovsky&nbsp;Pond<sup>3</sup>, Anton&nbsp;Nekrutenko<sup>1</sup>
-    </div>
-    <div class="affil">
-      <sup>1</sup>Department of Biochemistry and Molecular Biology, The Pennsylvania State University &nbsp;·&nbsp;
-      <sup>2</sup>Institut Pasteur, Université Paris Cité, Paris &nbsp;·&nbsp;
-      <sup>3</sup>Institute for Genomics and Evolutionary Medicine, Temple University &nbsp;·&nbsp;
-      <sup>4</sup>NBIS, SciLifeLab, Uppsala University
-    </div>
-    <div class="links">
-      <span class="code">github.com/nekrut/disassembler</span>
-      <span class="code">zenodo 10.5281/zenodo.23737199</span>
-      <span class="code">github.com/veg/HyphAeon</span>
-    </div>
-  </footer>
+  <!-- ROW 3: METADATA + HYPHAEON -->
+  <div class="bottom-row">
+    <section>
+      <h2><span class="k">E</span>SRA metadata: the walker drives contamination to zero</h2>
+      <div class="meta-box">
+        <img src="figures/metadata_bars_poster.png" alt="SRA-metadata bucket mix per SARS-CoV-2 cohort">
+        <div class="meta-cap">
+          Six cohorts against the 2026-09-11 ENA snapshot, zoomed to 90–100%.
+          <div class="swatches">
+            <span class="sw"><i style="background:#efefe6"></i>A labeled SARS-CoV-2</span>
+            <span class="sw"><i style="background:#d79b2f"></i>B mixed-sample plausible</span>
+            <span class="sw"><i style="background:#8b1a2b"></i>C mislabeled</span>
+            <span class="sw"><i style="background:#9c9c9c"></i>D no ENA record</span>
+          </div>
+        </div>
+      </div>
+      <div class="meta-stats">
+        <div class="cell"><span class="ck">walker20k input</span><span class="cv">0.555%</span><span class="cvn">C-mislabeled, raw hits</span></div>
+        <div class="cell"><span class="ck">walker20k success</span><span class="cv">0.011%</span><span class="cvn">1 in ~9,500</span></div>
+        <div class="cell"><span class="ck">CLEAN_FULL_LENGTH</span><span class="cv">0.000%</span><span class="cvn">0 / 6,827 mislabeled</span></div>
+        <div class="cell"><span class="ck">lexicmap permissive</span><span class="cv">0.084%</span><span class="cvn">no walker filter</span></div>
+      </div>
+    </section>
 
-</div>
+    <section>
+      <h2><span class="k">F</span>HyphAeon: selection on the recovered cohort</h2>
+      <div class="sel-body">
+        <div class="sel-fig-card">
+          <img src="figures/hyphaeon_selection_poster.png" alt="SARS-CoV-2 spike adaptive landscape: episodic selection by codon">
+          <div class="msa-legend">
+            <p class="msa-summary" style="margin:0"><b>27 diversifying sites</b> across 161 global spike haplotypes, led by antibody-escape hub <b>E484K</b>. Shaded bands mark spike domains.</p>
+          </div>
+        </div>
+        <div class="sel-stats">
+          <div class="cell"><span class="ck">haplotypes</span><span class="cv">161</span><span class="cvn">&gt;500k SRA runs</span></div>
+          <div class="cell"><span class="ck">top site</span><span class="cv">E484K</span><span class="cvn">MEME LRT 16.3</span></div>
+          <div class="cell"><span class="ck">runtime</span><span class="cv">29.5 s</span><span class="cvn">no input tree</span></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div>
+    <div class="axes">
+      <div>Logan unitigs <span>→</span> <code>kmindex</code> + <code>logan-walker</code></div>
+      <div>Logan contigs <span>→</span> <code>LexicMap</code> + <code>streamer</code></div>
+      <div>sieved cohort <span>→</span> HyphAeon · ChronAeon · RhizAeon</div>
+    </div>
+    <div class="ack"><b>Acknowledgements:</b> Work in the authors’ groups is supported by National Institutes of Health grants U24HG002371, U24HG006620, U24HG010263, U24CA284167, U24AI183870, and R01GM151683, and by National Science Foundation grants 2419522 and 2138585. Software &amp; data: github.com/nekrut/disassembler · github.com/veg/HyphAeon · Zenodo archive: doi.org/10.5281/zenodo.23737199. Related CSHL posters: Galaxy UDTs (van den Beek) · Galaxy Workflow Foundry (Chilton) · HighGen (Burhans).</div>
+  </div>
+  <div class="qrs">
+    <div class="qr"><img src="qr-disassembler.svg" alt="QR: disassembler"><div>disassembler</div></div>
+    <div class="qr"><img src="qr-zenodo.svg" alt="QR: Zenodo archive"><div>Zenodo Data</div></div>
+    <div class="qr"><img src="qr-hyphaeon.svg" alt="QR: HyphAeon"><div>HyphAeon</div></div>
+  </div>
+</footer>
 </body>
 </html>
