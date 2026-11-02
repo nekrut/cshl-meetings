@@ -724,10 +724,10 @@
 <text x="728" y="135" class="ax" fill="#D55E00">• ASM5191173v1: r = 0.4763</text>
 <rect x="720" y="148" width="168" height="82" rx="7" fill="#f8fafd" stroke="#d5dbe5"/>
 <text x="728" y="165" class="lbl" fill="#25324d">TOGA2 v2.0.9 Pilot</text>
-<text x="728" y="182" class="lbl" fill="#0072B2">C-floor: 25 L/UL (0.10%)</text>
+<text x="728" y="182" class="lbl" fill="#0072B2">Control: 25 L/UL (0.10%)</text>
 <text x="728" y="197" class="ax">• EH23a L/UL: prod 8.48%</text>
 <text x="728" y="211" class="ax">• loose 7.26%, filled 6.77%</text>
-<text x="728" y="225" class="ax" fill="#D55E00">• No arm chosen (B6 pending)</text>
+<text x="728" y="225" class="ax" fill="#D55E00">• Arms not ranked, none chosen</text>
 <rect x="720" y="238" width="168" height="80" rx="7" fill="#fff4d1" stroke="#f2b10f"/>
 <text x="728" y="255" class="lbl" fill="#25324d">Phenotype Ledger</text>
 <text x="728" y="272" class="lbl">1,341 rows · 154 plants</text>

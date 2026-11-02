@@ -264,42 +264,42 @@
 <rect x="14" y="288" width="22" height="22" rx="6" fill="#25324d"/>
 <text x="25" y="303.5" text-anchor="middle" class="badge">B</text>
 <text x="42" y="299.5" class="title">Chunked LASTZ &amp; Collection Purge</text>
-<text x="42" y="311.5" class="sub">≤50,000-segment chunks (7.8× speedup) &amp; −56.5% disk</text>
+<text x="42" y="311.5" class="sub">≤50,000-segment chunks (7.8×) &amp; −56.5% disk summed over runs</text>
 <text x="20" y="334" class="lbl">EH23a × EH23b Gapped Extension (100 chr-pair jobs)</text>
 <rect x="20" y="340" width="380" height="20" rx="4" fill="#D55E00"/>
 <text x="28" y="354" class="ax mono" fill="#ffffff" font-weight="700">Whole-chr extension: 389.0 allocated slot-h</text>
 <rect x="20" y="364" width="48.6" height="20" rx="4" fill="#009E73"/>
-<text x="75" y="378" class="lbl mono" fill="#009E73">49.8 slot-h (7.8× speedup, 1.88 h wall-clock)</text>
-<text x="20" y="406" class="lbl">218-Run Galaxy History Storage (54,554 jobs)</text>
+<text x="75" y="378" class="lbl mono" fill="#009E73">49.8 slot-h (7.8×, 1.79 h for the 100 jobs)</text>
+<text x="20" y="406" class="lbl">218-Run Galaxy History Storage, Summed Over Runs</text>
 <rect x="20" y="412" width="380" height="20" rx="4" fill="#94a3b8"/>
 <text x="28" y="426" class="ax mono" fill="#ffffff" font-weight="700">Unpurged: 14.96 TB (68.6 GB/run)</text>
 <rect x="20" y="436" width="165.1" height="20" rx="4" fill="#0072B2"/>
 <text x="192" y="450" class="lbl mono" fill="#0072B2">6.50 TB (−56.5%, 8.45 TB saved)</text>
 <rect x="20" y="468" width="414" height="78" rx="7" fill="#f8fafd" stroke="#d5dbe5"/>
 <text x="30" y="486" class="lbl">Benchmarks &amp; UCSC chr21 Parity:</text>
-<text x="30" y="504" class="ax">• 99.99% of UCSC hg38×panTro6 chr21 chain pairs</text>
+<text x="30" y="504" class="ax">• growler_lastz_lav (same chunking): 99.99% of UCSC chr21 pairs</text>
 <text x="30" y="521" class="ax">• EH23a×b: med 28 min/job (max 49 vs 660 min), RAM &lt; 3.97 GB</text>
-<text x="30" y="538" class="ax">• Byte-identical doRecipBest chains across 5 test queries</text>
+<text x="30" y="538" class="ax">• doRecipBest.pl chains reproduced on 5 queries, 1 per class</text>
 <line x1="448" y1="288" x2="448" y2="548" stroke="#d5dbe5" stroke-width="1.5"/>
 <rect x="460" y="288" width="22" height="22" rx="6" fill="#25324d"/>
 <text x="471" y="303.5" text-anchor="middle" class="badge">C</text>
-<text x="488" y="299.5" class="title">Streaming 64-Bit MULTIZ 11.4</text>
-<text x="488" y="311.5" class="sub">51.7× RAM cut, 33.8× block DP, &amp; 6.5× piece speedup</text>
-<text x="466" y="334" class="lbl">Peak RAM (hg38 5-way chrX / 217-way Cannabis)</text>
+<text x="488" y="299.5" class="title">Streaming MULTIZ 11.3 &amp; Column-Count 11.4</text>
+<text x="488" y="311.5" class="sub">51.7× RAM (11.3), 33.8× one deep merge, 6.5× one piece (11.4)</text>
+<text x="466" y="334" class="lbl">Peak RAM of a Roast Run (hg38 5-way chrX, multiz#27)</text>
 <rect x="466" y="340" width="380" height="19" rx="4" fill="#D55E00"/>
 <text x="474" y="353" class="ax mono" fill="#ffffff" font-weight="700">Buffered MAF (v11.2): 677 MiB</text>
 <rect x="466" y="362" width="8.0" height="19" rx="2" fill="#009E73"/>
 <text x="481" y="375" class="lbl mono" fill="#009E73">13 MiB (v11.3, 51.7×, worker ≤14.1 MB)</text>
-<text x="466" y="400" class="lbl">Deep Block Merge in a 216-Genome Roast (mz_yama.c)</text>
+<text x="466" y="400" class="lbl">One Deep Merge in a 216-Genome Roast (11.3 vs 11.4)</text>
 <rect x="466" y="406" width="380" height="19" rx="4" fill="#E69F00"/>
 <text x="474" y="419" class="ax mono" fill="#ffffff" font-weight="700">Pairwise row×row DP: 981 s</text>
 <rect x="466" y="428" width="11.2" height="19" rx="2" fill="#0072B2"/>
 <text x="484" y="441" class="lbl mono" fill="#0072B2">5×5 column-count DP: 29 s (33.8×)</text>
-<text x="466" y="466" class="lbl">Single 4.1 Mb Piece Runtime (multiz#28)</text>
+<text x="466" y="466" class="lbl">One 4.4 Mb Piece, 216-Genome Roast (multiz#28)</text>
 <rect x="466" y="472" width="380" height="19" rx="4" fill="#94a3b8"/>
-<text x="474" y="485" class="ax mono" fill="#ffffff" font-weight="700">Baseline 4.1 Mb piece: 7.3 h</text>
+<text x="474" y="485" class="ax mono" fill="#ffffff" font-weight="700">Release 11.3: 7.3 h</text>
 <rect x="466" y="494" width="58.1" height="19" rx="3" fill="#009E73"/>
 <text x="531" y="507" class="lbl mono" fill="#009E73">1.1 h (6.5×, col-count DP)</text>
 <rect x="466" y="518" width="414" height="28" rx="6" fill="#fff4d1" stroke="#f2b10f"/>
-<text x="673" y="536" text-anchor="middle" class="lbl">Byte-identical 217-way MAF (29 int64_t blocks)</text>
+<text x="673" y="536" text-anchor="middle" class="lbl">Output identical apart from # lines · one run each</text>
 </svg>

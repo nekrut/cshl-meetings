@@ -83,7 +83,7 @@ def build_figure1() -> None:
         12,
         "A",
         "Depositor Masking vs 4-Detector Union",
-        "0.0–80.9% arrived spread → 62.2–67.0% union (1.12 pt HiFi)",
+        "Arrived 0.0–80.9% · union on 5 calibration genomes 62.9–67.0%",
     )
 
     px0, px1 = 162, 428
@@ -92,7 +92,10 @@ def build_figure1() -> None:
     def x_pct(p: float) -> float:
         return px0 + (p / 100.0) * (px1 - px0)
 
-    out.append(f'<rect x="{x_pct(62.19):.1f}" y="{py0}" width="{x_pct(67.04)-x_pct(62.19):.1f}" height="176" fill="#e0f2f0" opacity="0.85"/>')
+    # Grassa et al. (2021) masked 63% of CBDRx (cs10) as repeats before gene prediction (manuscript Fig. 1B,
+    # round 12 adjudication-L6 F2: the earlier 64-67% band was CannabisGDB's range, miscited to Grassa).
+    out.append(f'<line x1="{x_pct(63.0):.1f}" y1="{py0}" x2="{x_pct(63.0):.1f}" y2="{py0+176}" stroke="{MUTED}" stroke-width="1.4" stroke-dasharray="4,3"/>')
+    out.append(f'<text x="{x_pct(63.0)-3:.1f}" y="{py0+9}" text-anchor="end" class="ax" fill="{MUTED}">Grassa 2021: 63% of cs10</text>')
     for pct in [0, 20, 40, 60, 80, 100]:
         xp = x_pct(pct)
         out.append(f'<line x1="{xp:.1f}" y1="{py0}" x2="{xp:.1f}" y2="{py0+176}" stroke="{LINE}" stroke-dasharray="2,2"/>')
@@ -129,7 +132,7 @@ def build_figure1() -> None:
     out.append(f'<rect x="{px0}" y="{py0-15}" width="9" height="6" rx="2" fill="{VERMILION}"/>')
     out.append(f'<text x="{px0+12}" y="{py0-9}" class="ax">Arrived (0.0–80.9%)</text>')
     out.append(f'<rect x="{px0+124}" y="{py0-15}" width="9" height="6" rx="2" fill="{GREEN}"/>')
-    out.append(f'<text x="{px0+136}" y="{py0-9}" class="ax">4-detector union (62.2–67.0%)</text>')
+    out.append(f'<text x="{px0+136}" y="{py0-9}" class="ax">4-detector union (calibration)</text>')
 
     # Bottom-left card (fits strictly inside [14, 434])
     by0 = 282
@@ -241,7 +244,7 @@ def build_figure2() -> None:
         10,
         "A",
         "Empirical Identity Spectrum",
-        "EH23a × EH23b (8.2×–18.0× paralog cut)",
+        "EH23a × EH23b census, unfiltered vs colinear",
     )
     ax0, ax1 = 48, 252
     ay0, ay1 = 54, 240
@@ -296,14 +299,14 @@ def build_figure2() -> None:
     out.append(f'<text x="{x_id(60):.1f}" y="{ay0+14}" text-anchor="middle" class="ax" fill="{VERMILION}">HOXD70 (&lt;70%)</text>')
     out.append(f'<text x="{x_id(60):.1f}" y="{ay0+26}" text-anchor="middle" class="ax" fill="{VERMILION}">45.2% raw pairs</text>')
     out.append(f'<text x="{x_id(90):.1f}" y="{ay0+14}" text-anchor="middle" class="lbl" fill="{GREEN}">[85, 95)%</text>')
-    out.append(f'<text x="{x_id(90):.1f}" y="{ay0+26}" text-anchor="middle" class="ax" fill="{GREEN}">82.8 Mb (331M 4×)</text>')
+    out.append(f'<text x="{x_id(90):.1f}" y="{ay0+26}" text-anchor="middle" class="ax" fill="{GREEN}">331M pairs</text>')
 
     # Bottom-right legend strictly below the plot frame (x in [56, 254], y in [276, 322])
     out.append(f'<rect x="56" y="276" width="198" height="44" rx="4" fill="#ffffff" stroke="{LINE}"/>')
     out.append(f'<line x1="62" y1="290" x2="75" y2="290" stroke="{VERMILION}" stroke-width="2.2" stroke-dasharray="4,3"/>')
     out.append('<text x="79" y="293" class="ax">Unfiltered (45.2% &lt;70% id)</text>')
     out.append(f'<line x1="62" y1="308" x2="75" y2="308" stroke="{BLUE}" stroke-width="2.6"/>')
-    out.append('<text x="79" y="311" class="ax">Colinear 1-chain (54.5% vs 6.6%)</text>')
+    out.append('<text x="79" y="311" class="ax">1 colinear chain, exons removed</text>')
 
     # Divider 1 at x = 266
     out.append(f'<line x1="266" y1="12" x2="266" y2="{h-12}" stroke="{LINE}"/>')
@@ -315,7 +318,7 @@ def build_figure2() -> None:
         10,
         "B",
         "10-Chr Held-Out Referee (Cb2 × cs10)",
-        "10/10 arms (chr8 re-run after OOM), 9/10 loci, 67/70 windows",
+        "10/10 first 20 Mb (chr8 rerun after OOM), 9/10 loci, 67/70 windows",
     )
 
     chrom_tags = ["chr1", "chr2", "chr3", "chr4", "chr5", "chr6", "chr7", "chr8", "chr9", "chrX"]
@@ -360,9 +363,9 @@ def build_figure2() -> None:
     bx0 = 314
     by0 = 64
     out.append(f'<text x="{bx0-6}" y="{by0-8}" text-anchor="end" class="ax">Chr</text>')
-    out.append(f'<text x="{bx0+21}" y="{by0-8}" text-anchor="middle" class="ax">Arm</text>')
+    out.append(f'<text x="{bx0+21}" y="{by0-8}" text-anchor="middle" class="ax">20 Mb</text>')
     out.append(f'<text x="{bx0+65}" y="{by0-8}" text-anchor="middle" class="ax">Locus</text>')
-    out.append(f'<text x="{bx0+186}" y="{by0-8}" text-anchor="middle" class="ax">20 × 1 Mb Windows (70 eligible)</text>')
+    out.append(f'<text x="{bx0+186}" y="{by0-8}" text-anchor="middle" class="ax">1 Mb windows of the first 20 Mb (70 eligible)</text>')
 
     for idx, ctag in enumerate(chrom_tags):
         yy = by0 + idx * 21.5
@@ -396,7 +399,7 @@ def build_figure2() -> None:
 
     # Two-row legend under Panel B (strictly inside [278, 610])
     out.append(f'<rect x="278" y="286" width="9" height="9" rx="2" fill="{GREEN}"/>')
-    out.append('<text x="290" y="294" class="ax">40–0 Dom (7 arms, 2 loci, 28/70)</text>')
+    out.append('<text x="290" y="294" class="ax">40–0 Dom (7 at 20 Mb, 2 loci, 28/70)</text>')
     out.append(f'<rect x="484" y="286" width="9" height="9" rx="2" fill="{BLUE}"/>')
     out.append('<text x="496" y="294" class="ax">Crossing win (39/70)</text>')
 
@@ -461,7 +464,7 @@ def build_figure2() -> None:
 
 
 # ==============================================================================
-# FIGURE 3: 216-Query Coverage Waterfall + LASTZ Chunking + MULTIZ 11.4 Scaling
+# FIGURE 3: 216-Query Coverage Waterfall + LASTZ Chunking + MULTIZ 11.3/11.4 Scaling
 # ==============================================================================
 def build_figure3() -> None:
     w, h = 900, 560
@@ -555,16 +558,16 @@ def build_figure3() -> None:
         288,
         "B",
         "Chunked LASTZ & Collection Purge",
-        "≤50,000-segment chunks (7.8× speedup) & −56.5% disk",
+        "≤50,000-segment chunks (7.8×) & −56.5% disk summed over runs",
     )
     bx0 = 20
     out.append(f'<text x="{bx0}" y="334" class="lbl">EH23a × EH23b Gapped Extension (100 chr-pair jobs)</text>')
     out.append(f'<rect x="{bx0}" y="340" width="380" height="20" rx="4" fill="{VERMILION}"/>')
     out.append(f'<text x="{bx0+8}" y="354" class="ax mono" fill="#ffffff" font-weight="700">Whole-chr extension: 389.0 allocated slot-h</text>')
     out.append(f'<rect x="{bx0}" y="364" width="48.6" height="20" rx="4" fill="{GREEN}"/>')
-    out.append(f'<text x="{bx0+55}" y="378" class="lbl mono" fill="{GREEN}">49.8 slot-h (7.8× speedup, 1.88 h wall-clock)</text>')
+    out.append(f'<text x="{bx0+55}" y="378" class="lbl mono" fill="{GREEN}">49.8 slot-h (7.8×, 1.79 h for the 100 jobs)</text>')
 
-    out.append(f'<text x="{bx0}" y="406" class="lbl">218-Run Galaxy History Storage (54,554 jobs)</text>')
+    out.append(f'<text x="{bx0}" y="406" class="lbl">218-Run Galaxy History Storage, Summed Over Runs</text>')
     out.append(f'<rect x="{bx0}" y="412" width="380" height="20" rx="4" fill="{GREY}"/>')
     out.append(f'<text x="{bx0+8}" y="426" class="ax mono" fill="#ffffff" font-weight="700">Unpurged: 14.96 TB (68.6 GB/run)</text>')
     out.append(f'<rect x="{bx0}" y="436" width="165.1" height="20" rx="4" fill="{BLUE}"/>')
@@ -572,9 +575,9 @@ def build_figure3() -> None:
 
     out.append(f'<rect x="{bx0}" y="468" width="414" height="78" rx="7" fill="{BG_SOFT}" stroke="{LINE}"/>')
     out.append(f'<text x="{bx0+10}" y="486" class="lbl">Benchmarks &amp; UCSC chr21 Parity:</text>')
-    out.append(f'<text x="{bx0+10}" y="504" class="ax">• 99.99% of UCSC hg38×panTro6 chr21 chain pairs</text>')
+    out.append(f'<text x="{bx0+10}" y="504" class="ax">• growler_lastz_lav (same chunking): 99.99% of UCSC chr21 pairs</text>')
     out.append(f'<text x="{bx0+10}" y="521" class="ax">• EH23a×b: med 28 min/job (max 49 vs 660 min), RAM &lt; 3.97 GB</text>')
-    out.append(f'<text x="{bx0+10}" y="538" class="ax">• Byte-identical doRecipBest chains across 5 test queries</text>')
+    out.append(f'<text x="{bx0+10}" y="538" class="ax">• doRecipBest.pl chains reproduced on 5 queries, 1 per class</text>')
 
     # Vertical divider between Panel B and Panel C
     out.append(f'<line x1="448" y1="288" x2="448" y2="{h-12}" stroke="{LINE}" stroke-width="1.5"/>')
@@ -585,30 +588,30 @@ def build_figure3() -> None:
         460,
         288,
         "C",
-        "Streaming 64-Bit MULTIZ 11.4",
-        "51.7× RAM cut, 33.8× block DP, & 6.5× piece speedup",
+        "Streaming MULTIZ 11.3 & Column-Count 11.4",
+        "51.7× RAM (11.3), 33.8× one deep merge, 6.5× one piece (11.4)",
     )
     cx0 = 466
-    out.append(f'<text x="{cx0}" y="334" class="lbl">Peak RAM (hg38 5-way chrX / 217-way Cannabis)</text>')
+    out.append(f'<text x="{cx0}" y="334" class="lbl">Peak RAM of a Roast Run (hg38 5-way chrX, multiz#27)</text>')
     out.append(f'<rect x="{cx0}" y="340" width="380" height="19" rx="4" fill="{VERMILION}"/>')
     out.append(f'<text x="{cx0+8}" y="353" class="ax mono" fill="#ffffff" font-weight="700">Buffered MAF (v11.2): 677 MiB</text>')
     out.append(f'<rect x="{cx0}" y="362" width="8.0" height="19" rx="2" fill="{GREEN}"/>')
     out.append(f'<text x="{cx0+15}" y="375" class="lbl mono" fill="{GREEN}">13 MiB (v11.3, 51.7×, worker ≤14.1 MB)</text>')
 
-    out.append(f'<text x="{cx0}" y="400" class="lbl">Deep Block Merge in a 216-Genome Roast (mz_yama.c)</text>')
+    out.append(f'<text x="{cx0}" y="400" class="lbl">One Deep Merge in a 216-Genome Roast (11.3 vs 11.4)</text>')
     out.append(f'<rect x="{cx0}" y="406" width="380" height="19" rx="4" fill="{ORANGE}"/>')
     out.append(f'<text x="{cx0+8}" y="419" class="ax mono" fill="#ffffff" font-weight="700">Pairwise row×row DP: 981 s</text>')
     out.append(f'<rect x="{cx0}" y="428" width="{380 * 29 / 981:.1f}" height="19" rx="2" fill="{BLUE}"/>')
     out.append(f'<text x="{cx0+18}" y="441" class="lbl mono" fill="{BLUE}">5×5 column-count DP: 29 s (33.8×)</text>')
 
-    out.append(f'<text x="{cx0}" y="466" class="lbl">Single 4.1 Mb Piece Runtime (multiz#28)</text>')
+    out.append(f'<text x="{cx0}" y="466" class="lbl">One 4.4 Mb Piece, 216-Genome Roast (multiz#28)</text>')
     out.append(f'<rect x="{cx0}" y="472" width="380" height="19" rx="4" fill="{GREY}"/>')
-    out.append(f'<text x="{cx0+8}" y="485" class="ax mono" fill="#ffffff" font-weight="700">Baseline 4.1 Mb piece: 7.3 h</text>')
+    out.append(f'<text x="{cx0+8}" y="485" class="ax mono" fill="#ffffff" font-weight="700">Release 11.3: 7.3 h</text>')
     out.append(f'<rect x="{cx0}" y="494" width="58.1" height="19" rx="3" fill="{GREEN}"/>')
     out.append(f'<text x="{cx0+65}" y="507" class="lbl mono" fill="{GREEN}">1.1 h (6.5×, col-count DP)</text>')
 
     out.append(f'<rect x="{cx0}" y="518" width="414" height="28" rx="6" fill="#fff4d1" stroke="{GOLD}"/>')
-    out.append(f'<text x="{cx0+207}" y="536" text-anchor="middle" class="lbl">Byte-identical 217-way MAF (29 int64_t blocks)</text>')
+    out.append(f'<text x="{cx0+207}" y="536" text-anchor="middle" class="lbl">Output identical apart from # lines · one run each</text>')
 
     out.append("</svg>")
     (OUT_DIR / "figure3_scalability_benchmarks.svg").write_text("\n".join(out))
@@ -628,13 +631,13 @@ def build_figure4() -> None:
         10,
         "A",
         "CBDAS (chr7:30.98 Mb) Across 216 Queries",
-        "79 intact (56 full), 77 B-locus (62 THC+1 both), 6 <93%, 54 pruned",
+        "79 ≥98.5%, 77 at 93.0–98.5% (63 B-locus annotated), 6 <93%, 54 pruned",
     )
 
     bx0 = 24
     cats = [
         ("Intact CBDAS (≥98.5% id, 56 full-len)", 79, GREEN, "79 (59 plants) — functional copy"),
-        ("B-locus pseudogene (93.0–98.5%)", 77, ORANGE, "77 (67 plants) — 62 THC + 1 both"),
+        ("93.0–98.5% (~94% B-locus pseudogene)", 77, ORANGE, "77 (67 plants) — 63 annotated, 14 not"),
         ("Diverged aligned (<93.0%, ≥50% CDS)", 6, SKY, "6 queries (91.9–92.9% id)"),
         ("Unaligned in synNet (<50% CDS)", 54, VERMILION, "54 pruned by -syn (Finola 99.4%)"),
     ]
@@ -655,14 +658,14 @@ def build_figure4() -> None:
         10,
         "B",
         "netFilter -syn Pruning vs Paralog Reuse",
-        "Removing -syn causes 46.4% (569/1,225) paralog interval reuse",
+        "46.4% of recovered pairs (569/1,225) overlap another family gene",
     )
 
     rx0 = 492
     bars = [
         ("TPS family (41 genes: 31 in 9 clusters + 10)", "418/8,856 pruned (4.7%)", 4.7, SKY),
         ("BBE-like family (35 genes: 29 in 9 clusters + 6)", "807/7,560 pruned (10.7%)", 10.7, BLUE),
-        ("Recovered pairs overlapping a paralog's interval", "569/1,225 (46.4%)", 46.4, VERMILION),
+        ("Recovered pairs overlapping another family gene", "569/1,225 (46.4%)", 46.4, VERMILION),
     ]
     for idx, (blbl, bval, pct, col) in enumerate(bars):
         yy = 54 + idx * 38
@@ -844,10 +847,10 @@ def build_figure5() -> None:
     out.append(f'<rect x="{rx}" y="148" width="168" height="82" rx="7" fill="{BG_SOFT}" stroke="{LINE}"/>')
     out.append(f'<text x="{rx+8}" y="165" class="lbl" fill="{NAVY}">TOGA2 v2.0.9 Pilot</text>')
     # cannabis-genome reports/evidence/toga2_pilot_2026-10-30.md (2026-11-02 update): standard L+UL of 24,503
-    out.append(f'<text x="{rx+8}" y="182" class="lbl" fill="{BLUE}">C-floor: 25 L/UL (0.10%)</text>')
+    out.append(f'<text x="{rx+8}" y="182" class="lbl" fill="{BLUE}">Control: 25 L/UL (0.10%)</text>')
     out.append(f'<text x="{rx+8}" y="197" class="ax">• EH23a L/UL: prod 8.48%</text>')
     out.append(f'<text x="{rx+8}" y="211" class="ax">• loose 7.26%, filled 6.77%</text>')
-    out.append(f'<text x="{rx+8}" y="225" class="ax" fill="{VERMILION}">• No arm chosen (B6 pending)</text>')
+    out.append(f'<text x="{rx+8}" y="225" class="ax" fill="{VERMILION}">• Arms not ranked, none chosen</text>')
 
     out.append(f'<rect x="{rx}" y="238" width="168" height="80" rx="7" fill="#fff4d1" stroke="{GOLD}"/>')
     out.append(f'<text x="{rx+8}" y="255" class="lbl" fill="{NAVY}">Phenotype Ledger</text>')
