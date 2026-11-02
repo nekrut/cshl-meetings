@@ -180,6 +180,7 @@ h2 .k {
   font-size: 28pt; font-weight: 800; color: var(--navy); line-height: 1.06; display: block; margin-top: 0.04in;
   font-variant-numeric: tabular-nums;
 }
+.cell .cv i { font-weight: 400; font-style: italic; }
 .cell .cvn { font-size: 15.5pt; font-weight: 400; color: var(--muted); display: block; margin-top: 0.02in; line-height: 1.1; }
 
 .msa-fig {
@@ -270,7 +271,7 @@ footer {
       <img src="qr-disassembler.svg" alt="QR: logan-disassembler">
       <div>
         <div class="t">logan-disassembler</div>
-        <div class="u">github.com/nekrut/disassembler — Graph path-walker &amp; contig streamer over Logan.</div>
+        <div class="u">github.com/nekrut/disassembler · Graph path-walker &amp; contig streamer over Logan.</div>
       </div>
     </div>
   </div>
@@ -353,9 +354,9 @@ footer {
           <rect x="475" y="76" width="85" height="8" fill="#0b7a75"/>
           <rect x="560" y="76" width="85" height="8" fill="#a04a2a"/>
 
-          <rect x="660" y="28" width="130" height="44" fill="#f4f6fa" stroke="#2c3143" stroke-width="1.5" rx="5"/>
-          <text x="725" y="56" class="n-title" font-size="17" style="font-style:italic;font-weight:400" text-anchor="middle">H. pylori</text>
-          <rect x="660" y="76" width="130" height="8" rx="2" fill="#a04a2a"/>
+          <rect x="660" y="28" width="190" height="44" fill="#f4f6fa" stroke="#2c3143" stroke-width="1.5" rx="5"/>
+          <text x="755" y="56" class="n-title" font-size="17" style="font-style:italic;font-weight:400" text-anchor="middle">Helicobacter pylori</text>
+          <rect x="660" y="76" width="190" height="8" rx="2" fill="#a04a2a"/>
 
           <!-- LEFT: Logan root -->
           <rect x="34" y="138" width="156" height="62" fill="#fffbeb" stroke="#eab308" stroke-width="2.5" rx="6"/>
@@ -429,8 +430,8 @@ footer {
         <h3>When the LexicMap route wins</h3>
         <ul>
           <li><b>Split genes.</b> Collinear tiling stitches a 55/45 HSP pair that fails <code>qcovHSP ≥ 80</code>.</li>
-          <li><b>Planetary scale.</b> 24 GB streamed; memory is <i>O</i>(haplotypes), not <i>O</i>(rows).</li>
-          <li><b>Hands off to the walker</b> below 85% median identity.</li>
+          <li><b>Streaming memory.</b> Streams 24 GB in <i>O</i>(haplotypes) RAM rather than <i>O</i>(rows).</li>
+          <li><b>Clean handoff.</b> Routes queries below 85% median identity to the walker.</li>
         </ul>
       </aside>
     </div>
@@ -446,14 +447,14 @@ footer {
       <p class="finding"><b>METATRANSCRIPTOMIC_BCT dominates:</b> obelisks live in bacterial microbiome transcriptomes across human and microbial cohorts.</p>
       <div class="numbers">
         <div class="cell"><span class="ck">kmindex hits</span><span class="cv">924</span><span class="cvn">unique runs</span></div>
-        <div class="cell"><span class="ck">max contain.</span><span class="cv">0.97</span><span class="cvn">alpha</span></div>
+        <div class="cell"><span class="ck">max contain.</span><span class="cv">0.97</span><span class="cvn">Obelisk-α</span></div>
         <div class="cell"><span class="ck">shards queried</span><span class="cv">141</span><span class="cvn">meta + metaT</span></div>
-        <div class="cell"><span class="ck">centroids</span><span class="cv">5</span><span class="cvn">α β γ ε Ss</span></div>
+        <div class="cell"><span class="ck">centroids</span><span class="cv">5</span><span class="cvn">α β γ ε <i>S.s.</i></span></div>
       </div>
       <div class="msa-fig">
-        <img src="figures/obelisk_alpha_poster.png" alt="alpha obelisk MSA map">
+        <img src="figures/obelisk_alpha_poster.png" alt="Obelisk-alpha MSA map">
         <div class="msa-legend">
-          <p class="msa-summary">Obelisk-<i>alpha</i>. Reference strip on top: <b>Oblin-1</b> brown, <b>Oblin-2</b> blue. Rows sorted by edit count.</p>
+          <p class="msa-summary">Obelisk-α (<i>S.s.</i>: <i>Streptococcus sanguinis</i>). Top strip: <b>Oblin-1</b> brown, <b>Oblin-2</b> blue. Rows sorted by edit count.</p>
           <div class="swatches">
             <span class="sw"><i style="background:#f3ecdc"></i>match</span>
             <span class="sw"><i style="background:#2e8b57"></i>A</span>
@@ -471,7 +472,7 @@ footer {
         <h2><span class="k">C</span>SARS-CoV-2 spike: two routes</h2>
         <div class="ribbon"><span class="chip a">Route A</span><span class="chip b">Route B</span></div>
       </div>
-      <p class="finding"><b>The routes are complementary.</b> Only the walker touches the divergent tail; only LexicMap-permissive catches 1.15 M Alpha/Delta-era runs strict loses.</p>
+      <p class="finding"><b>The routes are complementary.</b> Only the walker reaches the divergent tail, whereas only LexicMap permissive recovers 1.15 M Alpha/Delta-era runs that strict filtering drops.</p>
       <div class="numbers">
         <div class="cell"><span class="ck">LexicMap HSPs</span><span class="cv">5.88 M</span><span class="cvn">24 GB</span></div>
         <div class="cell"><span class="ck">walker20k ok</span><span class="cv">47.2%</span><span class="cvn">9,448 / 20k</span></div>
@@ -499,12 +500,12 @@ footer {
         <h2><span class="k">D</span><span><i>H. pylori</i>: 25-gene panel</span></h2>
         <div class="ribbon"><span class="chip b">Route B · streamer</span></div>
       </div>
-      <p class="finding"><b>Four audit tiers per marker</b> in one reference frame: clean full-length through low-coverage fragment, every accession accounted for.</p>
+      <p class="finding"><b>Four audit tiers per marker</b> place every accession in one reference frame, from clean full-length sequences to low-coverage fragments.</p>
       <div class="numbers">
         <div class="cell"><span class="ck">strict markers</span><span class="cv">20</span><span class="cvn">conserved</span></div>
         <div class="cell"><span class="ck">loose markers</span><span class="cv">5</span><span class="cvn">selection</span></div>
         <div class="cell"><span class="ck">audit tiers</span><span class="cv">4</span><span class="cvn">per marker</span></div>
-        <div class="cell"><span class="ck">HyphAeon pass</span><span class="cv">oipA</span><span class="cvn">done</span></div>
+        <div class="cell"><span class="ck">HyphAeon pass</span><span class="cv"><i>oipA</i></span><span class="cvn">done</span></div>
       </div>
       <div class="msa-fig">
         <img src="figures/oipa_poster.png" alt="H. pylori oipA MSA map">
@@ -543,7 +544,7 @@ footer {
         <div class="cell"><span class="ck">walker20k input</span><span class="cv">0.555%</span><span class="cvn">C-mislabeled, raw hits</span></div>
         <div class="cell"><span class="ck">walker20k success</span><span class="cv">0.011%</span><span class="cvn">1 in ~9,500</span></div>
         <div class="cell"><span class="ck">CLEAN_FULL_LENGTH</span><span class="cv">0.000%</span><span class="cvn">0 / 6,827 mislabeled</span></div>
-        <div class="cell"><span class="ck">lexicmap permissive</span><span class="cv">0.084%</span><span class="cvn">no walker filter</span></div>
+        <div class="cell"><span class="ck">LexicMap permissive</span><span class="cv">0.084%</span><span class="cvn">no walker filter</span></div>
       </div>
     </section>
 
@@ -573,7 +574,7 @@ footer {
       <div>Logan contigs <span>→</span> <code>LexicMap</code> + <code>streamer</code></div>
       <div>sieved cohort <span>→</span> HyphAeon · ChronAeon · RhizAeon</div>
     </div>
-    <div class="ack"><b>Acknowledgements:</b> Work in the authors’ groups is supported by National Institutes of Health grants U24HG002371, U24HG006620, U24HG010263, U24CA284167, U24AI183870, and R01GM151683, and by National Science Foundation grants 2419522 and 2138585. Software &amp; data: github.com/nekrut/disassembler · github.com/veg/HyphAeon · Zenodo archive: doi.org/10.5281/zenodo.23737199. Related CSHL posters: Galaxy UDTs (van den Beek) · Galaxy Workflow Foundry (Chilton) · HighGen (Burhans).</div>
+    <div class="ack"><b>Acknowledgements:</b> Work in the authors’ groups is supported by National Institutes of Health grants U24HG002371, U24HG006620, U24HG010263, U24CA284167, U24AI183870, and R01GM151683, and by National Science Foundation grants 2419522 and 2138585. Software &amp; data: github.com/nekrut/disassembler · github.com/veg/HyphAeon · Zenodo archive: doi.org/10.5281/zenodo.23737199. Related CSHL posters: Galaxy UDTs (van den Beek) · Orbit (Cain) · Galaxy Workflow Foundry (Chilton) · HighGen (Burhans).</div>
   </div>
   <div class="qrs">
     <div class="qr"><img src="qr-disassembler.svg" alt="QR: disassembler"><div>disassembler</div></div>

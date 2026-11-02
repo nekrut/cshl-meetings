@@ -589,7 +589,7 @@ def build_figure3() -> None:
         "51.7× RAM cut, 33.8× block DP, & 6.5× piece speedup",
     )
     cx0 = 466
-    out.append(f'<text x="{cx0}" y="334" class="lbl">Peak RAM (hg38 5-way chrX / 217-way Cannabis)</text>')
+    out.append(f'<text x="{cx0}" y="334" class="lbl">Peak RAM (hg38 5-way chrX / 217-way <tspan font-style="italic" font-weight="400">Cannabis</tspan>)</text>')
     out.append(f'<rect x="{cx0}" y="340" width="380" height="19" rx="4" fill="{VERMILION}"/>')
     out.append(f'<text x="{cx0+8}" y="353" class="ax mono" fill="#ffffff" font-weight="700">Buffered MAF (v11.2): 677 MiB</text>')
     out.append(f'<rect x="{cx0}" y="362" width="8.0" height="19" rx="2" fill="{GREEN}"/>')

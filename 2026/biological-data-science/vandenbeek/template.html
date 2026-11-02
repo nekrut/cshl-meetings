@@ -208,15 +208,15 @@ footer {
       <div class="needs-tags"><span class="tag">3 Data</span><span class="tag">6 Sharing</span></div>
       <p>usegalaxy.org runs <b>~2,500 tools</b> from a Tool Shed of <b>8,000+ repositories</b>. What’s missing is usually one small step: a new method, an extra option, a wrapper merged but not yet installed.</p>
       <div class="loop"><span>Write</span><i>→</i><span>Run on real data</span><i>→</i><span>Inspect</span><i>→</i><span>Edit</span><i>↻</i></div>
-      <p class="loopnote">Each round is a save in the tool editor, on the production server and real data.</p>
+      <p class="loopnote">Each round is a save in the tool editor, on the production server with real data.</p>
       <figure>
         <img src="shots/workflow.png" alt="Galaxy workflow editor: three proteomes pooled, clustered by the Foldseek UDT, then counted">
-        <figcaption>Three <i>P. vivax</i> proteomes (PvP01, PvW1, PvPAM) are pooled, clustered by the Foldseek UDT (step 6), and counted into family sizes with standard tools. Importing the workflow brings the UDT along.</figcaption>
+        <figcaption>Three <i>Plasmodium vivax</i> proteomes (PvP01, PvW1, PvPAM) are pooled, clustered by the Foldseek UDT (step 6), and counted into family sizes with standard tools. Importing the workflow brings the UDT along.</figcaption>
       </figure>
       <div class="grad">
         <h3>Then graduate it to a community tool</h3>
         <div class="path"><span>UDT in your account</span><i>→</i><span>tools-iwc-lab</span><i>→</i><span>tools-iuc</span></div>
-        <p>When a UDT proves itself, turn it into a regular wrapper and open a pull request to <b>galaxyproject/tools-iwc-lab</b>: Planemo lint and tests in CI, published to the Tool Shed under the experimental <code>iwc-lab</code> owner. Mature wrappers move on to <code>tools-iuc</code>, installable on any Galaxy server.</p>
+        <p>When a UDT proves itself, wrap it as a standard tool and open a pull request to <b>galaxyproject/tools-iwc-lab</b>. Planemo lints and tests it in CI, then publishes it to the Tool Shed under <code>iwc-lab</code>. Mature wrappers graduate to <code>tools-iuc</code> for installation on any Galaxy server.</p>
       </div>
     </section>
   </div>
@@ -224,12 +224,12 @@ footer {
   <div class="col">
     <section>
       <h2><span class="k">C</span>Anatomy of a UDT</h2>
-      <p>Foldseek clustering with ProstT5-predicted structures, as run on usegalaxy.org with 32 cores and a GPU, in Galaxy’s tool editor.</p>
+      <p>Here in Galaxy’s tool editor, a Foldseek UDT clusters ProstT5-predicted structures on usegalaxy.org using 32 cores and a GPU.</p>
       {{EDITOR}}
       <ul class="legend">
         <li><span class="m">1</span><span>The container is the environment, pinned by tag</span></li>
         <li><span class="m">2</span><span>A resource request: cores, memory, a GPU (<b>E</b>)</span></li>
-        <li><span class="m">3</span><span><code>$(inputs.…)</code> are typed, sandboxed expressions; hover shows each type (<b>D</b>)</span></li>
+        <li><span class="m">3</span><span><code>$(inputs.…)</code> are typed, sandboxed expressions—hover shows each type (<b>D</b>)</span></li>
         <li><span class="m">4</span><span><code>$GALAXY_SLOTS</code>: the site sets the core count</span></li>
         <li><span class="m">5</span><span>Typed inputs become the form in <b>F</b></span></li>
         <li><span class="m">6</span><span>Outputs become datasets with provenance</span></li>
@@ -275,8 +275,8 @@ footer {
       <div class="rbox node">
         <h3>Jetstream2 GPU node (NSF ACCESS)</h3>
         <ul>
-          <li>Pulsar + Singularity; container required</li>
-          <li>32 cores become <code>$GALAXY_SLOTS</code>; 1 GPU</li>
+          <li>Pulsar + Singularity, container required</li>
+          <li>32 cores map to <code>$GALAXY_SLOTS</code>, plus 1 GPU</li>
         </ul>
       </div>
     </section>
@@ -286,14 +286,14 @@ footer {
       <div class="pipe"><span>Validate</span><i>→</i><span>Build form</span><i>→</i><span>Run in container</span><i>→</i><span>Record provenance</span><i>→</i><span>Reuse in workflows</span></div>
       <figure>
         <img src="shots/form.png" alt="Galaxy tool form generated from the Foldseek UDT">
-        <figcaption>The form Galaxy built from the <code>inputs</code> block: dataset pickers filtered by format, labelled numeric fields with defaults.</figcaption>
+        <figcaption>Galaxy builds this form directly from the <code>inputs</code> block: dataset pickers filtered by format and labeled numeric fields with defaults.</figcaption>
       </figure>
     </section>
 
     <section class="grow ai">
       <h2><span class="k">G</span>What AI agents do with UDTs</h2>
       <ul>
-        <li><b>Galaxy Workflow Foundry</b> gives AI agents the knowledge to translate pipelines from other systems into Galaxy workflows. Converting the Nextflow pipeline <code>nf-core/rnaseq</code> for usegalaxy.org, every step mapped to an installed Galaxy tool except RSEM quantification: its community wrapper was merged but not yet installed. The agent wrote one RSEM UDT so the workflow could run now. It reproduced the wrapper’s test outputs exactly.</li>
+        <li><b>Galaxy Workflow Foundry</b> gives AI agents the domain knowledge to translate external pipelines into native Galaxy workflows. When we converted <code>nf-core/rnaseq</code> for usegalaxy.org, every step mapped to an installed Galaxy tool except RSEM quantification, whose community wrapper was merged but not yet installed. The agent wrote an RSEM UDT so the workflow could run immediately. Its outputs matched the community wrapper’s test suite exactly.</li>
         <li><b>Orbit</b>, an AI assistant that plans and runs analyses on Galaxy, builds the tool when none fits. It writes a UDT, has Galaxy validate it, runs it on the real data, reads any failure, fixes and re-creates it, and carries on with the analysis. Each definition is saved with the analysis notebook, keyed to the exact tool that ran.</li>
       </ul>
     </section>
@@ -307,7 +307,7 @@ footer {
       <div>personal code<span>↔</span>community tools</div>
       <div>an algorithm<span>↔</span>infrastructure to run it</div>
     </div>
-    <div class="ack"><b>Acknowledgements:</b> Work in the authors’ groups is supported by National Institutes of Health grants U24HG002371, U24HG006620, U24HG010263, U24CA284167, U24AI183870, and R01GM151683, and by National Science Foundation grants 2419522 and 2138585. UDT jobs run on Jetstream2 at Indiana University (NSF OAC-2005506) through ACCESS (NSF grants 2138259, 2138286, 2138307, 2137603, and 2138296). Foldseek UDT on usegalaxy.org: Anton Nekrutenko. Related posters: Galaxy Workflow Foundry (Chilton) · HighGen (Burhans) · disassembler (Seacord).</div>
+    <div class="ack"><b>Acknowledgements:</b> Work in the authors’ groups is supported by National Institutes of Health grants U24HG002371, U24HG006620, U24HG010263, U24CA284167, U24AI183870, and R01GM151683, and by National Science Foundation grants 2419522 and 2138585. UDT jobs run on Jetstream2 at Indiana University (NSF OAC-2005506) through ACCESS (NSF grants 2138259, 2138286, 2138307, 2137603, and 2138296). Foldseek UDT on usegalaxy.org: Anton Nekrutenko. Related CSHL posters: Orbit (Cain) · Galaxy Workflow Foundry (Chilton) · HighGen (Burhans) · disassembler (Seacord).</div>
   </div>
   <div class="qrs">
     <div class="qr"><img src="qr-signup.svg" alt=""><div>Request access</div></div>

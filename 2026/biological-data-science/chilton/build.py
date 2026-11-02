@@ -169,7 +169,7 @@ def build_route_svg(route: dict) -> str:
             '<text x="2348" y="216" class="rt-muted" font-size="25">no step is a draft</text>',
             '<rect x="2344" y="242" width="356" height="44" rx="7" fill="#fff38a"/>',
             '<text x="2356" y="273" class="rt-mono" font-size="25">gxwf draft-validate</text>',
-            '<text x="2815" y="276" class="rt-hand" font-size="31" text-anchor="middle">Fig. 1, 2</text>',
+            '<text x="2815" y="276" class="rt-hand" font-size="31" text-anchor="middle">Figs. 1, 2</text>',
         ]
     )
 

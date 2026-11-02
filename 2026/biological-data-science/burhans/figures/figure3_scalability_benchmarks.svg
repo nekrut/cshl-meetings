@@ -285,7 +285,7 @@
 <text x="471" y="303.5" text-anchor="middle" class="badge">C</text>
 <text x="488" y="299.5" class="title">Streaming 64-Bit MULTIZ 11.4</text>
 <text x="488" y="311.5" class="sub">51.7× RAM cut, 33.8× block DP, &amp; 6.5× piece speedup</text>
-<text x="466" y="334" class="lbl">Peak RAM (hg38 5-way chrX / 217-way Cannabis)</text>
+<text x="466" y="334" class="lbl">Peak RAM (hg38 5-way chrX / 217-way <tspan font-style="italic" font-weight="400">Cannabis</tspan>)</text>
 <rect x="466" y="340" width="380" height="19" rx="4" fill="#D55E00"/>
 <text x="474" y="353" class="ax mono" fill="#ffffff" font-weight="700">Buffered MAF (v11.2): 677 MiB</text>
 <rect x="466" y="362" width="8.0" height="19" rx="2" fill="#009E73"/>

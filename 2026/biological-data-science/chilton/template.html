@@ -258,7 +258,7 @@ footer {
     <div class="authors">John Chilton<sup>1</sup>, Marius van den Beek<sup>1</sup>, Dannon Baker<sup>2</sup>, Danielle Callan<sup>3</sup>, Scott Cain<sup>1</sup>, Anton Nekrutenko<sup>1</sup>
       <span class="affil"><sup>1</sup>The Pennsylvania State University, University Park, PA · <sup>2</sup>Johns Hopkins University, Baltimore, MD · <sup>3</sup>Temple University, Philadelphia, PA</span>
     </div>
-    <div class="lede">A skill is compiled from notes people can read; a workflow is type-checked before any job runs; both print a <b>receipt you can keep</b>.</div>
+    <div class="lede">A skill is compiled from notes people can read. A workflow is type-checked before any job runs. Both print a <b>receipt you can keep</b>.</div>
   </div>
   <div class="head-right">
     <div class="logo"><img src="assets/galaxy_logo_white.svg" alt="Galaxy Project"></div>
@@ -266,7 +266,7 @@ footer {
       <img src="assets/qr-foundry.svg" alt="QR code: Galaxy Workflow Foundry">
       <div>
         <div class="t">Galaxy Workflow Foundry</div>
-        <div class="u">galaxyproject.github.io/foundry — 69 agent skills compiled from 420 typed notes.</div>
+        <div class="u">galaxyproject.github.io/foundry · 69 agent skills compiled from 420 typed notes.</div>
       </div>
     </div>
   </div>
@@ -321,7 +321,7 @@ footer {
       <p>One note can feed many skills: fix it once, recast, and they all get the fix.</p>
       <div class="refs">
         <p>Knowledge-base counts: <code>galaxyproject/foundry</code> main, 2026-10-24. Figures 1–4 and the ledger: Foundry run <code>{{RUN_ID}}</code> (2026-10-20), a Galaxy translation of DengueSeq [2]. Times UTC.</p>
-        <p>[1] Baker D, …, Nekrutenko A. Verifiable Agentic Science on Public Infrastructure. <i>bioRxiv</i> (2026). doi:10.64898/2026.10.26.761864</p>
+        <p>[1] Baker D, Cain S, et al. Verifiable Agentic Science on Public Infrastructure. <i>bioRxiv</i> (2026). doi:10.64898/2026.10.26.761864</p>
         <p>[2] Vogels CBF, Hill V, et al. DengueSeq. <i>BMC Genomics</i> 25:433 (2024).</p>
         <p>[3] Karpathy A. LLM wiki. gist.github.com/karpathy (2026).</p>
       </div>
@@ -348,14 +348,14 @@ footer {
         <section>
           <h2><span class="k">C</span>Inside the loop</h2>
           <div class="penhead">Pinned, not named.</div>
-          <p>Phase {{LOOP_PHASE}} builds the workflow one step at a time. Each pass, <code>gxwf draft-next-step</code> picks the next unfinished step; the <code>discover-shed-tool</code> skill (Fig. 1) searches the Tool Shed and <mark>pins one wrapper to an exact changeset</mark>; the agent fills in the step; <code>gxwf draft-validate</code> checks it against that tool’s schema. The DengueSeq run took {{LOOP_ITERATIONS}} passes.</p>
+          <p>Phase {{LOOP_PHASE}} builds the workflow one step at a time. On each pass, <code>gxwf draft-next-step</code> picks the next unfinished step, and <code>discover-shed-tool</code> (Fig. 1) <mark>pins one Tool Shed wrapper to an exact changeset</mark>. The agent fills in the step, and <code>gxwf draft-validate</code> checks it against that tool’s schema. The DengueSeq run took {{LOOP_ITERATIONS}} passes.</p>
         </section>
 
         {{RECEIPT_PINNED}}
 
         <div class="note-card">
           <div class="penhead">Gaps are written down.</div>
-          <p>The run’s ledger closed <b>{{LEDGER_RESOLVED}} of {{LEDGER_ENTRIES}}</b> requirements and left <b>{{LEDGER_OPEN}} open</b>, each stated in words for the reviewer: for example, that the source’s filtered variant table is not reproduced, a cut the reviewed brief chose.</p>
+          <p>The run’s ledger closed <b>{{LEDGER_RESOLVED}} of {{LEDGER_ENTRIES}}</b> requirements and left <b>{{LEDGER_OPEN}} open</b> in plain language for the reviewer—including the reviewed brief’s decision to omit the source’s filtered variant table.</p>
         </div>
       </div>
 
@@ -385,8 +385,8 @@ footer {
             <section class="grow feat">
               <h2><span class="k">E</span>Rails, not reminders</h2>
               <p>The companion Orbit study ran agents on public Galaxy [1]. Its lesson: <mark>skills are guidance, not enforcement</mark> [1]. What held were the rails. A connection check caught an agent’s bad <code>tximport</code> wiring before anything ran, and Orbit’s evidence gate now refuses by default [1].</p>
-              <p>The Foundry is built the same way: the model drafts and repairs; <code>gxwf</code> and Planemo decide. Its compilation pipeline is described in [1]; here we show its knowledge base, provenance, and checks.</p>
-              <p>[1] also reports a <b>60-step workflow</b> the Foundry compiled from an RNA-seq paper’s methods text; comparing with the authors’ data found a model choice the methods left out.</p>
+              <p>The Foundry follows the same rule: the model drafts and repairs, while <code>gxwf</code> and Planemo decide. Baker et al. [1] describe its compilation pipeline—here we detail its knowledge base, provenance, and checks.</p>
+              <p>Baker et al. [1] also report a <b>60-step workflow</b> that the Foundry compiled from an RNA-seq paper’s methods text. Comparing its outputs with the authors’ deposited data uncovered a modeling choice omitted from the methods.</p>
             </section>
           </div>
         </div>
@@ -436,7 +436,7 @@ footer {
       <div>pinned Tool Shed revisions <span>↔</span> <code>gxwf validate</code></div>
       <div>real jobs <span>↔</span> <code>planemo test</code> receipts</div>
     </div>
-    <div class="ack"><b>Acknowledgements:</b> Work in the authors’ groups is supported by National Institutes of Health grants U24HG002371, U24HG006620, U24HG010263, U24CA284167, U24AI183870, and R01GM151683, and by National Science Foundation grants 2419522 and 2138585. Foundry docs: galaxyproject.github.io/foundry · Repository: github.com/galaxyproject/foundry · Preprint [1]: doi.org/10.64898/2026.10.26.761864. Related CSHL posters: Galaxy UDTs (van den Beek) · HighGen (Burhans) · disassembler (Seacord).</div>
+    <div class="ack"><b>Acknowledgements:</b> Work in the authors’ groups is supported by National Institutes of Health grants U24HG002371, U24HG006620, U24HG010263, U24CA284167, U24AI183870, and R01GM151683, and by National Science Foundation grants 2419522 and 2138585. Foundry docs: galaxyproject.github.io/foundry · Repository: github.com/galaxyproject/foundry · Preprint [1]: doi.org/10.64898/2026.10.26.761864. Related CSHL posters: Galaxy UDTs (van den Beek) · Orbit (Cain) · HighGen (Burhans) · disassembler (Seacord).</div>
   </div>
   <div class="qrs">
     <div class="qr"><img src="assets/qr-foundry.svg" alt="QR: The Foundry"><div>The Foundry</div></div>
