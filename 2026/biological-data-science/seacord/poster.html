@@ -295,14 +295,14 @@ footer {
         </div>
       </div>
       <div class="stat-tile">
-        <div class="label">Logan universe</div>
+        <div class="label">Logan runs hit</div>
         <div class="num">4.99 M</div>
-        <div class="note">subject genomes in the LexicMap index—the universe each query scans.</div>
+        <div class="note">distinct Logan runs returning at least one spike HSP.</div>
       </div>
       <div class="stat-tile teal">
         <div class="label">Walker contamination filter</div>
         <div class="num">0.555% <span class="sym">→</span> 0%</div>
-        <div class="note">mislabeled spike accessions, raw unitig hits <span class="sym">→</span> <code>CLEAN_FULL_LENGTH</code>.</div>
+        <div class="note">mislabeled spike accessions, raw unitig hits <span class="sym">→</span> <code>CLEAN_FULL_LENGTH</code> (0 of 6,827, 95% CI ≤ 0.054%).</div>
       </div>
     </div>
 
@@ -312,8 +312,8 @@ footer {
         <h3>When the walker route wins</h3>
         <ul>
           <li><b>Shattered genes.</b> Zika NS5: ~50 contig fragments, one clean walk.</li>
-          <li><b>Divergent tails</b> a single-reference search never reaches.</li>
-          <li><b>Intra-host variation</b> kept, not collapsed: per-site allele frequencies.</li>
+          <li><b>Multi-anchor search.</b> Eleven strain anchors on spike, not one reference.</li>
+          <li><b>Intra-host variation</b> kept, not collapsed: per-site allele-frequency proxies.</li>
         </ul>
       </aside>
 
@@ -429,9 +429,9 @@ footer {
         <span class="tag">Route B · contig streamer</span>
         <h3>When the LexicMap route wins</h3>
         <ul>
-          <li><b>Split genes.</b> Collinear tiling stitches a 55/45 HSP pair that fails <code>qcovHSP ≥ 80</code>.</li>
+          <li><b>Split genes.</b> Collinear tiling stitches HSP pairs that fail <code>qcovHSP ≥ 80</code> alone.</li>
           <li><b>Streaming memory.</b> Streams 24 GB in <i>O</i>(haplotypes) RAM rather than <i>O</i>(rows).</li>
-          <li><b>Clean handoff.</b> Routes queries below 85% median identity to the walker.</li>
+          <li><b>Divergence check.</b> Flags queries below 85% median identity for the walker.</li>
         </ul>
       </aside>
     </div>
@@ -444,7 +444,7 @@ footer {
         <h2><span class="k">B</span>Obelisks across microbiomes</h2>
         <div class="ribbon"><span class="chip a">Route A · walker</span></div>
       </div>
-      <p class="finding"><b>METATRANSCRIPTOMIC_BCT dominates:</b> obelisks live in bacterial microbiome transcriptomes across human and microbial cohorts.</p>
+      <p class="finding"><b>METATRANSCRIPTOMIC_BCT dominates</b> the hit distribution, matching the published finding that obelisks live in bacterial microbiome transcriptomes.</p>
       <div class="numbers">
         <div class="cell"><span class="ck">kmindex hits</span><span class="cv">924</span><span class="cvn">unique runs</span></div>
         <div class="cell"><span class="ck">max contain.</span><span class="cv">0.97</span><span class="cvn">Obelisk-α</span></div>
@@ -472,11 +472,11 @@ footer {
         <h2><span class="k">C</span>SARS-CoV-2 spike: two routes</h2>
         <div class="ribbon"><span class="chip a">Route A</span><span class="chip b">Route B</span></div>
       </div>
-      <p class="finding"><b>The routes are complementary.</b> Only the walker reaches the divergent tail, whereas only LexicMap permissive recovers 1.15 M Alpha/Delta-era runs that strict filtering drops.</p>
+      <p class="finding"><b>The routes are complementary.</b> Permissive tiering calls 1.15 M runs clean full-length against strict’s 0.91 M. Only the walker samples the divergent tail, where reconstruction still fails.</p>
       <div class="numbers">
         <div class="cell"><span class="ck">LexicMap HSPs</span><span class="cv">5.88 M</span><span class="cvn">24 GB</span></div>
         <div class="cell"><span class="ck">walker20k ok</span><span class="cv">47.2%</span><span class="cvn">9,448 / 20k</span></div>
-        <div class="cell"><span class="ck">CLEAN_FULL</span><span class="cv">6,827</span><span class="cvn">pid 98.75</span></div>
+        <div class="cell"><span class="ck">CLEAN_FULL</span><span class="cv">6,827</span><span class="cvn">cov ≥ 1, pid ≥ 95</span></div>
         <div class="cell"><span class="ck">perm. sieved</span><span class="cv">79,621</span><span class="cvn">of 1.15 M</span></div>
       </div>
       <div class="msa-fig">
@@ -500,17 +500,17 @@ footer {
         <h2><span class="k">D</span><span><i>H. pylori</i>: 25-gene panel</span></h2>
         <div class="ribbon"><span class="chip b">Route B · streamer</span></div>
       </div>
-      <p class="finding"><b>Four audit tiers per marker</b> place every accession in one reference frame, from clean full-length sequences to low-coverage fragments.</p>
+      <p class="finding"><b>Five audit tiers per marker</b> place every accession in one reference frame, from clean full-length sequences to low-coverage fragments.</p>
       <div class="numbers">
         <div class="cell"><span class="ck">strict markers</span><span class="cv">20</span><span class="cvn">conserved</span></div>
         <div class="cell"><span class="ck">loose markers</span><span class="cv">5</span><span class="cvn">selection</span></div>
-        <div class="cell"><span class="ck">audit tiers</span><span class="cv">4</span><span class="cvn">per marker</span></div>
+        <div class="cell"><span class="ck">audit tiers</span><span class="cv">5</span><span class="cvn">per marker</span></div>
         <div class="cell"><span class="ck">HyphAeon pass</span><span class="cv"><i>oipA</i></span><span class="cvn">done</span></div>
       </div>
       <div class="msa-fig">
         <img src="figures/oipa_poster.png" alt="H. pylori oipA MSA map">
         <div class="msa-legend">
-          <p class="msa-summary"><i>oipA</i> strict panel: 1,042 clean accessions, sorted by substitution count.</p>
+          <p class="msa-summary"><i>oipA</i> strict panel: 1,042 clean accessions under 0.1.0 tiering, sorted by substitution count.</p>
           <div class="swatches">
             <span class="sw"><i style="background:#f3ecdc"></i>match</span>
             <span class="sw"><i style="background:#2e8b57"></i>A</span>
@@ -543,7 +543,7 @@ footer {
       <div class="meta-stats">
         <div class="cell"><span class="ck">walker20k input</span><span class="cv">0.555%</span><span class="cvn">C-mislabeled, raw hits</span></div>
         <div class="cell"><span class="ck">walker20k success</span><span class="cv">0.011%</span><span class="cvn">1 in ~9,500</span></div>
-        <div class="cell"><span class="ck">CLEAN_FULL_LENGTH</span><span class="cv">0.000%</span><span class="cvn">0 / 6,827 mislabeled</span></div>
+        <div class="cell"><span class="ck">CLEAN_FULL_LENGTH</span><span class="cv">0.000%</span><span class="cvn">0 / 6,827 (95% CI ≤ 0.054%)</span></div>
         <div class="cell"><span class="ck">LexicMap permissive</span><span class="cv">0.084%</span><span class="cvn">no walker filter</span></div>
       </div>
     </section>
@@ -554,7 +554,7 @@ footer {
         <div class="sel-fig-card">
           <img src="figures/hyphaeon_selection_poster.png" alt="SARS-CoV-2 spike adaptive landscape: episodic selection by codon">
           <div class="msa-legend">
-            <p class="msa-summary" style="margin:0"><b>27 diversifying sites</b> across 161 global spike haplotypes, led by antibody-escape hub <b>E484K</b>. Shaded bands mark spike domains.</p>
+            <p class="msa-summary" style="margin:0"><b>27 diversifying sites</b> (MEME, <i>p</i> ≤ 0.05) across 160 global spike haplotypes plus the Wuhan reference, led by antibody-escape hub <b>E484K</b>. Shaded bands mark spike domains.</p>
           </div>
         </div>
         <div class="sel-stats">
@@ -574,7 +574,7 @@ footer {
       <div>Logan contigs <span>→</span> <code>LexicMap</code> + <code>streamer</code></div>
       <div>sieved cohort <span>→</span> HyphAeon · ChronAeon · RhizAeon</div>
     </div>
-    <div class="ack"><b>Acknowledgements:</b> Work in the authors’ groups is supported by National Institutes of Health grants U24HG002371, U24HG006620, U24HG010263, U24CA284167, U24AI183870, and R01GM151683, and by National Science Foundation grants 2419522 and 2138585. Software &amp; data: github.com/nekrut/disassembler · github.com/veg/HyphAeon · Zenodo archive: doi.org/10.5281/zenodo.23737199. Related CSHL posters: Galaxy UDTs (van den Beek) · Orbit (Cain) · Galaxy Workflow Foundry (Chilton) · HighGen (Burhans).</div>
+    <div class="ack"><b>Acknowledgements:</b> Work in the authors’ groups is supported by National Institutes of Health grants U24HG002371, U24HG006620, U24HG010263, U24CA284167, U24AI183870, and R01GM151683, and by National Science Foundation grants 2419522 and 2138585. Software &amp; data: github.com/nekrut/disassembler · github.com/veg/HyphAeon · Zenodo archive: doi.org/10.5281/zenodo.23737199. Related CSHL posters: Galaxy UDTs (van den Beek) · Orbit (Cain) · Galaxy Workflow Foundry (Chilton) · HighGen (Burhans) · VGP diploid curation (Larivière).</div>
   </div>
   <div class="qrs">
     <div class="qr"><img src="qr-disassembler.svg" alt="QR: disassembler"><div>disassembler</div></div>

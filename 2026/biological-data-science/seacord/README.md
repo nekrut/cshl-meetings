@@ -2,13 +2,14 @@
 
 Andrew C. Seacord, Rayan Chikhi, Danielle Callan, Steven Weaver, Patrik Smeds, Kelsey Beavers, Sergei L. Kosakovsky Pond, Anton Nekrutenko. CSHL Biological Data Science, November 4–7, 2026.
 
-Imported from [`as042/disassembler-dump`](https://github.com/as042/disassembler-dump/tree/e1acb6673b6f13294bba494d821e9097c6347a9a/cshl-bds2026) (`cshl-bds2026/` at commit `e1acb66`, `main` `9cdfd1b`).
+Imported from [`as042/disassembler-dump`](https://github.com/as042/disassembler-dump/tree/a9f6815422a23eba2324a3eb9aabac4bb7dd339f/cshl-bds2026/v2) (`cshl-bds2026/v2/` at commit `a9f6815`).
 
 ## Files
 
 | Path | What it is |
 | - | - |
 | `poster.html` | Unified Galaxy Style 1 poster layout and text (HTML/CSS, `@page { size: 44in 44in; }`) |
+| `POSTER_FACT_CHECK.md` | Fact-check audit notes from `cshl-bds2026/v2` (`a9f6815`) |
 | `build.py` | Playwright/Chromium renderer producing `poster.pdf` (`3168 × 3168 pt`) and `poster-preview.png` |
 | `poster.pdf` | Pre-rendered 44 × 44 in print PDF (≥300 PPI figures + embedded TrueType fonts) |
 | `figures/` | Pre-rendered case-study, metadata, and HyphAeon selection PNGs |
