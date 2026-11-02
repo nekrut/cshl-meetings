@@ -61,7 +61,7 @@ header h1 { margin: 0; font-size: 86pt; line-height: 1.04; font-weight: 800; let
 header h1 .udt { color: var(--gold); }
 .authors { margin-top: 0.2in; font-size: 33pt; font-weight: 700; line-height: 1.18; }
 .authors sup, .affil sup { font-size: 0.6em; }
-.affil { display: block; margin-top: 0.06in; font-size: 23.5pt; font-weight: 400; color: #cfd6e6; }
+.affil { display: block; margin-top: 0.06in; font-size: 22pt; font-weight: 400; color: #cfd6e6; }
 .lede { margin-top: 0.18in; font-size: 29.5pt; line-height: 1.26; max-width: 31.8in; color: #eef2f8; }
 .lede b { color: var(--gold); }
 header code, footer code { background: rgba(255, 255, 255, 0.14); color: var(--gold); }
@@ -75,17 +75,17 @@ header code, footer code { background: rgba(255, 255, 255, 0.14); color: var(--g
 
 /* Main body stack */
 main {
-  padding: 0.44in 1in 0.42in;
-  display: flex; flex-direction: column; gap: 0.42in;
+  padding: 0.34in 0.88in 0.32in;
+  display: flex; flex-direction: column; gap: 0.34in;
   min-height: 0;
 }
 section {
-  background: var(--panel); border-radius: 0.24in; padding: 0.34in 0.44in 0.38in;
+  background: var(--panel); border-radius: 0.24in; padding: 0.3in 0.4in 0.32in;
   border: 2px solid #dfe5ef; border-top: 0.13in solid var(--navy);
   display: flex; flex-direction: column; min-height: 0;
 }
 h2 {
-  margin: 0 0 0.16in; font-size: 38pt; line-height: 1.08; font-weight: 800; color: var(--navy);
+  margin: 0 0 0.14in; font-size: 38pt; line-height: 1.08; font-weight: 800; color: var(--navy);
   display: flex; align-items: center; gap: 0.22in; letter-spacing: -0.01em;
 }
 h2 .k {
@@ -95,37 +95,37 @@ h2 .k {
 
 /* Row 1: Section A — Overview + Brand/Institutions + Workflow */
 .sec-a-top {
-  display: grid; grid-template-columns: 1fr auto auto; gap: 0.36in; align-items: stretch; margin-bottom: 0.24in;
+  display: grid; grid-template-columns: 1fr auto auto; gap: 0.32in; align-items: stretch; margin-bottom: 0.2in;
 }
-.sec-a-head h2 { margin-bottom: 0.1in; }
-.sec-a-sub { font-size: 24.5pt; color: var(--muted); margin: 0 0 0.16in; line-height: 1.24; }
+.sec-a-head h2 { margin-bottom: 0.08in; }
+.sec-a-sub { font-size: 24.5pt; color: var(--muted); margin: 0 0 0.14in; line-height: 1.24; }
 .brand-bar {
-  display: flex; align-items: center; gap: 0.32in;
+  display: flex; align-items: center; justify-content: space-between; gap: 0.34in;
   background: #fff; border: 2px solid var(--line); border-radius: 0.16in;
-  padding: 0.14in 0.28in; width: fit-content;
+  padding: 0.16in 0.42in; width: 100%;
 }
-.brand-bar .b-dis { height: 1.05in; width: auto; display: block; }
-.brand-bar .b-hyph { height: 0.96in; width: auto; display: block; background: #0a0a10; padding: 0.05in; border-radius: 0.08in; }
-.brand-bar .sep { width: 2px; height: 0.78in; background: var(--line); }
-.brand-bar .inst { height: 0.62in; width: auto; display: block; }
+.brand-bar .b-dis { height: 1.24in; width: auto; display: block; }
+.brand-bar .b-hyph { height: 1.12in; width: auto; display: block; background: #0a0a10; padding: 0.05in; border-radius: 0.08in; }
+.brand-bar .sep { width: 2px; height: 0.92in; background: var(--line); }
+.brand-bar .inst { height: 0.8in; width: auto; display: block; }
 
 .stat-tile {
   background: #fff; border: 2px solid var(--line); border-left: 0.12in solid var(--gold-border);
-  border-radius: 0.16in; padding: 0.2in 0.28in; width: 7.4in;
+  border-radius: 0.16in; padding: 0.2in 0.3in; width: 8.6in;
   display: flex; flex-direction: column; justify-content: center;
 }
 .stat-tile.teal { border-left-color: var(--route-a); }
-.stat-tile .label { font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 16.5pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-.stat-tile .num { font-size: 46pt; font-weight: 800; line-height: 1.05; color: var(--navy); margin: 0.05in 0; font-variant-numeric: tabular-nums; }
+.stat-tile .label { font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 17pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.stat-tile .num { font-size: 48pt; font-weight: 800; line-height: 1.05; color: var(--navy); margin: 0.05in 0; font-variant-numeric: tabular-nums; }
 .stat-tile.teal .num { color: var(--route-a); }
-.stat-tile .note { font-size: 19.5pt; color: var(--muted); line-height: 1.22; }
+.stat-tile .note { font-size: 20pt; color: var(--muted); line-height: 1.22; }
 
 .workflow-row {
   display: grid; grid-template-columns: 8.6in 1fr 8.6in; gap: 0.32in; align-items: stretch;
 }
 .side-box {
   background: #fff; border: 2px solid var(--line); border-radius: 0.16in;
-  padding: 0.24in 0.3in; display: flex; flex-direction: column; gap: 0.1in;
+  padding: 0.24in 0.3in; display: flex; flex-direction: column; justify-content: center; gap: 0.1in;
 }
 .side-box.left { border-top: 0.1in solid var(--route-a); }
 .side-box.right { border-top: 0.1in solid var(--route-b); }
@@ -136,19 +136,19 @@ h2 .k {
 .side-box.left .tag { background: var(--route-a-tint); color: var(--route-a); }
 .side-box.right .tag { background: var(--route-b-tint); color: var(--route-b); }
 .side-box h3 { margin: 0.02in 0; font-size: 28pt; font-weight: 800; color: var(--navy); line-height: 1.1; }
-.side-box ul { margin: 0.04in 0 0; padding-left: 0.34in; font-size: 21pt; line-height: 1.24; }
+.side-box ul { margin: 0.04in 0 0; padding-left: 0.34in; font-size: 21.5pt; line-height: 1.25; }
 .side-box li { margin-bottom: 0.08in; }
 .side-box li:last-child { margin-bottom: 0; }
 .diagram {
   background: #fff; border: 2px solid var(--line); border-radius: 0.16in;
-  padding: 0.14in 0.2in; display: flex; align-items: center; justify-content: center;
+  padding: 0.1in 0.16in; display: flex; align-items: center; justify-content: center;
 }
 .diagram svg { width: 100%; height: auto; display: block; }
 
 /* Row 2: 3 Case Studies (B, C, D) */
 .cases-row {
   flex: 1; min-height: 0;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.44in;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.36in;
 }
 .case-top { display: flex; justify-content: space-between; align-items: center; gap: 0.16in; margin-bottom: 0.1in; }
 .case-top h2 { margin: 0; font-size: 33pt; }
@@ -204,32 +204,32 @@ h2 .k {
 
 /* Row 3: Metadata (E) + HyphAeon Selection (F) */
 .bottom-row {
-  display: grid; grid-template-columns: 1.16fr 1fr; gap: 0.44in; align-items: stretch;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.36in; align-items: stretch;
 }
 .meta-box {
   background: #fff; border: 2.5px solid var(--line); border-radius: 0.16in; overflow: hidden;
   display: flex; flex-direction: column;
 }
-.meta-box img { width: 100%; height: auto; display: block; padding: 0.1in 0.12in 0.04in; background: #fff; }
+.meta-box img { width: 100%; height: auto; display: block; padding: 0.08in 0.1in 0.04in; background: #fff; }
 .meta-cap {
-  padding: 0.12in 0.2in 0.14in; border-top: 2px solid var(--line); font-size: 19pt; line-height: 1.24; color: var(--ink);
+  padding: 0.12in 0.2in 0.14in; border-top: 2px solid var(--line); font-size: 19.5pt; line-height: 1.24; color: var(--ink);
 }
 .meta-cap .swatches { margin-top: 0.07in; }
 .meta-stats {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.14in; margin-top: auto; padding-top: 0.16in;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.14in; margin-top: auto; padding-top: 0.14in;
 }
 .meta-stats .cell { border-left-color: var(--route-a); padding: 0.14in 0.16in; }
 
 .sel-body {
   flex: 1; min-height: 0;
-  display: grid; grid-template-columns: 12.6in 1fr; gap: 0.24in; align-items: stretch;
+  display: grid; grid-template-columns: 1fr 3.85in; gap: 0.22in; align-items: stretch;
 }
 .sel-fig-card {
   background: #fff; border: 2.5px solid var(--line); border-radius: 0.16in; overflow: hidden;
-  display: flex; flex-direction: column; justify-content: space-between;
+  display: flex; flex-direction: column;
 }
-.sel-fig-card img { width: 100%; height: auto; display: block; padding: 0.1in 0.12in 0.04in; background: #fff; }
-.sel-fig-card .msa-legend { padding: 0.12in 0.2in 0.14in; }
+.sel-fig-card img { width: 100%; flex: 1; min-height: 0; object-fit: contain; display: block; padding: 0.08in 0.1in 0.04in; background: #fff; }
+.sel-fig-card .msa-legend { margin-top: auto; padding: 0.12in 0.2in 0.14in; }
 .sel-stats {
   display: flex; flex-direction: column; justify-content: space-between; gap: 0.14in;
 }
@@ -260,8 +260,8 @@ footer {
   <div>
     <div class="kicker">CSHL Biological Data Science · November 4–7, 2026</div>
     <h1><span class="udt">disassembler</span>: planetary-scale sequence extraction from Logan</h1>
-    <div class="authors">Andrew C. Seacord<sup>1</sup>, Rayan Chikhi<sup>2</sup>, Danielle Callan<sup>3</sup>, Steven Weaver<sup>3</sup>, Patrik Smeds<sup>4</sup>, Sergei L. Kosakovsky Pond<sup>3</sup>, Anton Nekrutenko<sup>1</sup>
-      <span class="affil"><sup>1</sup>Dept. of Biochemistry and Molecular Biology, The Pennsylvania State University · <sup>2</sup>Institut Pasteur, Université Paris Cité · <sup>3</sup>IGEM, Temple University · <sup>4</sup>NBIS, SciLifeLab, Uppsala University</span>
+    <div class="authors">Andrew C. Seacord<sup>1</sup>, Rayan Chikhi<sup>2</sup>, Danielle Callan<sup>3</sup>, Steven Weaver<sup>3</sup>, Patrik Smeds<sup>4</sup>, Kelsey Beavers<sup>5</sup>, Sergei L. Kosakovsky Pond<sup>3</sup>, Anton Nekrutenko<sup>1</sup>
+      <span class="affil"><sup>1</sup>Dept. of Biochemistry and Molecular Biology, The Pennsylvania State University · <sup>2</sup>Institut Pasteur, Université Paris Cité · <sup>3</sup>IGEM, Temple University · <sup>4</sup>NBIS, SciLifeLab, Uppsala University · <sup>5</sup>Texas Advanced Computing Center, UT Austin</span>
     </div>
     <div class="lede">Logan indexes the SRA petabase as <b>unitig graphs</b> and <b>assembled contigs</b>. Given one reference CDS, <code>disassembler</code> reconstructs full-length haplotypes from either—ending in the same <b>codon MSA, haplotype catalog, and tree</b>.</div>
   </div>
@@ -318,7 +318,7 @@ footer {
       </aside>
 
       <div class="diagram">
-        <svg viewBox="0 0 1200 268" preserveAspectRatio="xMidYMid meet" role="img" aria-label="disassembler workflow" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="24 4 1156 244" preserveAspectRatio="xMidYMid meet" role="img" aria-label="disassembler workflow" xmlns="http://www.w3.org/2000/svg">
           <style>
             .n-title { font-family: "Atkinson Hyperlegible Next", sans-serif; font-weight: 700; fill: #18243a; }
             .n-sub   { font-family: "Atkinson Hyperlegible Mono", monospace; font-weight: 600; fill: #4f5b70; letter-spacing: 0.07em; }

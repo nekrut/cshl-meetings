@@ -15,10 +15,10 @@
 <text x="40" y="33.5" class="sub">79 intact (56 full), 77 B-locus (62 THC+1 both), 6 &lt;93%, 54 pruned</text>
 <text x="24" y="54" class="lbl">Intact CBDAS (≥98.5% id, 56 full-len)</text>
 <rect x="24" y="59" width="130.1" height="14" rx="3" fill="#009E73"/>
-<text x="162.1" y="70" class="ax">79 (59 plants) — functional copy</text>
+<text x="162.1" y="70" class="ax">79 (59 plants)—functional copy</text>
 <text x="24" y="92" class="lbl">B-locus pseudogene (93.0–98.5%)</text>
 <rect x="24" y="97" width="126.8" height="14" rx="3" fill="#E69F00"/>
-<text x="158.8" y="108" class="ax">77 (67 plants) — 62 THC + 1 both</text>
+<text x="158.8" y="108" class="ax">77 (67 plants)—62 THC + 1 both</text>
 <text x="24" y="130" class="lbl">Diverged aligned (&lt;93.0%, ≥50% CDS)</text>
 <rect x="24" y="135" width="9.9" height="14" rx="3" fill="#56B4E9"/>
 <text x="41.9" y="146" class="ax">6 queries (91.9–92.9% id)</text>
@@ -31,12 +31,14 @@
 <text x="508" y="21.5" class="title">netFilter -syn Pruning vs Paralog Reuse</text>
 <text x="508" y="33.5" class="sub">Removing -syn causes 46.4% (569/1,225) paralog interval reuse</text>
 <text x="492" y="54" class="lbl">TPS family (41 genes: 31 in 9 clusters + 10)</text>
-<rect x="492" y="59" width="13.6" height="14" rx="3" fill="#56B4E9"/>
+<rect x="492" y="59" width="13.6" height="15" rx="3" fill="#56B4E9"/>
 <text x="513.6" y="70" class="ax mono">418/8,856 pruned (4.7%)</text>
-<text x="492" y="92" class="lbl">BBE-like family (35 genes: 29 in 9 clusters + 6)</text>
-<rect x="492" y="97" width="31.0" height="14" rx="3" fill="#0072B2"/>
-<text x="531.0" y="108" class="ax mono">807/7,560 pruned (10.7%)</text>
-<text x="492" y="130" class="lbl">Recovered pairs overlapping a paralog's interval</text>
-<rect x="492" y="135" width="134.6" height="14" rx="3" fill="#D55E00"/>
-<text x="634.6" y="146" class="ax mono">569/1,225 (46.4%)</text>
+<text x="492" y="93" class="lbl">BBE-like family (35 genes: 29 in 9 clusters + 6)</text>
+<rect x="492" y="98" width="31.0" height="15" rx="3" fill="#0072B2"/>
+<text x="531.0" y="109" class="ax mono">807/7,560 pruned (10.7%)</text>
+<text x="492" y="132" class="lbl">Recovered pairs overlapping a paralog’s interval</text>
+<rect x="492" y="137" width="134.6" height="15" rx="3" fill="#D55E00"/>
+<text x="634.6" y="148" class="ax mono">569/1,225 (46.4%)</text>
+<rect x="492" y="172" width="388" height="27" rx="5" fill="#fff4d1" stroke="#f2b10f"/>
+<text x="686" y="189" text-anchor="middle" class="lbl">Paired in hub with rbest chains + TOGA2 &amp; TOAST/BOAST</text>
 </svg>

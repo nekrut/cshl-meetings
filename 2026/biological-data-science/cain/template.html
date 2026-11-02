@@ -72,17 +72,17 @@ header h1 .udt { color: var(--gold); }
 
 /* Main body stack */
 main {
-  padding: 0.38in 0.9in 0.36in;
-  display: flex; flex-direction: column; gap: 0.34in;
+  padding: 0.3in 0.85in 0.28in;
+  display: flex; flex-direction: column; gap: 0.28in;
   min-height: 0;
 }
 section {
-  background: var(--panel); border-radius: 0.22in; padding: 0.28in 0.38in 0.3in;
+  background: var(--panel); border-radius: 0.22in; padding: 0.24in 0.36in 0.26in;
   border: 2px solid #dfe5ef; border-top: 0.12in solid var(--navy);
   display: flex; flex-direction: column; min-height: 0;
 }
 h2 {
-  margin: 0 0 0.14in; font-size: 32pt; line-height: 1.08; font-weight: 800; color: var(--navy);
+  margin: 0 0 0.12in; font-size: 32pt; line-height: 1.08; font-weight: 800; color: var(--navy);
   display: flex; align-items: center; gap: 0.2in; letter-spacing: -0.01em;
 }
 h2 .k {
@@ -93,8 +93,8 @@ p { margin: 0 0 0.14in; }
 p:last-child { margin-bottom: 0; }
 
 /* Row 1: Abstract (A) + Match Summary & KPIs (B) */
-.row1 { display: grid; grid-template-columns: 20.6in 1fr; gap: 0.38in; align-items: stretch; }
-.abstract-p { font-size: 20.3pt; line-height: 1.29; color: var(--ink); }
+.row1 { display: grid; grid-template-columns: 20.2in 1fr; gap: 0.34in; align-items: stretch; }
+.abstract-p { font-size: 23.4pt; line-height: 1.34; color: var(--ink); }
 
 .match-sub { font-size: 18.5pt; color: var(--muted); margin: -0.06in 0 0.14in; }
 .bars {
@@ -123,54 +123,54 @@ p:last-child { margin-bottom: 0; }
 
 /* Row 2: How a session runs (C) */
 .session-grid {
-  display: grid; grid-template-columns: 9.7in 10.6in 1fr; gap: 0.36in; align-items: center;
+  display: grid; grid-template-columns: 10.0in 1fr 17.4in; gap: 0.32in; align-items: stretch;
 }
 .shot-card {
   background: #fff; border: 2px solid var(--line); border-radius: 0.16in; padding: 0.14in;
-  display: flex; flex-direction: column; align-items: center;
+  display: flex; flex-direction: column; justify-content: space-between; align-items: center;
 }
-.shot-card img { width: 9.4in; height: auto; display: block; border-radius: 0.1in; }
-.shot-cap { font-size: 17pt; color: var(--muted); margin-top: 0.08in; text-align: center; line-height: 1.2; }
+.shot-card img { width: 100%; height: auto; display: block; border-radius: 0.1in; }
+.shot-cap { font-size: 17.5pt; color: var(--muted); margin-top: 0.08in; text-align: center; line-height: 1.2; }
 
 .cycle-card {
-  background: #fff; border: 2px solid var(--line); border-radius: 0.16in; padding: 0.16in 0.2in;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;
+  background: #fff; border: 2px solid var(--line); border-radius: 0.16in; padding: 0.14in 0.18in;
+  display: flex; flex-direction: column; align-items: center; justify-content: space-between;
 }
-.cycle-card svg { width: 100%; height: auto; display: block; }
+.cycle-card svg { width: 100%; flex: 1; min-height: 0; display: block; }
 .cycle-cap {
   margin-top: 0.08in; font-size: 18pt; font-weight: 700; color: var(--navy);
   text-align: center; line-height: 1.22; background: var(--gold-soft);
-  border: 1.5px solid var(--gold-border); border-radius: 0.1in; padding: 0.08in 0.16in;
+  border: 1.5px solid var(--gold-border); border-radius: 0.1in; padding: 0.08in 0.16in; width: 100%;
 }
 
 .udt-pair {
-  background: #fff; border: 2px solid var(--line); border-radius: 0.16in; padding: 0.16in 0.2in;
-  display: flex; flex-direction: column; justify-content: space-between; height: 100%;
+  background: #fff; border: 2px solid var(--line); border-radius: 0.16in; padding: 0.14in 0.18in;
+  display: flex; flex-direction: column; justify-content: space-between;
 }
 .udt-imgs {
-  display: grid; grid-template-columns: 8.1in 4.2in; gap: 0.2in; justify-content: center; align-items: center;
+  display: grid; grid-template-columns: 1.866fr 1fr; gap: 0.18in; width: 100%; align-items: center; flex: 1; min-height: 0;
 }
 .udt-imgs img { width: 100%; height: auto; display: block; border: 1.5px solid var(--line); border-radius: 0.08in; }
 .udt-cap {
-  margin-top: 0.1in; font-size: 17.5pt; color: var(--muted); line-height: 1.22; text-align: center;
+  margin-top: 0.08in; font-size: 18pt; color: var(--muted); line-height: 1.22; text-align: center;
 }
 
 /* Row 3: Two Primary Case Studies (D, E) */
-.row3 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.38in; align-items: stretch; }
+.row3 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.34in; align-items: stretch; }
 .case-split {
-  display: grid; grid-template-columns: auto 1fr; gap: 0.28in; align-items: center; flex: 1; min-height: 0;
+  display: grid; grid-template-columns: auto 1fr; gap: 0.26in; align-items: center; flex: 1; min-height: 0;
 }
 .fig-box {
   background: #fff; border: 2px solid var(--line); border-radius: 0.14in; padding: 0.12in;
   display: flex; flex-direction: column; align-items: center;
 }
 .fig-box img { display: block; height: auto; border-radius: 0.06in; }
-.fig-chung img { width: 10.2in; }
-.fig-toenhake img { width: 7.0in; }
-.fig-cap-sm { font-size: 15.8pt; color: var(--muted); line-height: 1.2; margin-top: 0.08in; max-width: 10.2in; text-align: center; }
-.fig-toenhake .fig-cap-sm { max-width: 7.0in; }
+.fig-chung img { width: 11.2in; }
+.fig-toenhake img { width: 8.15in; }
+.fig-cap-sm { font-size: 16pt; color: var(--muted); line-height: 1.2; margin-top: 0.08in; max-width: 11.2in; text-align: center; }
+.fig-toenhake .fig-cap-sm { max-width: 8.15in; }
 
-.bullets { margin: 0; padding-left: 0.34in; font-size: 19.5pt; line-height: 1.26; }
+.bullets { margin: 0; padding-left: 0.34in; font-size: 20pt; line-height: 1.27; }
 .bullets li { margin-bottom: 0.12in; }
 .bullets li:last-child { margin-bottom: 0; }
 .bullets b { color: var(--navy); }
@@ -197,15 +197,16 @@ p:last-child { margin-bottom: 0; }
 /* Row 4: Three Extended Reanalyses (F, G, H) */
 .row4 {
   flex: 1; min-height: 0;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.38in; align-items: stretch;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.34in; align-items: stretch;
 }
-.row4 h2 { font-size: 28pt; margin-bottom: 0.12in; }
+.row4 h2 { font-size: 28pt; margin-bottom: 0.1in; }
 .row4 h2 .k { width: 0.6in; height: 0.6in; font-size: 24pt; }
 .hokken-fig {
   background: #fff; border: 2px solid var(--line); border-radius: 0.14in; padding: 0.1in 0.14in;
   display: flex; flex-direction: column; align-items: center; margin-bottom: 0.12in;
 }
-.hokken-fig img { width: 9.2in; height: auto; display: block; }
+.hokken-fig img { width: 10.4in; max-width: 100%; height: auto; display: block; }
+.hokken-fig .fig-cap-sm { max-width: 12in; }
 .mini-split {
   display: grid; grid-template-columns: auto 1fr; gap: 0.2in; align-items: center; flex: 1; min-height: 0;
 }
@@ -213,11 +214,11 @@ p:last-child { margin-bottom: 0; }
   background: #fff; border: 2px solid var(--line); border-radius: 0.14in; padding: 0.1in;
   display: flex; flex-direction: column; align-items: center;
 }
-.ruiz-fig img { width: 5.25in; height: auto; display: block; }
-.wang-fig img { width: 7.25in; height: auto; display: block; }
-.ruiz-fig .fig-cap-sm { max-width: 5.25in; }
-.wang-fig .fig-cap-sm { max-width: 7.25in; }
-.row4 .bullets { font-size: 18pt; line-height: 1.24; }
+.ruiz-fig img { width: 6.75in; height: auto; display: block; }
+.wang-fig img { width: 7.95in; height: auto; display: block; }
+.ruiz-fig .fig-cap-sm { max-width: 6.75in; }
+.wang-fig .fig-cap-sm { max-width: 7.95in; }
+.row4 .bullets { font-size: 18.6pt; line-height: 1.25; }
 .row4 .bullets li { margin-bottom: 0.1in; }
 
 /* Footer — Style 1 Galaxy Classic Footer */
@@ -319,7 +320,7 @@ footer {
       </div>
 
       <div class="cycle-card">
-        <svg viewBox="0 0 920 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Orbit two-approval execution loop">
+        <svg viewBox="0 0 920 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Orbit two-approval execution loop">
           <style>
             .cy-t { font-family: "Atkinson Hyperlegible Next", sans-serif; font-weight: 800; fill: #2c3143; font-size: 23px; }
             .cy-s { font-family: "Atkinson Hyperlegible Next", sans-serif; font-weight: 400; fill: #4f5b70; font-size: 18.5px; }
@@ -330,39 +331,39 @@ footer {
             </marker>
           </defs>
           <!-- Center orbit ring -->
-          <ellipse cx="460" cy="232" rx="285" ry="155" fill="none" stroke="#cbd5e1" stroke-width="3" stroke-dasharray="9 7"/>
+          <ellipse cx="460" cy="212" rx="292" ry="142" fill="none" stroke="#cbd5e1" stroke-width="3.2" stroke-dasharray="10 7"/>
 
           <!-- 1: Top: Describe the goal -->
-          <rect x="305" y="14" width="310" height="86" rx="14" fill="#f4f6fa" stroke="#2c3143" stroke-width="3"/>
-          <text x="460" y="50" class="cy-t" text-anchor="middle">1. Describe the goal</text>
-          <text x="460" y="78" class="cy-s" text-anchor="middle">Plain language, in chat</text>
+          <rect x="295" y="10" width="330" height="82" rx="14" fill="#f4f6fa" stroke="#2c3143" stroke-width="3"/>
+          <text x="460" y="45" class="cy-t" text-anchor="middle">1. Describe the goal</text>
+          <text x="460" y="73" class="cy-s" text-anchor="middle">Plain language, in chat</text>
 
           <!-- 2: Right-Mid: Agent drafts a plan -->
-          <rect x="610" y="148" width="295" height="88" rx="14" fill="#f4f6fa" stroke="#2c3143" stroke-width="3"/>
-          <text x="757" y="185" class="cy-t" text-anchor="middle">2. Agent drafts a plan</text>
-          <text x="757" y="213" class="cy-s" text-anchor="middle">Checks IWC workflows first</text>
+          <rect x="605" y="134" width="302" height="84" rx="14" fill="#f4f6fa" stroke="#2c3143" stroke-width="3"/>
+          <text x="756" y="170" class="cy-t" text-anchor="middle">2. Agent drafts a plan</text>
+          <text x="756" y="198" class="cy-s" text-anchor="middle">Checks IWC workflows first</text>
 
           <!-- 3: Bottom-Right (APPROVAL): You approve (2x) -->
-          <rect x="505" y="344" width="335" height="96" rx="14" fill="#fffbeb" stroke="#eab308" stroke-width="4"/>
-          <text x="672" y="383" class="cy-t" text-anchor="middle">3. You approve (2×)</text>
-          <text x="672" y="413" class="cy-s" text-anchor="middle" fill="#92400e">Plan first, then execution</text>
+          <rect x="502" y="318" width="342" height="90" rx="14" fill="#fffbeb" stroke="#eab308" stroke-width="4"/>
+          <text x="673" y="356" class="cy-t" text-anchor="middle">3. You approve (2×)</text>
+          <text x="673" y="385" class="cy-s" text-anchor="middle" fill="#92400e">Plan first, then execution</text>
 
           <!-- 4: Bottom-Left: Runs the step -->
-          <rect x="80" y="344" width="315" height="96" rx="14" fill="#e0f2f0" stroke="#0b7a75" stroke-width="3"/>
-          <text x="237" y="383" class="cy-t" text-anchor="middle" fill="#0b7a75">4. Runs the step</text>
-          <text x="237" y="413" class="cy-s" text-anchor="middle">Local / hybrid / Galaxy</text>
+          <rect x="76" y="318" width="322" height="90" rx="14" fill="#e0f2f0" stroke="#0b7a75" stroke-width="3"/>
+          <text x="237" y="356" class="cy-t" text-anchor="middle" fill="#0b7a75">4. Runs the step</text>
+          <text x="237" y="385" class="cy-s" text-anchor="middle">Local / hybrid / Galaxy</text>
 
           <!-- 5: Left-Mid: Records it -->
-          <rect x="15" y="148" width="295" height="88" rx="14" fill="#f4f6fa" stroke="#2c3143" stroke-width="3"/>
-          <text x="162" y="185" class="cy-t" text-anchor="middle">5. Records it</text>
-          <text x="162" y="213" class="cy-s" text-anchor="middle">notebook.md + git commit</text>
+          <rect x="13" y="134" width="302" height="84" rx="14" fill="#f4f6fa" stroke="#2c3143" stroke-width="3"/>
+          <text x="164" y="170" class="cy-t" text-anchor="middle">5. Records it</text>
+          <text x="164" y="198" class="cy-s" text-anchor="middle">notebook.md + git commit</text>
 
           <!-- Curved clockwise arrows -->
-          <path d="M 618 65 Q 725 82 752 142" fill="none" stroke="#0b7a75" stroke-width="4.5" marker-end="url(#cyArr)"/>
-          <path d="M 765 240 Q 765 300 715 338" fill="none" stroke="#0b7a75" stroke-width="4.5" marker-end="url(#cyArr)"/>
-          <path d="M 502 392 L 403 392" fill="none" stroke="#0b7a75" stroke-width="4.5" marker-end="url(#cyArr)"/>
-          <path d="M 205 340 Q 160 300 160 244" fill="none" stroke="#0b7a75" stroke-width="4.5" marker-end="url(#cyArr)"/>
-          <path d="M 168 144 Q 198 82 298 65" fill="none" stroke="#0b7a75" stroke-width="4.5" marker-end="url(#cyArr)"/>
+          <path d="M 628 56 Q 730 74 754 128" fill="none" stroke="#0b7a75" stroke-width="4.5" marker-end="url(#cyArr)"/>
+          <path d="M 766 222 Q 766 278 715 312" fill="none" stroke="#0b7a75" stroke-width="4.5" marker-end="url(#cyArr)"/>
+          <path d="M 498 363 L 406 363" fill="none" stroke="#0b7a75" stroke-width="4.5" marker-end="url(#cyArr)"/>
+          <path d="M 205 314 Q 160 278 160 226" fill="none" stroke="#0b7a75" stroke-width="4.5" marker-end="url(#cyArr)"/>
+          <path d="M 168 130 Q 198 74 288 56" fill="none" stroke="#0b7a75" stroke-width="4.5" marker-end="url(#cyArr)"/>
         </svg>
         <div class="cycle-cap">No compute executes, and nothing enters the record, until the researcher approves it—twice.</div>
       </div>

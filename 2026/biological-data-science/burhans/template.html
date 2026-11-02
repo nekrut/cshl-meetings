@@ -70,37 +70,37 @@ header h1 .udt { color: var(--gold); }
 
 /* Body grid */
 main {
-  padding: 0.34in 0.85in 0.32in;
-  display: grid; grid-template-columns: 13.5in 14.1in 1fr;
-  gap: 0.42in; min-height: 0;
+  padding: 0.28in 0.82in 0.28in;
+  display: grid; grid-template-columns: 13.55in 14.15in 1fr;
+  gap: 0.38in; min-height: 0;
 }
-.col { display: flex; flex-direction: column; gap: 0.34in; min-height: 0; }
+.col { display: flex; flex-direction: column; gap: 0.28in; min-height: 0; }
 section {
-  background: var(--panel); border-radius: 0.24in; padding: 0.27in 0.38in 0.29in;
+  background: var(--panel); border-radius: 0.22in; padding: 0.24in 0.35in 0.26in;
   border: 2px solid #dfe5ef; border-top: 0.12in solid var(--navy);
   display: flex; flex-direction: column; min-height: 0;
 }
 section.grow { flex: 1; }
 h2 {
-  margin: 0 0 0.12in; font-size: 32pt; line-height: 1.08; font-weight: 800; color: var(--navy);
+  margin: 0 0 0.11in; font-size: 32pt; line-height: 1.08; font-weight: 800; color: var(--navy);
   display: flex; align-items: center; gap: 0.18in;
 }
 h2 .k {
   flex: none; width: 0.62in; height: 0.62in; border-radius: 50%; background: var(--gold); color: var(--navy);
   display: grid; place-items: center; font-size: 27pt; font-weight: 800;
 }
-p { margin: 0 0 0.12in; font-size: 20.2pt; line-height: 1.23; }
+p { margin: 0 0 0.12in; font-size: 20.5pt; line-height: 1.23; }
 p:last-child { margin-bottom: 0; }
 
 /* Needs / obstacles grid */
-.needs { list-style: none; margin: 0.04in 0 0.15in; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.12in 0.2in; }
-.needs li { display: grid; grid-template-columns: 0.5in 1fr; gap: 0.12in; align-items: start; line-height: 1.16; font-size: 20pt; }
+.needs { list-style: none; margin: 0.04in 0 0.14in; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.12in 0.2in; }
+.needs li { display: grid; grid-template-columns: 0.5in 1fr; gap: 0.12in; align-items: start; line-height: 1.16; font-size: 20.2pt; }
 .needs .n { width: 0.5in; height: 0.5in; border-radius: 0.12in; background: var(--teal); color: #fff; font-weight: 800; display: grid; place-items: center; font-size: 22pt; }
-.needs small { display: block; font-size: 16.8pt; color: var(--muted); margin-top: 0.02in; line-height: 1.16; }
+.needs small { display: block; font-size: 17pt; color: var(--muted); margin-top: 0.02in; line-height: 1.16; }
 
 /* Pipeline & tags */
 .pipe { display: flex; flex-wrap: wrap; gap: 0.08in; align-items: center; margin: 0.03in 0 0.14in; }
-.pipe span { background: var(--navy); color: #fff; font-weight: 700; font-size: 18.5pt; padding: 0.04in 0.13in; border-radius: 0.09in; }
+.pipe span { background: var(--navy); color: #fff; font-weight: 700; font-size: 18.8pt; padding: 0.04in 0.13in; border-radius: 0.09in; }
 .pipe i { font-style: normal; color: #d99b00; font-weight: 400; font-size: 21pt; font-family: "IBM Plex Sans", sans-serif; }
 .pipe span.gold { background: var(--gold); color: var(--navy); }
 .pipe span.teal { background: var(--teal); color: #fff; }
@@ -111,28 +111,28 @@ figure.push { margin-top: auto; }
 figure img { width: 100%; display: block; border-radius: 0.12in; border: 2px solid var(--line); background: #fff; padding: 0.04in; }
 figure img.kmer-band { width: 100%; margin-bottom: 0.1in; }
 .browser-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.12in; margin-bottom: 0.08in; }
-.browser-grid img { width: 100%; height: 1.95in; object-fit: contain; object-position: center; border-radius: 0.1in; border: 2px solid var(--line); background: #fff; padding: 0.03in; }
-.browser-lbl { font-size: 15.5pt; font-weight: 700; color: var(--navy); margin-bottom: 0.03in; }
-figcaption { font-size: 17pt; color: var(--muted); margin-top: 0.08in; line-height: 1.21; }
+.browser-grid img { width: 100%; height: 1.82in; object-fit: contain; object-position: center; border-radius: 0.1in; border: 2px solid var(--line); background: #fff; padding: 0.03in; }
+.browser-lbl { font-size: 15.6pt; font-weight: 700; color: var(--navy); margin-bottom: 0.03in; }
+figcaption { font-size: 17.2pt; color: var(--muted); margin-top: 0.08in; line-height: 1.21; }
 
 /* Tables & metric cards */
-.tbl { width: 100%; border-collapse: collapse; margin: 0.06in 0 0.14in; font-size: 18.2pt; background: #fff; border-radius: 0.12in; overflow: hidden; border: 2px solid var(--line); }
-.tbl th { background: var(--navy); color: #fff; text-align: left; padding: 0.08in 0.12in; font-weight: 700; font-size: 18pt; }
-.tbl td { padding: 0.08in 0.12in; border-top: 1.5px solid var(--line); vertical-align: top; line-height: 1.2; }
+.tbl { width: 100%; border-collapse: collapse; margin: 0.06in 0 0.14in; font-size: 18.6pt; background: #fff; border-radius: 0.12in; overflow: hidden; border: 2px solid var(--line); }
+.tbl th { background: var(--navy); color: #fff; text-align: left; padding: 0.08in 0.12in; font-weight: 700; font-size: 18.4pt; }
+.tbl td { padding: 0.08in 0.12in; border-top: 1.5px solid var(--line); vertical-align: top; line-height: 1.21; }
 .tbl tr.hi td { background: var(--gold-soft); font-weight: 700; }
 
 .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.12in; margin: 0.04in 0 0.12in; }
 .kpi { background: #fff; border: 2px solid var(--line); border-radius: 0.12in; padding: 0.1in 0.14in; }
 .kpi.teal { border-color: var(--teal); background: var(--teal-soft); }
 .kpi.gold { border-color: var(--gold-border); background: var(--gold-soft); }
-.kpi .v { font-size: 26pt; font-weight: 800; color: var(--navy); line-height: 1.05; }
-.kpi .l { font-size: 16pt; color: var(--muted); margin-top: 0.03in; line-height: 1.15; }
+.kpi .v { font-size: 26.5pt; font-weight: 800; color: var(--navy); line-height: 1.05; }
+.kpi .l { font-size: 16.2pt; color: var(--muted); margin-top: 0.03in; line-height: 1.15; }
 
-.punch { margin-top: auto; background: var(--navy); color: #fff; border-left: 0.12in solid var(--gold); border-radius: 0.16in; padding: 0.17in 0.24in; font-size: 20pt; font-weight: 700; line-height: 1.22; }
+.punch { margin-top: auto; background: var(--navy); color: #fff; border-left: 0.12in solid var(--gold); border-radius: 0.16in; padding: 0.18in 0.24in; font-size: 20.2pt; font-weight: 700; line-height: 1.22; }
 .punch em { color: var(--gold); font-style: normal; }
 
-.bullets { margin: 0.04in 0 0.14in; padding-left: 0.3in; font-size: 19.6pt; line-height: 1.25; }
-.bullets li { margin: 0.09in 0; }
+.bullets { margin: 0.04in 0 0.12in; padding-left: 0.3in; font-size: 19.7pt; line-height: 1.24; }
+.bullets li { margin: 0.08in 0; }
 .bullets b { color: var(--navy); }
 
 /* Footer */
