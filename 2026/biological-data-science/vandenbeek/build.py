@@ -57,9 +57,9 @@ def main() -> None:
         page.goto(out_html.as_uri(), wait_until="networkidle")
         page.evaluate("document.fonts.ready")
         overflow = page.evaluate(
-            f"""() => [...document.querySelectorAll('section, .col, header, footer, main')]
-                .filter(e => e.scrollHeight > e.clientHeight + 2 || e.getBoundingClientRect().bottom > {PAGE_PX} + 1)
-                .map(e => (e.querySelector('h2')?.innerText || e.className || e.tagName) + ' ' + e.scrollHeight + '/' + e.clientHeight)"""
+            f"""() => [...document.querySelectorAll('body, section, .col, header, footer, main, .pipe')]
+                .filter(e => e.scrollHeight > e.clientHeight + 2 || e.scrollWidth > e.clientWidth + 2 || e.getBoundingClientRect().bottom > {PAGE_PX} + 1 || e.getBoundingClientRect().right > {PAGE_PX} + 1)
+                .map(e => (e.querySelector('h2')?.innerText || e.className || e.tagName) + ' ' + e.scrollWidth + 'x' + e.scrollHeight + ' / ' + e.clientWidth + 'x' + e.clientHeight)"""
         )
         print("overflow:", overflow or "none")
         assert not overflow, f"Overflow detected: {overflow}"
