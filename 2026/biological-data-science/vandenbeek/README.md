@@ -2,13 +2,13 @@
 
 Marius van den Beek, John Chilton, Dannon Baker. CSHL Biological Data Science, November 4–7, 2026.
 
-`udt-poster.pdf` is the print file: 42 × 42 in, fonts embedded, screenshots at 330 ppi or more.
+`udt-poster.pdf` is the print file: 44 × 44 in, fonts embedded, screenshots at 327 ppi or more.
 
 ## Files
 
 | Path | What it is |
 | - | - |
-| `template.html` | Poster layout and text (HTML/CSS, `@page` 42 × 42 in) |
+| `template.html` | Poster layout and text (HTML/CSS, `@page` 44 × 44 in) |
 | `build.py` | Renders `template.html` to `udt-poster.pdf` with headless Chromium |
 | `foldseek.yml` | The Foldseek UDT shown in panel C |
 | `pvivax-foldseek.gxwf.yml` | The example workflow shown in panel B |

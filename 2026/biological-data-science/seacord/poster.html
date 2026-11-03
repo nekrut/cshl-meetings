@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>disassembler: planetary-scale sequence extraction from Logan — CSHL BDS 2026</title>
+<style>
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-Italic.ttf') format('truetype'); font-weight: 400; font-style: italic; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-ExtraBold.ttf') format('truetype'); font-weight: 800; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Mono'; src: url('../chilton/fonts/AtkinsonHyperlegibleMono-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Mono'; src: url('../chilton/fonts/AtkinsonHyperlegibleMono-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Mono'; src: url('../chilton/fonts/AtkinsonHyperlegibleMono-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+@font-face { font-family: 'IBM Plex Sans'; src: url('../chilton/fonts/IBMPlexSans-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'IBM Plex Mono'; src: url('../chilton/fonts/IBMPlexMono-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+
+@page { size: 44in 44in; margin: 0; }
+:root {
+  --ink: #18243a;
+  --navy: #2c3143;
+  --muted: #4f5b70;
+  --line: #d5dbe5;
+  --panel: #f4f6fa;
+  --paper: #ffffff;
+  --gold: #ffd700;
+  --gold-border: #eab308;
+  --gold-soft: #fffbeb;
+  --teal: #0b7a75;
+  --teal-soft: #e0f2f0;
+  --route-a: #0b7a75;
+  --route-a-tint: #dff2ef;
+  --route-b: #a04a2a;
+  --route-b-tint: #f8e5dc;
+  --logan: #c98a00;
+  --accent: #3f4685;
+  --code-inline: #e3e8f0;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; width: 44in; height: 44in; overflow: hidden; background: var(--paper); }
+body {
+  font-family: "Atkinson Hyperlegible Next", "IBM Plex Sans", sans-serif;
+  color: var(--ink); font-size: 24pt; line-height: 1.28;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  display: grid; grid-template-rows: auto 1fr auto;
+}
+code, pre, .mono { font-family: "Atkinson Hyperlegible Mono", "IBM Plex Mono", monospace; }
+code { font-size: 0.88em; background: var(--code-inline); padding: 0.01in 0.08in; border-radius: 0.06in; font-weight: 600; }
+.sym { font-family: "IBM Plex Sans", sans-serif; font-weight: 400; font-style: normal; }
+h2 i, b i, strong i { font-weight: 400; }
+
+/* Header — Style 1 Galaxy Classic Masthead */
+header {
+  background: var(--navy); color: #fff;
+  padding: 0.5in 1in 0.48in; display: grid;
+  grid-template-columns: 1fr auto; gap: 0.85in; align-items: center;
+  border-bottom: 0.2in solid var(--gold);
+}
+.kicker { font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 22pt; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.15in; }
+header h1 { margin: 0; font-size: 86pt; line-height: 1.04; font-weight: 800; letter-spacing: -0.015em; }
+header h1 .udt { color: var(--gold); }
+.authors { margin-top: 0.2in; font-size: 33pt; font-weight: 700; line-height: 1.18; }
+.authors sup, .affil sup { font-size: 0.6em; }
+.affil { display: block; margin-top: 0.06in; font-size: 22pt; font-weight: 400; color: #cfd6e6; }
+.lede { margin-top: 0.18in; font-size: 29.5pt; line-height: 1.26; max-width: 31.8in; color: #eef2f8; }
+.lede b { color: var(--gold); }
+header code, footer code { background: rgba(255, 255, 255, 0.14); color: var(--gold); }
+.head-right { display: grid; justify-items: stretch; gap: 0.32in; width: 8.3in; }
+.logo { width: 5.8in; justify-self: end; }
+.logo img { width: 100%; display: block; }
+.qr-card { background: #fff; color: var(--ink); border-radius: 0.22in; padding: 0.26in 0.28in; display: grid; grid-template-columns: auto 1fr; gap: 0.26in; align-items: center; }
+.qr-card img { width: 2.25in; height: 2.25in; display: block; }
+.qr-card .t { font-size: 27pt; font-weight: 800; line-height: 1.12; color: var(--navy); }
+.qr-card .u { font-size: 19.5pt; color: var(--muted); margin-top: 0.08in; line-height: 1.24; }
+
+/* Main body stack */
+main {
+  padding: 0.34in 0.88in 0.32in;
+  display: flex; flex-direction: column; gap: 0.34in;
+  min-height: 0;
+}
+section {
+  background: var(--panel); border-radius: 0.24in; padding: 0.3in 0.4in 0.32in;
+  border: 2px solid #dfe5ef; border-top: 0.13in solid var(--navy);
+  display: flex; flex-direction: column; min-height: 0;
+}
+h2 {
+  margin: 0 0 0.14in; font-size: 38pt; line-height: 1.08; font-weight: 800; color: var(--navy);
+  display: flex; align-items: center; gap: 0.22in; letter-spacing: -0.01em;
+}
+h2 .k {
+  flex: none; width: 0.74in; height: 0.74in; border-radius: 50%; background: var(--gold); color: var(--navy);
+  display: grid; place-items: center; font-size: 31pt; font-weight: 800;
+}
+
+/* Row 1: Section A — Overview + Brand/Institutions + Workflow */
+.sec-a-top {
+  display: grid; grid-template-columns: 1fr auto auto; gap: 0.32in; align-items: stretch; margin-bottom: 0.2in;
+}
+.sec-a-head h2 { margin-bottom: 0.08in; }
+.sec-a-sub { font-size: 24.5pt; color: var(--muted); margin: 0 0 0.14in; line-height: 1.24; }
+.brand-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.34in;
+  background: #fff; border: 2px solid var(--line); border-radius: 0.16in;
+  padding: 0.16in 0.42in; width: 100%;
+}
+.brand-bar .b-dis { height: 1.24in; width: auto; display: block; }
+.brand-bar .b-hyph { height: 1.12in; width: auto; display: block; background: #0a0a10; padding: 0.05in; border-radius: 0.08in; }
+.brand-bar .sep { width: 2px; height: 0.92in; background: var(--line); }
+.brand-bar .inst { height: 0.8in; width: auto; display: block; }
+
+.stat-tile {
+  background: #fff; border: 2px solid var(--line); border-left: 0.12in solid var(--gold-border);
+  border-radius: 0.16in; padding: 0.2in 0.3in; width: 8.6in;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.stat-tile.teal { border-left-color: var(--route-a); }
+.stat-tile .label { font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 17pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.stat-tile .num { font-size: 48pt; font-weight: 800; line-height: 1.05; color: var(--navy); margin: 0.05in 0; font-variant-numeric: tabular-nums; }
+.stat-tile.teal .num { color: var(--route-a); }
+.stat-tile .note { font-size: 20pt; color: var(--muted); line-height: 1.22; }
+
+.workflow-row {
+  display: grid; grid-template-columns: 8.6in 1fr 8.6in; gap: 0.32in; align-items: stretch;
+}
+.side-box {
+  background: #fff; border: 2px solid var(--line); border-radius: 0.16in;
+  padding: 0.24in 0.3in; display: flex; flex-direction: column; justify-content: center; gap: 0.1in;
+}
+.side-box.left { border-top: 0.1in solid var(--route-a); }
+.side-box.right { border-top: 0.1in solid var(--route-b); }
+.side-box .tag {
+  font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 17pt; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; padding: 0.05in 0.14in; border-radius: 0.08in; align-self: flex-start;
+}
+.side-box.left .tag { background: var(--route-a-tint); color: var(--route-a); }
+.side-box.right .tag { background: var(--route-b-tint); color: var(--route-b); }
+.side-box h3 { margin: 0.02in 0; font-size: 28pt; font-weight: 800; color: var(--navy); line-height: 1.1; }
+.side-box ul { margin: 0.04in 0 0; padding-left: 0.34in; font-size: 21.5pt; line-height: 1.25; }
+.side-box li { margin-bottom: 0.08in; }
+.side-box li:last-child { margin-bottom: 0; }
+.diagram {
+  background: #fff; border: 2px solid var(--line); border-radius: 0.16in;
+  padding: 0.1in 0.16in; display: flex; align-items: center; justify-content: center;
+}
+.diagram svg { width: 100%; height: auto; display: block; }
+
+/* Row 2: 3 Case Studies (B, C, D) */
+.cases-row {
+  flex: 1; min-height: 0;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.36in;
+}
+.case-top { display: flex; justify-content: space-between; align-items: center; gap: 0.16in; margin-bottom: 0.1in; }
+.case-top h2 { margin: 0; font-size: 33pt; }
+.ribbon { display: flex; gap: 0.1in; flex: none; }
+.chip {
+  font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 15.5pt; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase; padding: 0.05in 0.14in; border-radius: 0.08in; white-space: nowrap;
+}
+.chip.a { background: var(--route-a-tint); color: var(--route-a); }
+.chip.b { background: var(--route-b-tint); color: var(--route-b); }
+.finding { margin: 0 0 0.14in; font-size: 21.5pt; line-height: 1.24; color: var(--ink); min-height: 0.84in; }
+.finding b { color: var(--navy); }
+
+.numbers {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.12in; margin-bottom: 0.16in; flex: none;
+}
+.cell {
+  background: #fff; border: 2px solid var(--line); border-left: 0.09in solid var(--navy);
+  border-radius: 0.12in; padding: 0.12in 0.14in; min-width: 0;
+}
+.ca .cell { border-left-color: var(--route-a); }
+.cab .cell { border-left-color: var(--accent); }
+.cb .cell { border-left-color: var(--route-b); }
+.cell .ck {
+  font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 13.5pt; font-weight: 700;
+  letter-spacing: 0.03em; text-transform: uppercase; color: var(--muted); display: block; line-height: 1.12;
+}
+.cell .cv {
+  font-size: 28pt; font-weight: 800; color: var(--navy); line-height: 1.06; display: block; margin-top: 0.04in;
+  font-variant-numeric: tabular-nums;
+}
+.cell .cv i { font-weight: 400; font-style: italic; }
+.cell .cvn { font-size: 15.5pt; font-weight: 400; color: var(--muted); display: block; margin-top: 0.02in; line-height: 1.1; }
+
+.msa-fig {
+  flex: 1; min-height: 0;
+  background: #fff; border: 2.5px solid var(--line); border-radius: 0.16in; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.msa-fig img {
+  width: 100%; flex: 1; min-height: 0; object-fit: fill; display: block;
+}
+.msa-legend {
+  padding: 0.14in 0.2in 0.16in; border-top: 2px solid var(--line); background: #fff; flex: none;
+}
+.msa-summary { margin: 0 0 0.08in; font-size: 18.5pt; line-height: 1.22; color: var(--ink); }
+.swatches {
+  display: flex; flex-wrap: wrap; gap: 0.08in 0.22in;
+  font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 15.5pt; font-weight: 600; color: var(--muted);
+}
+.sw { display: inline-flex; align-items: center; gap: 0.06in; white-space: nowrap; }
+.sw i { display: inline-block; width: 0.19in; height: 0.19in; border: 1.5px solid #94a3b8; border-radius: 0.03in; }
+
+/* Row 3: Metadata (E) + HyphAeon Selection (F) */
+.bottom-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.36in; align-items: stretch;
+}
+.meta-box {
+  background: #fff; border: 2.5px solid var(--line); border-radius: 0.16in; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.meta-box img { width: 100%; height: auto; display: block; padding: 0.08in 0.1in 0.04in; background: #fff; }
+.meta-cap {
+  padding: 0.12in 0.2in 0.14in; border-top: 2px solid var(--line); font-size: 19.5pt; line-height: 1.24; color: var(--ink);
+}
+.meta-cap .swatches { margin-top: 0.07in; }
+.meta-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.14in; margin-top: auto; padding-top: 0.14in;
+}
+.meta-stats .cell { border-left-color: var(--route-a); padding: 0.14in 0.16in; }
+
+.sel-body {
+  flex: 1; min-height: 0;
+  display: grid; grid-template-columns: 1fr 3.85in; gap: 0.22in; align-items: stretch;
+}
+.sel-fig-card {
+  background: #fff; border: 2.5px solid var(--line); border-radius: 0.16in; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.sel-fig-card img { width: 100%; flex: 1; min-height: 0; object-fit: contain; display: block; padding: 0.08in 0.1in 0.04in; background: #fff; }
+.sel-fig-card .msa-legend { margin-top: auto; padding: 0.12in 0.2in 0.14in; }
+.sel-stats {
+  display: flex; flex-direction: column; justify-content: space-between; gap: 0.14in;
+}
+.sel-stats .cell {
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+  border-left-color: var(--accent); padding: 0.14in 0.2in;
+}
+.sel-stats .cell .cv { font-size: 32pt; }
+
+/* Footer — Style 1 Galaxy Classic Footer */
+footer {
+  background: var(--navy); color: #fff; padding: 0.34in 1in 0.38in;
+  display: grid; grid-template-columns: 1fr auto; gap: 0.8in; align-items: center;
+  border-top: 0.2in solid var(--gold);
+}
+.axes { display: flex; flex-wrap: wrap; gap: 0.54in; font-size: 25.5pt; font-weight: 700; margin-bottom: 0.14in; }
+.axes span { color: var(--gold); padding: 0 0.08in; font-family: "IBM Plex Sans", sans-serif; font-weight: 400; }
+.ack { font-size: 18.8pt; color: #dce3f0; line-height: 1.29; max-width: 31.8in; }
+.ack b { color: var(--gold); }
+.qrs { display: flex; gap: 0.3in; }
+.qr { background: #fff; color: var(--navy); border-radius: 0.18in; padding: 0.16in; text-align: center; width: 2.5in; }
+.qr img { width: 2.1in; height: 2.1in; display: block; margin: 0 auto 0.06in; }
+.qr div { font-size: 19.5pt; font-weight: 800; line-height: 1.1; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="kicker">CSHL Biological Data Science · November 4–7, 2026</div>
+    <h1><span class="udt">disassembler</span>: planetary-scale sequence extraction from Logan</h1>
+    <div class="authors">Andrew C. Seacord<sup>1</sup>, Rayan Chikhi<sup>2</sup>, Danielle Callan<sup>3</sup>, Steven Weaver<sup>3</sup>, Patrik Smeds<sup>4</sup>, Kelsey Beavers<sup>5</sup>, Sergei L. Kosakovsky Pond<sup>3</sup>, Anton Nekrutenko<sup>1</sup>
+      <span class="affil"><sup>1</sup>Dept. of Biochemistry and Molecular Biology, The Pennsylvania State University · <sup>2</sup>Institut Pasteur, Université Paris Cité · <sup>3</sup>IGEM, Temple University · <sup>4</sup>NBIS, SciLifeLab, Uppsala University · <sup>5</sup>Texas Advanced Computing Center, UT Austin</span>
+    </div>
+    <div class="lede">Logan indexes the SRA petabase as <b>unitig graphs</b> and <b>assembled contigs</b>. Given one reference CDS, <code>disassembler</code> reconstructs full-length haplotypes from either—ending in the same <b>codon MSA, haplotype catalog, and tree</b>.</div>
+  </div>
+  <div class="head-right">
+    <div class="logo"><img src="../chilton/assets/galaxy_logo_white.svg" alt="Galaxy Project"></div>
+    <div class="qr-card">
+      <img src="qr-disassembler.svg" alt="QR: logan-disassembler">
+      <div>
+        <div class="t">logan-disassembler</div>
+        <div class="u">github.com/nekrut/disassembler · Graph path-walker &amp; contig streamer over Logan.</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ROW 1: OVERVIEW + WORKFLOW -->
+  <section>
+    <div class="sec-a-top">
+      <div class="sec-a-head">
+        <h2><span class="k">A</span>Two routes, one cohort shape</h2>
+        <p class="sec-a-sub">A graph path-walker on Logan unitigs and a streaming assembler on Logan contigs, scanning the same planetary SRA petabase from one reference CDS.</p>
+        <div class="brand-bar">
+          <img src="logo_disassembler_white.png" alt="logan-disassembler" class="b-dis">
+          <img src="hyphaeon_logo.jpeg" alt="HyphAeon" class="b-hyph">
+          <div class="sep"></div>
+          <img src="logo_pennstate.png" alt="Penn State" class="inst">
+          <img src="logo_pasteur.png" alt="Institut Pasteur" class="inst">
+          <img src="logo_temple.png" alt="Temple University" class="inst">
+          <img src="logo_nbis.png" alt="NBIS" class="inst">
+        </div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Logan runs hit</div>
+        <div class="num">4.99 M</div>
+        <div class="note">distinct Logan runs returning at least one spike HSP.</div>
+      </div>
+      <div class="stat-tile teal">
+        <div class="label">Walker contamination filter</div>
+        <div class="num">0.555% <span class="sym">→</span> 0%</div>
+        <div class="note">mislabeled spike accessions, raw unitig hits <span class="sym">→</span> <code>CLEAN_FULL_LENGTH</code> (0 of 6,827, 95% CI ≤ 0.054%).</div>
+      </div>
+    </div>
+
+    <div class="workflow-row">
+      <aside class="side-box left">
+        <span class="tag">Route A · unitig graph</span>
+        <h3>When the walker route wins</h3>
+        <ul>
+          <li><b>Shattered genes.</b> Zika NS5: ~50 contig fragments, one clean walk.</li>
+          <li><b>Multi-anchor search.</b> Eleven strain anchors on spike, not one reference.</li>
+          <li><b>Intra-host variation</b> kept, not collapsed: per-site allele-frequency proxies.</li>
+        </ul>
+      </aside>
+
+      <div class="diagram">
+        <svg viewBox="24 4 1156 244" preserveAspectRatio="xMidYMid meet" role="img" aria-label="disassembler workflow" xmlns="http://www.w3.org/2000/svg">
+          <style>
+            .n-title { font-family: "Atkinson Hyperlegible Next", sans-serif; font-weight: 700; fill: #18243a; }
+            .n-sub   { font-family: "Atkinson Hyperlegible Mono", monospace; font-weight: 600; fill: #4f5b70; letter-spacing: 0.07em; }
+            .e-A { stroke: #0b7a75; stroke-width: 3.2; fill: none; }
+            .e-B { stroke: #a04a2a; stroke-width: 3.2; fill: none; }
+            .e-L { stroke: #c98a00; stroke-width: 3.6; fill: none; }
+            .e-D { stroke: #3f4685; stroke-width: 3.2; fill: none; }
+          </style>
+          <defs>
+            <marker id="mA" viewBox="0 0 12 10" refX="0" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+              <path d="M0,0 L12,5 L0,10 Z" fill="#0b7a75"/>
+            </marker>
+            <marker id="mB" viewBox="0 0 12 10" refX="0" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+              <path d="M0,0 L12,5 L0,10 Z" fill="#a04a2a"/>
+            </marker>
+            <marker id="mL" viewBox="0 0 12 10" refX="0" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+              <path d="M0,0 L12,5 L0,10 Z" fill="#c98a00"/>
+            </marker>
+            <marker id="mD" viewBox="0 0 12 10" refX="0" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+              <path d="M0,0 L12,5 L0,10 Z" fill="#3f4685"/>
+            </marker>
+          </defs>
+
+          <!-- TOP: three reference-query panels -->
+          <text x="560" y="18" class="n-sub" font-size="11.5" text-anchor="middle">REFERENCE CDS QUERIES</text>
+
+          <rect x="330" y="28" width="130" height="44" fill="#f4f6fa" stroke="#2c3143" stroke-width="1.5" rx="5"/>
+          <text x="395" y="56" class="n-title" font-size="17" text-anchor="middle">Obelisks</text>
+          <rect x="330" y="76" width="130" height="8" rx="2" fill="#0b7a75"/>
+
+          <rect x="475" y="28" width="170" height="44" fill="#f4f6fa" stroke="#2c3143" stroke-width="1.5" rx="5"/>
+          <text x="560" y="56" class="n-title" font-size="17" text-anchor="middle">SARS-CoV-2</text>
+          <rect x="475" y="76" width="85" height="8" fill="#0b7a75"/>
+          <rect x="560" y="76" width="85" height="8" fill="#a04a2a"/>
+
+          <rect x="660" y="28" width="190" height="44" fill="#f4f6fa" stroke="#2c3143" stroke-width="1.5" rx="5"/>
+          <text x="755" y="56" class="n-title" font-size="17" style="font-style:italic;font-weight:400" text-anchor="middle">Helicobacter pylori</text>
+          <rect x="660" y="76" width="190" height="8" rx="2" fill="#a04a2a"/>
+
+          <!-- LEFT: Logan root -->
+          <rect x="34" y="138" width="156" height="62" fill="#fffbeb" stroke="#eab308" stroke-width="2.5" rx="6"/>
+          <text x="112" y="169" class="n-title" font-size="23" text-anchor="middle">Logan</text>
+          <text x="112" y="188" class="n-sub" font-size="10.5" text-anchor="middle">SRA PETABASE</text>
+
+          <path class="e-L" d="M 190 163 C 218 163, 218 138, 233 138" marker-end="url(#mL)"/>
+          <path class="e-L" d="M 190 175 C 218 175, 218 218, 233 218" marker-end="url(#mL)"/>
+
+          <!-- ROUTE A (unitig graph) -->
+          <rect x="245" y="118" width="125" height="40" rx="20" fill="#dff2ef" stroke="#0b7a75" stroke-width="2"/>
+          <text x="307" y="144" class="n-title" font-size="17" text-anchor="middle" fill="#0b7a75">unitigs</text>
+          <path class="e-A" d="M 370 138 L 388 138" marker-end="url(#mA)"/>
+
+          <rect x="400" y="118" width="150" height="40" fill="#ffffff" stroke="#0b7a75" stroke-width="2" rx="5"/>
+          <text x="475" y="138" class="n-title" font-size="16" text-anchor="middle">kmindex</text>
+          <text x="475" y="152" class="n-sub" font-size="9" text-anchor="middle">HARVEST · STRATIFY</text>
+          <path class="e-A" d="M 550 138 L 568 138" marker-end="url(#mA)"/>
+
+          <rect x="580" y="118" width="180" height="40" fill="#ffffff" stroke="#0b7a75" stroke-width="2" rx="5"/>
+          <text x="670" y="138" class="n-title" font-size="16" text-anchor="middle">logan-walker</text>
+          <text x="670" y="152" class="n-sub" font-size="9" text-anchor="middle">RUST · GRAPHALIGNER</text>
+          <path class="e-A" d="M 760 138 L 778 138" marker-end="url(#mA)"/>
+
+          <rect x="790" y="118" width="110" height="40" fill="#ffffff" stroke="#0b7a75" stroke-width="2" rx="5"/>
+          <text x="845" y="144" class="n-title" font-size="16" text-anchor="middle">sieve</text>
+
+          <!-- ROUTE B (contig assemblies) -->
+          <rect x="245" y="198" width="125" height="40" rx="20" fill="#f8e5dc" stroke="#a04a2a" stroke-width="2"/>
+          <text x="307" y="224" class="n-title" font-size="17" text-anchor="middle" fill="#a04a2a">contigs</text>
+          <path class="e-B" d="M 370 218 L 388 218" marker-end="url(#mB)"/>
+
+          <rect x="400" y="198" width="150" height="40" fill="#ffffff" stroke="#a04a2a" stroke-width="2" rx="5"/>
+          <text x="475" y="218" class="n-title" font-size="16" text-anchor="middle">LexicMap</text>
+          <text x="475" y="232" class="n-sub" font-size="9" text-anchor="middle">PLANETARY SEARCH</text>
+          <path class="e-B" d="M 550 218 L 568 218" marker-end="url(#mB)"/>
+
+          <rect x="580" y="198" width="180" height="40" fill="#ffffff" stroke="#a04a2a" stroke-width="2" rx="5"/>
+          <text x="670" y="218" class="n-title" font-size="16" text-anchor="middle">streamer</text>
+          <text x="670" y="232" class="n-sub" font-size="9" text-anchor="middle">MULTI-HSP · CODON QC</text>
+          <path class="e-B" d="M 760 218 L 778 218" marker-end="url(#mB)"/>
+
+          <rect x="790" y="198" width="110" height="40" fill="#ffffff" stroke="#a04a2a" stroke-width="2" rx="5"/>
+          <text x="845" y="224" class="n-title" font-size="16" text-anchor="middle">sieve</text>
+
+          <!-- RIGHT: merge into Aeon suite -->
+          <path class="e-A" d="M 900 138 C 913 138, 913 168, 921 168"/>
+          <path class="e-B" d="M 900 218 C 913 218, 913 168, 921 168"/>
+          <circle cx="925" cy="168" r="5.5" fill="#3f4685"/>
+
+          <path class="e-D" d="M 930 168 C 946 168, 950 120, 968 120" marker-end="url(#mD)"/>
+          <path class="e-D" d="M 930 168 L 968 168" marker-end="url(#mD)"/>
+          <path class="e-D" d="M 930 168 C 946 168, 950 216, 968 216" marker-end="url(#mD)"/>
+
+          <rect x="980" y="100" width="190" height="40" fill="#eef0fa" stroke="#3f4685" stroke-width="2" rx="5"/>
+          <text x="1075" y="120" class="n-title" font-size="17.5" text-anchor="middle" fill="#3f4685">HyphAeon</text>
+          <text x="1075" y="134" class="n-sub" font-size="9" text-anchor="middle" fill="#3f4685">SELECTION · dN/dS</text>
+
+          <rect x="980" y="148" width="190" height="40" fill="#eef0fa" stroke="#3f4685" stroke-width="2" rx="5"/>
+          <text x="1075" y="168" class="n-title" font-size="17.5" text-anchor="middle" fill="#3f4685">ChronAeon</text>
+          <text x="1075" y="182" class="n-sub" font-size="9" text-anchor="middle" fill="#3f4685">DATING · PHYLODYNAMICS</text>
+
+          <rect x="980" y="196" width="190" height="40" fill="#eef0fa" stroke="#3f4685" stroke-width="2" rx="5"/>
+          <text x="1075" y="216" class="n-title" font-size="17.5" text-anchor="middle" fill="#3f4685">RhizAeon</text>
+          <text x="1075" y="230" class="n-sub" font-size="9" text-anchor="middle" fill="#3f4685">RECOMBINATION · MOSAICS</text>
+        </svg>
+      </div>
+
+      <aside class="side-box right">
+        <span class="tag">Route B · contig streamer</span>
+        <h3>When the LexicMap route wins</h3>
+        <ul>
+          <li><b>Split genes.</b> Collinear tiling stitches HSP pairs that fail <code>qcovHSP ≥ 80</code> alone.</li>
+          <li><b>Streaming memory.</b> Streams 24 GB in <i>O</i>(haplotypes) RAM rather than <i>O</i>(rows).</li>
+          <li><b>Divergence check.</b> Flags queries below 85% median identity for the walker.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ROW 2: THREE CASE STUDIES -->
+  <div class="cases-row">
+    <section class="ca">
+      <div class="case-top">
+        <h2><span class="k">B</span>Obelisks across microbiomes</h2>
+        <div class="ribbon"><span class="chip a">Route A · walker</span></div>
+      </div>
+      <p class="finding"><b>METATRANSCRIPTOMIC_BCT dominates</b> the hit distribution, matching the published finding that obelisks live in bacterial microbiome transcriptomes.</p>
+      <div class="numbers">
+        <div class="cell"><span class="ck">kmindex hits</span><span class="cv">924</span><span class="cvn">unique runs</span></div>
+        <div class="cell"><span class="ck">max contain.</span><span class="cv">0.97</span><span class="cvn">Obelisk-α</span></div>
+        <div class="cell"><span class="ck">shards queried</span><span class="cv">141</span><span class="cvn">meta + metaT</span></div>
+        <div class="cell"><span class="ck">centroids</span><span class="cv">5</span><span class="cvn">α β γ ε <i>S.s.</i></span></div>
+      </div>
+      <div class="msa-fig">
+        <img src="figures/obelisk_alpha_poster.png" alt="Obelisk-alpha MSA map">
+        <div class="msa-legend">
+          <p class="msa-summary">Obelisk-α (<i>S.s.</i>: <i>Streptococcus sanguinis</i>). Top strip: <b>Oblin-1</b> brown, <b>Oblin-2</b> blue. Rows sorted by edit count.</p>
+          <div class="swatches">
+            <span class="sw"><i style="background:#f3ecdc"></i>match</span>
+            <span class="sw"><i style="background:#2e8b57"></i>A</span>
+            <span class="sw"><i style="background:#2f6a7a"></i>C</span>
+            <span class="sw"><i style="background:#c08a2b"></i>G</span>
+            <span class="sw"><i style="background:#8b1a2b"></i>T</span>
+            <span class="sw"><i style="background:#121212"></i>gap</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cab">
+      <div class="case-top">
+        <h2><span class="k">C</span>SARS-CoV-2 spike: two routes</h2>
+        <div class="ribbon"><span class="chip a">Route A</span><span class="chip b">Route B</span></div>
+      </div>
+      <p class="finding"><b>The routes are complementary.</b> Permissive tiering calls 1.15 M runs clean full-length against strict’s 0.91 M. Only the walker samples the divergent tail, where reconstruction still fails.</p>
+      <div class="numbers">
+        <div class="cell"><span class="ck">LexicMap HSPs</span><span class="cv">5.88 M</span><span class="cvn">24 GB</span></div>
+        <div class="cell"><span class="ck">walker20k ok</span><span class="cv">47.2%</span><span class="cvn">9,448 / 20k</span></div>
+        <div class="cell"><span class="ck">CLEAN_FULL</span><span class="cv">6,827</span><span class="cvn">cov ≥ 1, pid ≥ 95</span></div>
+        <div class="cell"><span class="ck">perm. sieved</span><span class="cv">79,621</span><span class="cvn">of 1.15 M</span></div>
+      </div>
+      <div class="msa-fig">
+        <img src="figures/spike_poster.png" alt="SARS-CoV-2 spike MSA map">
+        <div class="msa-legend">
+          <p class="msa-summary">Shared spike reference on top, <b>RBD</b> brown. <b>Top:</b> kmindex <span class="sym">→</span> walker 20k. <b>Bottom:</b> LexicMap permissive. Columns align.</p>
+          <div class="swatches">
+            <span class="sw"><i style="background:#f3ecdc"></i>match</span>
+            <span class="sw"><i style="background:#2e8b57"></i>A</span>
+            <span class="sw"><i style="background:#2f6a7a"></i>C</span>
+            <span class="sw"><i style="background:#c08a2b"></i>G</span>
+            <span class="sw"><i style="background:#8b1a2b"></i>T</span>
+            <span class="sw"><i style="background:#121212"></i>gap</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cb">
+      <div class="case-top">
+        <h2><span class="k">D</span><span><i>H. pylori</i>: 25-gene panel</span></h2>
+        <div class="ribbon"><span class="chip b">Route B · streamer</span></div>
+      </div>
+      <p class="finding"><b>Five audit tiers per marker</b> place every accession in one reference frame, from clean full-length sequences to low-coverage fragments.</p>
+      <div class="numbers">
+        <div class="cell"><span class="ck">strict markers</span><span class="cv">20</span><span class="cvn">conserved</span></div>
+        <div class="cell"><span class="ck">loose markers</span><span class="cv">5</span><span class="cvn">selection</span></div>
+        <div class="cell"><span class="ck">audit tiers</span><span class="cv">5</span><span class="cvn">per marker</span></div>
+        <div class="cell"><span class="ck">HyphAeon pass</span><span class="cv"><i>oipA</i></span><span class="cvn">done</span></div>
+      </div>
+      <div class="msa-fig">
+        <img src="figures/oipa_poster.png" alt="H. pylori oipA MSA map">
+        <div class="msa-legend">
+          <p class="msa-summary"><i>oipA</i> strict panel: 1,042 clean accessions under 0.1.0 tiering, sorted by substitution count.</p>
+          <div class="swatches">
+            <span class="sw"><i style="background:#f3ecdc"></i>match</span>
+            <span class="sw"><i style="background:#2e8b57"></i>A</span>
+            <span class="sw"><i style="background:#2f6a7a"></i>C</span>
+            <span class="sw"><i style="background:#c08a2b"></i>G</span>
+            <span class="sw"><i style="background:#8b1a2b"></i>T</span>
+            <span class="sw"><i style="background:#121212"></i>gap</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ROW 3: METADATA + HYPHAEON -->
+  <div class="bottom-row">
+    <section>
+      <h2><span class="k">E</span>SRA metadata: the walker drives contamination to zero</h2>
+      <div class="meta-box">
+        <img src="figures/metadata_bars_poster.png" alt="SRA-metadata bucket mix per SARS-CoV-2 cohort">
+        <div class="meta-cap">
+          Six cohorts against the 2026-09-11 ENA snapshot, zoomed to 90–100%.
+          <div class="swatches">
+            <span class="sw"><i style="background:#efefe6"></i>A labeled SARS-CoV-2</span>
+            <span class="sw"><i style="background:#d79b2f"></i>B mixed-sample plausible</span>
+            <span class="sw"><i style="background:#8b1a2b"></i>C mislabeled</span>
+            <span class="sw"><i style="background:#9c9c9c"></i>D no ENA record</span>
+          </div>
+        </div>
+      </div>
+      <div class="meta-stats">
+        <div class="cell"><span class="ck">walker20k input</span><span class="cv">0.555%</span><span class="cvn">C-mislabeled, raw hits</span></div>
+        <div class="cell"><span class="ck">walker20k success</span><span class="cv">0.011%</span><span class="cvn">1 in ~9,500</span></div>
+        <div class="cell"><span class="ck">CLEAN_FULL_LENGTH</span><span class="cv">0.000%</span><span class="cvn">0 / 6,827 (95% CI ≤ 0.054%)</span></div>
+        <div class="cell"><span class="ck">LexicMap permissive</span><span class="cv">0.084%</span><span class="cvn">no walker filter</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="k">F</span>HyphAeon: selection on the recovered cohort</h2>
+      <div class="sel-body">
+        <div class="sel-fig-card">
+          <img src="figures/hyphaeon_selection_poster.png" alt="SARS-CoV-2 spike adaptive landscape: episodic selection by codon">
+          <div class="msa-legend">
+            <p class="msa-summary" style="margin:0"><b>27 diversifying sites</b> (MEME, <i>p</i> ≤ 0.05) across 160 global spike haplotypes plus the Wuhan reference, led by antibody-escape hub <b>E484K</b>. Shaded bands mark spike domains.</p>
+          </div>
+        </div>
+        <div class="sel-stats">
+          <div class="cell"><span class="ck">haplotypes</span><span class="cv">161</span><span class="cvn">&gt;500k SRA runs</span></div>
+          <div class="cell"><span class="ck">top site</span><span class="cv">E484K</span><span class="cvn">MEME LRT 16.3</span></div>
+          <div class="cell"><span class="ck">runtime</span><span class="cv">29.5 s</span><span class="cvn">no input tree</span></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div>
+    <div class="axes">
+      <div>Logan unitigs <span>→</span> <code>kmindex</code> + <code>logan-walker</code></div>
+      <div>Logan contigs <span>→</span> <code>LexicMap</code> + <code>streamer</code></div>
+      <div>sieved cohort <span>→</span> HyphAeon · ChronAeon · RhizAeon</div>
+    </div>
+    <div class="ack"><b>Acknowledgements:</b> Work in the authors’ groups is supported by National Institutes of Health grants U24HG002371, U24HG006620, U24HG010263, U24CA284167, U24AI183870, and R01GM151683, and by National Science Foundation grants 2419522 and 2138585. Software &amp; data: github.com/nekrut/disassembler · github.com/veg/HyphAeon · Zenodo archive: doi.org/10.5281/zenodo.23737199. Related CSHL posters: Galaxy UDTs (van den Beek) · Orbit (Cain) · Galaxy Workflow Foundry (Chilton) · HighGen (Burhans) · VGP diploid curation (Larivière).</div>
+  </div>
+  <div class="qrs">
+    <div class="qr"><img src="qr-disassembler.svg" alt="QR: disassembler"><div>disassembler</div></div>
+    <div class="qr"><img src="qr-zenodo.svg" alt="QR: Zenodo archive"><div>Zenodo Data</div></div>
+    <div class="qr"><img src="qr-hyphaeon.svg" alt="QR: HyphAeon"><div>HyphAeon</div></div>
+  </div>
+</footer>
+</body>
+</html>

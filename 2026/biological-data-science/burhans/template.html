@@ -3,20 +3,29 @@
 <head>
 <meta charset="utf-8">
 <title>HighGen—Comparative genomics resources for cannabis</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Atkinson+Hyperlegible+Mono:wght@400;600;700&display=block" rel="stylesheet">
 <style>
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-Italic.ttf') format('truetype'); font-weight: 400; font-style: italic; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-ExtraBold.ttf') format('truetype'); font-weight: 800; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Mono'; src: url('../chilton/fonts/AtkinsonHyperlegibleMono-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Mono'; src: url('../chilton/fonts/AtkinsonHyperlegibleMono-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Mono'; src: url('../chilton/fonts/AtkinsonHyperlegibleMono-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+@font-face { font-family: 'IBM Plex Sans'; src: url('../chilton/fonts/IBMPlexSans-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'IBM Plex Mono'; src: url('../chilton/fonts/IBMPlexMono-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+
 @page { size: 44in 44in; margin: 0; }
 :root {
   --ink: #18243a;
-  --navy: #25324d;
+  --navy: #2c3143;
   --muted: #4f5b70;
   --line: #d5dbe5;
-  --panel: #f3f5f9;
+  --panel: #f4f6fa;
   --paper: #ffffff;
-  --gold: #f2b10f;
-  --gold-soft: #fff4d1;
+  --gold: #ffd700;
+  --gold-border: #eab308;
+  --gold-soft: #fffbeb;
   --teal: #0b7a75;
   --teal-soft: #e0f2f0;
   --code-bg: #1d2840;
@@ -26,72 +35,73 @@
 html, body { margin: 0; padding: 0; background: var(--paper); }
 body {
   width: 44in; height: 44in; overflow: hidden;
-  font-family: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", system-ui, sans-serif;
+  font-family: "Atkinson Hyperlegible Next", "IBM Plex Sans", sans-serif;
   color: var(--ink); font-size: 25pt; line-height: 1.25;
   -webkit-print-color-adjust: exact; print-color-adjust: exact;
   display: grid; grid-template-rows: auto 1fr auto;
 }
-code, pre, .mono { font-family: "Atkinson Hyperlegible Mono", ui-monospace, monospace; }
+code, pre, .mono { font-family: "Atkinson Hyperlegible Mono", "IBM Plex Mono", monospace; }
 code { font-size: 0.88em; background: #e3e8f0; padding: 0.01in 0.08in; border-radius: 0.06in; }
 
 /* Header */
 header {
   background: var(--navy); color: #fff;
-  padding: 0.4in 0.85in 0.36in; display: grid;
+  padding: 0.36in 0.85in 0.34in; display: grid;
   grid-template-columns: 1fr auto; gap: 0.8in; align-items: center;
-  border-bottom: 0.14in solid var(--gold);
+  border-bottom: 0.16in solid var(--gold);
 }
+.kicker { font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 19pt; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.1in; }
 header h1 { margin: 0; font-size: 66pt; line-height: 1.04; font-weight: 800; letter-spacing: -0.01em; }
 header h1 .udt { color: var(--gold); }
-.authors { margin-top: 0.16in; font-size: 32pt; font-weight: 600; }
+.authors { margin-top: 0.14in; font-size: 31pt; font-weight: 700; }
 .authors sup, .affil sup { font-size: 0.6em; }
-.affil { margin-top: 0.04in; font-size: 23pt; color: #c9d2e3; font-weight: 400; }
+.affil { margin-top: 0.04in; font-size: 22.5pt; color: #cfd6e6; font-weight: 400; }
 .affil code { background: rgba(255, 255, 255, 0.14); color: #fff; }
-.lede { margin-top: 0.16in; font-size: 25.5pt; line-height: 1.21; max-width: 31in; color: #eef2f8; }
+.lede { margin-top: 0.14in; font-size: 25pt; line-height: 1.21; max-width: 31in; color: #eef2f8; }
 .lede b { color: var(--gold); }
 .lede code { background: rgba(255, 255, 255, 0.14); color: #fff; }
-.head-right { display: grid; justify-items: stretch; gap: 0.24in; width: 7.8in; }
-.logo { width: 5.4in; justify-self: center; }
+.head-right { display: grid; justify-items: stretch; gap: 0.22in; width: 7.8in; }
+.logo { width: 5.2in; justify-self: end; }
 .logo img { width: 100%; display: block; }
 .qr-card { background: #fff; color: var(--ink); border-radius: 0.18in; padding: 0.22in; display: grid; grid-template-columns: auto 1fr; gap: 0.22in; align-items: center; }
 .qr-card img { width: 2.0in; height: 2.0in; display: block; }
-.qr-card .t { font-size: 25pt; font-weight: 800; line-height: 1.12; }
+.qr-card .t { font-size: 25pt; font-weight: 800; line-height: 1.12; color: var(--navy); }
 .qr-card .u { font-size: 18pt; color: var(--muted); margin-top: 0.06in; line-height: 1.18; word-break: break-word; }
 
 /* Body grid */
 main {
-  padding: 0.36in 0.85in 0.34in;
-  display: grid; grid-template-columns: 13.5in 14.1in 1fr;
-  gap: 0.42in; min-height: 0;
+  padding: 0.28in 0.82in 0.28in;
+  display: grid; grid-template-columns: 13.55in 14.15in 1fr;
+  gap: 0.38in; min-height: 0;
 }
-.col { display: flex; flex-direction: column; gap: 0.34in; min-height: 0; }
+.col { display: flex; flex-direction: column; gap: 0.28in; min-height: 0; }
 section {
-  background: var(--panel); border-radius: 0.24in; padding: 0.28in 0.38in 0.3in;
-  border-top: 0.11in solid var(--navy);
+  background: var(--panel); border-radius: 0.22in; padding: 0.24in 0.35in 0.26in;
+  border: 2px solid #dfe5ef; border-top: 0.12in solid var(--navy);
   display: flex; flex-direction: column; min-height: 0;
 }
 section.grow { flex: 1; }
 h2 {
-  margin: 0 0 0.12in; font-size: 32pt; line-height: 1.08; font-weight: 800; color: var(--navy);
+  margin: 0 0 0.11in; font-size: 32pt; line-height: 1.08; font-weight: 800; color: var(--navy);
   display: flex; align-items: center; gap: 0.18in;
 }
 h2 .k {
   flex: none; width: 0.62in; height: 0.62in; border-radius: 50%; background: var(--gold); color: var(--navy);
-  display: grid; place-items: center; font-size: 27pt;
+  display: grid; place-items: center; font-size: 27pt; font-weight: 800;
 }
-p { margin: 0 0 0.12in; font-size: 20.2pt; line-height: 1.23; }
+p { margin: 0 0 0.12in; font-size: 20.5pt; line-height: 1.23; }
 p:last-child { margin-bottom: 0; }
 
 /* Needs / obstacles grid */
-.needs { list-style: none; margin: 0.04in 0 0.15in; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.12in 0.2in; }
-.needs li { display: grid; grid-template-columns: 0.5in 1fr; gap: 0.12in; align-items: start; line-height: 1.16; font-size: 20pt; }
+.needs { list-style: none; margin: 0.04in 0 0.14in; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.12in 0.2in; }
+.needs li { display: grid; grid-template-columns: 0.5in 1fr; gap: 0.12in; align-items: start; line-height: 1.16; font-size: 20.2pt; }
 .needs .n { width: 0.5in; height: 0.5in; border-radius: 0.12in; background: var(--teal); color: #fff; font-weight: 800; display: grid; place-items: center; font-size: 22pt; }
-.needs small { display: block; font-size: 16.8pt; color: var(--muted); margin-top: 0.02in; line-height: 1.16; }
+.needs small { display: block; font-size: 17pt; color: var(--muted); margin-top: 0.02in; line-height: 1.16; }
 
 /* Pipeline & tags */
 .pipe { display: flex; flex-wrap: wrap; gap: 0.08in; align-items: center; margin: 0.03in 0 0.14in; }
-.pipe span { background: var(--navy); color: #fff; font-weight: 700; font-size: 18.5pt; padding: 0.04in 0.13in; border-radius: 0.09in; }
-.pipe i { font-style: normal; color: var(--gold); font-weight: 800; font-size: 21pt; }
+.pipe span { background: var(--navy); color: #fff; font-weight: 700; font-size: 18.8pt; padding: 0.04in 0.13in; border-radius: 0.09in; }
+.pipe i { font-style: normal; color: #d99b00; font-weight: 400; font-size: 21pt; font-family: "IBM Plex Sans", sans-serif; }
 .pipe span.gold { background: var(--gold); color: var(--navy); }
 .pipe span.teal { background: var(--teal); color: #fff; }
 
@@ -101,56 +111,60 @@ figure.push { margin-top: auto; }
 figure img { width: 100%; display: block; border-radius: 0.12in; border: 2px solid var(--line); background: #fff; padding: 0.04in; }
 figure img.kmer-band { width: 100%; margin-bottom: 0.1in; }
 .browser-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.12in; margin-bottom: 0.08in; }
-.browser-grid img { width: 100%; height: 1.95in; object-fit: contain; object-position: center; border-radius: 0.1in; border: 2px solid var(--line); background: #fff; padding: 0.03in; }
-.browser-lbl { font-size: 15.5pt; font-weight: 700; color: var(--navy); margin-bottom: 0.03in; }
-figcaption { font-size: 17pt; color: var(--muted); margin-top: 0.08in; line-height: 1.21; }
+.browser-grid img { width: 100%; height: 1.82in; object-fit: contain; object-position: center; border-radius: 0.1in; border: 2px solid var(--line); background: #fff; padding: 0.03in; }
+.browser-lbl { font-size: 15.6pt; font-weight: 700; color: var(--navy); margin-bottom: 0.03in; }
+figcaption { font-size: 17.2pt; color: var(--muted); margin-top: 0.08in; line-height: 1.21; }
 
 /* Tables & metric cards */
-.tbl { width: 100%; border-collapse: collapse; margin: 0.06in 0 0.14in; font-size: 18.2pt; background: #fff; border-radius: 0.12in; overflow: hidden; border: 2px solid var(--line); }
-.tbl th { background: var(--navy); color: #fff; text-align: left; padding: 0.08in 0.12in; font-weight: 700; font-size: 18pt; }
-.tbl td { padding: 0.08in 0.12in; border-top: 1.5px solid var(--line); vertical-align: top; line-height: 1.2; }
+.tbl { width: 100%; border-collapse: collapse; margin: 0.06in 0 0.14in; font-size: 18.6pt; background: #fff; border-radius: 0.12in; overflow: hidden; border: 2px solid var(--line); }
+.tbl th { background: var(--navy); color: #fff; text-align: left; padding: 0.08in 0.12in; font-weight: 700; font-size: 18.4pt; }
+.tbl td { padding: 0.08in 0.12in; border-top: 1.5px solid var(--line); vertical-align: top; line-height: 1.21; }
 .tbl tr.hi td { background: var(--gold-soft); font-weight: 700; }
 
 .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.12in; margin: 0.04in 0 0.12in; }
 .kpi { background: #fff; border: 2px solid var(--line); border-radius: 0.12in; padding: 0.1in 0.14in; }
 .kpi.teal { border-color: var(--teal); background: var(--teal-soft); }
-.kpi.gold { border-color: var(--gold); background: var(--gold-soft); }
-.kpi .v { font-size: 26pt; font-weight: 800; color: var(--navy); line-height: 1.05; }
-.kpi .l { font-size: 16pt; color: var(--muted); margin-top: 0.03in; line-height: 1.15; }
+.kpi.gold { border-color: var(--gold-border); background: var(--gold-soft); }
+.kpi .v { font-size: 26.5pt; font-weight: 800; color: var(--navy); line-height: 1.05; }
+.kpi .l { font-size: 16.2pt; color: var(--muted); margin-top: 0.03in; line-height: 1.15; }
 
-.punch { margin-top: auto; background: var(--navy); color: #fff; border-radius: 0.16in; padding: 0.18in 0.24in; font-size: 20pt; font-weight: 700; line-height: 1.22; }
+.punch { margin-top: auto; background: var(--navy); color: #fff; border-left: 0.12in solid var(--gold); border-radius: 0.16in; padding: 0.18in 0.24in; font-size: 20.2pt; font-weight: 700; line-height: 1.22; }
 .punch em { color: var(--gold); font-style: normal; }
 
-.bullets { margin: 0.04in 0 0.14in; padding-left: 0.3in; font-size: 19.6pt; line-height: 1.26; }
-.bullets li { margin: 0.1in 0; }
+.bullets { margin: 0.04in 0 0.12in; padding-left: 0.3in; font-size: 19.7pt; line-height: 1.24; }
+.bullets li { margin: 0.08in 0; }
 .bullets b { color: var(--navy); }
 
 /* Footer */
 footer {
-  background: var(--navy); color: #fff; padding: 0.28in 0.85in;
-  display: grid; grid-template-columns: 1fr auto; gap: 0.75in; align-items: center;
-  border-top: 0.14in solid var(--gold);
+  background: var(--navy); color: #fff; padding: 0.26in 0.85in 0.28in;
+  display: grid; grid-template-columns: 1fr auto; gap: 0.7in; align-items: center;
+  border-top: 0.16in solid var(--gold);
 }
-footer h2 { color: #fff; margin-bottom: 0.09in; font-size: 31pt; }
-.axes { display: flex; flex-wrap: wrap; gap: 0.42in; font-size: 22pt; font-weight: 700; }
-.axes span { color: var(--gold); padding: 0 0.07in; }
-.ack { margin-top: 0.12in; font-size: 16pt; color: #c9d2e3; line-height: 1.22; max-width: 29.2in; }
-.ack code { background: rgba(255, 255, 255, 0.14); color: #fff; }
-.qrs { display: flex; gap: 0.28in; }
-.qr { background: #fff; color: var(--ink); border-radius: 0.14in; padding: 0.14in; text-align: center; width: 2.2in; }
-.qr img { width: 1.85in; height: 1.85in; display: block; margin: 0 auto 0.05in; }
-.qr div { font-size: 17.5pt; font-weight: 800; line-height: 1.1; }
+footer h2 { color: #fff; margin-bottom: 0.07in; font-size: 29pt; }
+.axes { display: flex; flex-wrap: wrap; gap: 0.4in; font-size: 21pt; font-weight: 700; }
+.axes span { color: var(--gold); padding: 0 0.07in; font-family: "IBM Plex Sans", sans-serif; font-weight: 400; }
+.ack { margin-top: 0.1in; font-size: 15.6pt; color: #dce3f0; line-height: 1.22; max-width: 34.4in; }
+.ack b { color: var(--gold); }
+b i, strong i, .axes i { font-weight: 400; }
+header code, footer code { background: rgba(255, 255, 255, 0.14); color: #fff; }
+.axes code { color: var(--gold); }
+.qrs { display: flex; gap: 0.26in; }
+.qr { background: #fff; color: var(--navy); border-radius: 0.14in; padding: 0.14in; text-align: center; width: 2.15in; }
+.qr img { width: 1.8in; height: 1.8in; display: block; margin: 0 auto 0.05in; }
+.qr div { font-size: 17pt; font-weight: 800; line-height: 1.1; }
 </style>
 </head>
 <body>
 <header>
   <div>
+    <div class="kicker">CSHL Biological Data Science · November 4–7, 2026</div>
     <h1>HighGen—Comparative genomics resources for <span class="udt">cannabis</span></h1>
     <div class="authors">Richard C. Burhans<sup>1</sup>, Anton Nekrutenko<sup>1,2</sup> <span class="affil"> · <sup>1</sup>Dept. of Biochemistry and Molecular Biology · <sup>2</sup>Huck Institutes of the Life Sciences, Penn State University · <code>rcb112@psu.edu</code> · <code>anton@nekrut.org</code></span></div>
-    <div class="lede">With <b>HighGen</b>, we adapted UCSC's chain/net and MULTIZ tools, tuned for cross-species vertebrates, in Galaxy across <b>217 <i>Cannabis sativa</i> assemblies</b> anchored on <code>cs10</code>—recalibrating repeat masking, empirical substitution scoring, chunked extension, and streaming column-count MULTIZ, paired with 43-genome Panagram <i>k</i>-mer bitmaps, a TOGA2 orthology pilot, and a 78-family phenotype ledger.</div>
+    <div class="lede">Reference-guided whole-genome alignment pipelines are tuned for cross-species vertebrate panels. With <b>HighGen</b>, we adapted them in Galaxy across <b>217 <i>Cannabis sativa</i> assemblies</b> anchored on <code>cs10</code> through standardized repeat masking, empirical substitution scoring, chunked extension, and streaming 64-bit dynamic programming. We pair the alignment with 43-genome Panagram <i>k</i>-mer bitmaps, a TOGA2 orthology pilot, and a 78-family phenotype ledger.</div>
   </div>
   <div class="head-right">
-    <div class="logo"><img src="galaxy-logo.svg" alt="Galaxy"></div>
+    <div class="logo"><img src="../chilton/assets/galaxy_logo_white.svg" alt="Galaxy Project"></div>
     <div class="qr-card"><img src="qr-hub.svg" alt="QR code: HighGen UCSC Track Hub"><div><div class="t">228-stanza (219-assembly) Hub</div><div class="u">Attach depot.galaxyproject.org/highgen/hub.txt in the UCSC Genome Browser (Track Hubs → My Hubs).</div></div></div>
   </div>
 </header>
@@ -160,31 +174,31 @@ footer h2 { color: #fff; margin-bottom: 0.09in; font-size: 31pt; }
   <div class="col">
     <section>
       <h2><span class="k">A</span>Four cross-species bottlenecks</h2>
-      <p>In <i>Cannabis sativa</i>, interspersed repeats (63 to more than 70%, mostly LTR retrotransposons) surround dense tandem metabolic arrays (Grassa et al. 2021, Lynch et al. 2025, Pike et al. 2026). Projecting 216 query assemblies onto the linear <code>cs10</code> (CBDRx) reference coordinate grid confronts four vertebrate-default obstacles:</p>
+      <p>In <i>Cannabis sativa</i>, interspersed repeats (~64–67% LTR retrotransposons) surround dense tandem metabolic arrays (Grassa et al. 2021, Lynch et al. 2025). Projecting 216 query assemblies onto the linear <code>cs10</code> (CBDRx) reference coordinate grid confronts four vertebrate-default obstacles:</p>
       <ul class="needs">
-        <li><span class="n">1</span><span><b>Masking bias</b><small>Arrived soft-masking spans 0.00–80.86% across 218 assemblies, and KegAlign (Gulhan et al. 2025) seeds and extends ungapped only through uppercase bases, a seeding ascertainment bias</small></span></li>
-        <li><span class="n">2</span><span><b>Cross-species matrix</b><small>LASTZ's default HOXD70 (Chiaromonte et al. 2002) was trained on human-mouse alignments below 70% identity, where 49.7% of pooled <i>Cannabis</i> pairs fall (Ts/Tv 0.872, chance ~0.74)</small></span></li>
+        <li><span class="n">1</span><span><b>Masking bias</b><small>Arrived soft-masking spans 0.00–80.86% across 218 assemblies, and KegAlign (Gulhan et al. 2025), in our measurement, neither seeds nor extends through lowercase bases</small></span></li>
+        <li><span class="n">2</span><span><b>Cross-species matrix</b><small>HOXD70 (Chiaromonte et al. 2002) targets below 70% identity, which in <i>Cannabis</i> is 49.7% chance noise (Ts/Tv = 0.872 vs. 0.74 floor)</small></span></li>
         <li><span class="n">3</span><span><b>Superlinear scaling</b><small>Whole-chr LASTZ (Harris 2007) scales as <i>O</i>(<i>n</i><sup>1.9</sup>), while 217-way MULTIZ (Blanchette et al. 2004) overflows 32-bit scores and buffers MAFs in RAM</small></span></li>
         <li><span class="n">4</span><span><b>Macro-syntenic nets</b><small>Human-mouse <code>netFilter -syn</code> (Kent et al. 2003, <code>maxFar = 200 kb</code>) prunes rearranged tandem gene clusters</small></span></li>
       </ul>
       <figure class="push">
         <img src="figures/figure1_architecture.svg" alt="Depositor masking ascertainment vs 4-detector union and 185-cut cs10 gap-boundary split map">
-        <figcaption><b>Figure 1 | Standardized masking and gap-boundary reference splitting.</b> Arrived masks (0.0–80.9%, 218 assemblies) vs the 4-detector union on 5 calibration genomes (62.9–67.0%), grey line at the 63% of <code>cs10</code> Grassa et al. (2021) masked (<b>A</b>), while 185 chromosomal cuts (77 at N-runs ≥ 10 kb, 95 at N-runs under 10 kb, and 13 fixed 5 Mb cuts, <code>wfi_cs10_splits.bed</code>) partition <code>cs10</code> into 195 ~5 Mb pieces plus 26 heavy unplaced scaffolds, mitochondrion <code>NC_029855.1</code>, and <code>small.00</code>, with <code>mafSplit</code> cutting straddling blocks without base loss and <code>maf_concat</code> rejoining the pieces (<b>B</b>).</figcaption>
+        <figcaption><b>Figure 1 | Masking convergence and gap-boundary reference splitting.</b> Panel <b>A</b>: stripping depositor masks across the 5-genome calibration panel and 5-genome intake pilot collapses a 0.0–80.9% intake spread into a 62.2–67.0% 4-detector union. Panel <b>B</b>: across <code>cs10</code>, 185 chromosomal cuts (77 at N-runs ≥ 10 kb, 95 at N-runs under 10 kb, and 13 fixed 5 Mb cuts in <code>wfi_cs10_splits.bed</code>) partition the assembly into 195 ~5 Mb pieces plus 26 unplaced scaffolds, mitochondrion <code>NC_029855.1</code>, and <code>small.00</code>. <code>mafSplit</code> divides straddling blocks without base loss, and <code>maf_concat</code> rejoins the pieces.</figcaption>
       </figure>
     </section>
 
     <section class="grow">
       <h2><span class="k">B</span>Standardized 4-detector repeat masking</h2>
-      <p>To replace incompatible depositor masks across our 221 curated assembly records (217 non-redundant in MULTIZ—<code>cs10</code> plus 216 queries representing 164 prefix groups and 156 distinct plants, scored with <code>rosales_odb12</code> BUSCO, Lynch et al. 2025, Pike et al. 2025, 2026), our <code>brc-tools</code> UDT wrappers strip arrived masks and unite four de novo detectors, WindowMasker (Morgulis et al. 2006a), DustMasker (Morgulis et al. 2006b), Tantan (Frith 2011), and FasTAN (Myers 2026):</p>
+      <p>We curated 221 assembly records—217 non-redundant in MULTIZ (<code>cs10</code> plus 216 queries across 164 prefix groups and 156 plants, scored with <code>rosales_odb12</code> BUSCO, Lynch et al. 2025, Pike et al. 2025, 2026). To remove submitter ascertainment bias, our <code>brc-tools</code> UDT wrappers strip arrived masks and unite four <i>de novo</i> detectors (Morgulis et al. 2006, Frith 2011):</p>
       <div class="pipe"><span>fasta-uppercase</span><i>→</i><span class="teal">WindowMasker</span><span>DustMasker</span><span>Tantan</span><span>FasTAN</span><i>→</i><span class="gold">bedtools merge</span></div>
       <table class="tbl">
         <thead>
           <tr><th>Assembly / Cohort</th><th>Arrived Mask</th><th>4-Detector Union</th><th>Partition Audit and Compute</th></tr>
         </thead>
         <tbody>
-          <tr><td><b>181 Salk assemblies</b> (98 phased + 83 unphased)</td><td>75.12–80.86%</td><td rowspan="3"><b>62.19–67.04%</b><br>(5-genome intake pilot, 4 Salk + 1 NGDC: 22.61 → 4.85 pt spread)</td><td>On calibration haplotypes, bases masked by depositors but not by our detectors make ~22% of each haplotype newly seedable (repeat status unmeasured)</td></tr>
+          <tr><td><b>181 Salk assemblies</b> (98 phased + 83 unphased)</td><td>75.12–80.86%</td><td rowspan="3"><b>62.19–67.04%</b><br>(5-genome intake pilot: 22.61 → 4.85 pt spread)</td><td>Depositors over-masked ~22% diverged unmasked DNA</td></tr>
           <tr><td><b>25 NCBI GenBank</b> + <code>cs10</code></td><td>27.42–60.43% (<code>cs10</code> 46.86% total, 55.74% non-N)</td><td>Leaves 44.26% of <code>cs10</code> non-N bases open to seeding</td></tr>
-          <tr><td><b>11 NGDC / CoGe / GigaDB</b></td><td>0.00–0.68% (9 kept at 0.00%)</td><td>Unmasked queries seed across all of their bases</td></tr>
+          <tr><td><b>11 NGDC / CoGe / GigaDB</b></td><td>0.00–0.68% (9 kept at 0.00%)</td><td>Prevents unmasked queries from seeding 100% of repeats</td></tr>
           <tr class="hi"><td><b>4 Phased Calibration Haps</b> (<code>EH23a/b</code>, <code>DPSVa</code>, <code>TWSVa</code>)</td><td>79.00–79.61%</td><td><b>62.90–64.02%</b> (1.12-pt window)</td><td>WM 59.30–60.53%, Dust 10.7–11.2%, Tantan 12.2%, FasTAN 5.5–9.7% · 3.64–3.99 CPU-h/hap</td></tr>
           <tr><td><b>Diploid <code>SKSV</code></b> (2.30 Gb, 92.0% BUSCO dup)</td><td>79.71%</td><td><b>66.95%</b> (4.05-pt panel window, WM 63.60%)</td><td>432.1 Mb restored, 139.1 Mb newly masked · 10.34 CPU-h</td></tr>
         </tbody>
@@ -193,7 +207,7 @@ footer h2 { color: #fff; margin-bottom: 0.09in; font-size: 31pt; }
         <img class="kmer-band" src="figures/kmer_bands_k21.svg" alt="Empirical k=21 copy-number bands across 12 Cannabis assemblies including cs10, 8 Pike ONT haplotypes, 2 IMPD T2T haplotypes, and diploid Cannbio-2">
         <figcaption><b>12-genome Meryl <i>k</i> = 21 occurrence spectrum:</b> Phased haplotypes (<code>cs10</code>, 8 Pike et al. 2026 ONT, 2 IMPD T2T) carry 35–42% <code>1×</code> and 6–8% <code>2×</code> multiplicity-weighted <i>k</i>-mers, whereas uncollapsed diploid <code>Cannbio-2</code> (Braich et al. 2020) carries 27% <code>1×</code> and 17% <code>2×</code>.</figcaption>
       </figure>
-      <div class="punch">Across phased haplotypes, the union restores <em>167.5–170.2 Mb</em> of depositor-masked DNA while newly masking 44.4–51.9 Mb—a net unmasked gain of <em>+115.9 to 123.2 Mb per haplotype</em> with exact lowercase FASTA ↔ 0-based BED parity.</div>
+      <div class="punch">Across phased haplotypes, the union restores <em>167.5–170.2 Mb</em> of depositor-masked DNA while newly masking 44.4–51.9 Mb—a net unmasked gain of <em>+115.9 to 123.2 Mb per haplotype</em> with exact lowercase FASTA <span style="font-family:'IBM Plex Sans',sans-serif;font-weight:400">↔</span> 0-based BED parity.</div>
     </section>
   </div>
 
@@ -201,29 +215,29 @@ footer h2 { color: #fff; margin-bottom: 0.09in; font-size: 31pt; }
   <div class="col">
     <section>
       <h2><span class="k">C</span>Empirical intra-species substitution matrix</h2>
-      <p>We adapted the Chiaromonte et al. (2002) log-odds protocol across two independent phased haplotype pairs (<code>EH23a × EH23b</code> and <code>DPSVa × TWSVa</code>, 95.3% <code>rosales_odb12</code> BUSCO completeness, 1.8–2.0% duplication). Two of three steps restore her protocol: excising Salk GFF3 protein-coding CDS (−7.3% of chained segments) and single-chain colinearity (<code>--max-chains 1</code>). The departure is the inverted <code>[85, 95)%</code> training bracket. The colinearity filter enriched orthologous over non-orthologous matches <b>8.2-fold</b> on a <code>Cb2 × cs10</code> slice (54.5% of the orthologous group's bases vs a 6.6% median across all 14 groups) and <b>18.0-fold</b> on <code>EH23a × EH23b</code> (mean per-group 11.1% vs 0.6% over the six largest orthologous and six largest non-orthologous groups).</p>
+      <p>We adapted the Chiaromonte et al. (2002) log-odds protocol across two phased haplotype pairs (<code>EH23a × EH23b</code> and <code>DPSVa × TWSVa</code>, 95.3% <code>rosales_odb12</code> BUSCO completeness, 1.8–2.0% duplication). We inverted the training window to <code>[85, 95)%</code> identity, excised Salk GFF3 protein-coding CDS (−7.3% pre-chain segments), and enforced single-chain colinearity (<code>--max-chains 1</code>). This filter retained 54.5% of orthologous vs. 6.6% median off-chromosome paralogous bases (<b>8.2-fold</b>) on <code>Cb2 × cs10</code> and <b>18.0-fold</b> genome-wide on <code>EH23a × EH23b</code>.</p>
       <div class="kpis">
-        <div class="kpi teal"><div class="v">331.05M</div><div class="l">Pooled <code>[85, 95)%</code> pairs, symmetrized log-odds (<code>Ts/Tv = 2.119</code>, <i>H</i> = 1.4140 bits, either pair alone within 1 unit)</div></div>
-        <div class="kpi gold"><div class="v">10/10 at 20 Mb</div><div class="l">Wins vs HOXD70 on the unmasked first 20 Mb of all ten held-out chromosomes (<code>chr8</code> rerun after OOM, 9/10 if counted a failure, <i>p</i> = 0.0107 vs α = 0.0083), 9/10 loci, 67/70 windows (95.7%, 88.0–99.1% independent, 91.4–100% clustered)</div></div>
+        <div class="kpi teal"><div class="v">82.76 Mb</div><div class="l">Physical <code>[85, 95)%</code> pairs (331.05M 4×-symmetrized, <code>Ts/Tv = 2.119</code>, <i>H</i> = 1.4140 bits, either pair alone within 1 unit)</div></div>
+        <div class="kpi gold"><div class="v">10/10 Arms</div><div class="l">Wins vs. HOXD70 (<code>chr8</code> re-run after OOM, 9/10 loci <i>p</i> = 0.0107 vs. α = 0.0083) and 67/70 windows (95.7% [91.4, 100%])</div></div>
         <div class="kpi"><div class="v">5,033×</div><div class="l"><code>axtChain</code> shuffled-null suppression (<code>EH23a chr1 × <i>Morus</i></code>) + scaled <code>682/51</code> gaps (70.6% single coverage)</div></div>
       </div>
-      <p>Normalized to max match 100 (<code>+80</code> A/T, <code>+100</code> C/G, <code>−92</code> transitions, <code>−191</code> A-C/G-T, <code>−197</code> C-G, <code>−198</code> A-T transversions), our matrix also won <b>10/10</b> at 20 Mb, <b>10/10 loci</b>, and <b>62/70 windows</b> vs unit <code>±100</code> across 40 false-match budgets. Its gain over the unchained <code>[85, 95)%</code> matrix was small, and stable only on the 20 Mb segments (10/10, margins 0.02–0.11%): on loci (9/10) and windows (55/70) the curves crossed, and the median stringent-end window margin (−0.16%) favoured the unchained matrix.</p>
+      <p>We normalized scores to a maximum match of 100 (<code>+80</code> A/T, <code>+100</code> C/G, <code>−92</code> transitions, <code>−191</code> A-C/G-T, <code>−197</code> C-G, <code>−198</code> A-T transversions). Across 40 false-match budgets, the matrix beat unit <code>±100</code> on <b>10/10 arms</b>, <b>10/10 loci</b>, and <b>62/70 windows</b> (88.6%, CI 83.5–94.6%). It also beat the unchained matrix on <b>55/70 windows</b> (78.6%, CI 70.3–85.5%, 9/10 loci), with 0.02–0.11% arm margins and crossing budget curves on every locus.</p>
       <figure class="push">
         <img src="figures/figure2_matrix_calibration.svg" alt="Empirical substitution matrix derivation and 10-chromosome held-out referee">
-        <figcaption><b>Figure 2 | Intra-species matrix calibration on the first 20 Mb of ten held-out chromosomes.</b> <code>EH23a × EH23b</code> identity spectra before and after single-chain colinearity (<b>A</b>), wins of 40 false-match budgets vs HOXD70 on <code>Cb2 × cs10</code> (whose <code>chr1</code> chose the canonical matrix among candidates) on the first 20 Mb, the locus, and 70 eligible 1 Mb windows (<b>B</b>), and symmetric 4×4 log-odds weights with <code>682/51</code> gap scaling (<b>C</b>).</figcaption>
+        <figcaption><b>Figure 2 | Intra-species matrix calibration and 10-chromosome × 20-window held-out referee.</b> Panel <b>A</b>: empirical identity spectra and single-chain colinearity separation. Panel <b>B</b>: antisymmetric corner-threshold wins across 10 held-out <code>Cb2 × cs10</code> chromosomes and 70 eligible 1 Mb windows. Panel <b>C</b>: symmetric 4×4 log-odds weights with <code>682/51</code> gap scaling.</figcaption>
       </figure>
     </section>
 
     <section class="grow">
-      <h2><span class="k">D</span>Collection-native LASTZ and MULTIZ 11.3/11.4</h2>
+      <h2><span class="k">D</span>Collection-native LASTZ and streaming MULTIZ 11.4</h2>
       <ul class="bullets">
-        <li><b>Growler LASTZ (<code>growler_ucsc_pair</code>, LASTZ 1.04.52/1.04.60):</b> Couples KegAlign v0.3.4 GPU collection seeding (Gulhan et al. 2025) with indexed <code>.2bit</code> archives, compact LAV, and piped PSL chaining (Harris 2007, Kent et al. 2003). Batching anchor files into <code>≤50,000</code>-segment chunks cut <code>growler_lastz</code> gapped extension on <code>EH23a × EH23b</code> <b>7.8-fold</b> (<code>389.0 → 49.8 slot-h</code>, 1.79 h for the 100 jobs, 2.34 h invocation, median 28 min/job, under <code>3.97 GB</code> RAM), 18% above the monolithic <code>batched_lastz</code> baseline (42.1 slot-h), with 5,166 seam-duplicated loci vs 2,135. The production wrapper <code>growler_lastz_lav</code>, which chunks identically, reproduced <b>99.99%</b> of UCSC's <code>hg38 chr21 × panTro6 chr21</code> <code>all.chain</code> and <code>rbest.chain</code> pairs, and its <code>doRecipBest</code> steps reproduced <code>doRecipBest.pl</code> chains on one query of each of the five assembly classes.</li>
-        <li><b>Storage and 218-run production cohort:</b> Across all 218 runs (54,554 jobs, 10,325 job-hours, 113 on VGP and 105 on Laila), purging transient intermediate collections after workflow completion freed <code>8.45 TB</code>, <b>56.5%</b> of the <b>14.96 TB</b> the histories held, summed over runs. Syntenic nets cover a median <b>65.2%</b> of <code>cs10</code> non-N bases across 216 queries (range 12.2–85.1%, vs <b>70.0%</b> and 29.3–88.1% in <code>rbest</code>).</li>
-        <li><b>Streaming MULTIZ 11.3 and column-count 11.4:</b> Coordinate-ordered streaming cursors in v11.3 (<code>multiz#24</code>) cut the peak memory of a <code>roast</code> run on <code>hg38</code> 5-way <code>chrX</code> <b>51.7-fold</b> against v11.2 (<code>677 → 13 MiB</code>, <code>multiz#27</code>, 217-way worker RAM <code>≤14.1 MB</code>). Its 64-bit path scores (<code>multiz#19</code>) changed 29 of 12,440 blocks of <code>NC_044376.1.02</code> that the 32-bit build misaligned at exit 0, 24 of them scoring <code>≥2<sup>31</sup></code> (Blanchette et al. 2004). Factoring <code>mz_yama.c</code> DP loops through column nucleotide counts <code>(c<sub>A</sub>, c<sub>C</sub>, c<sub>G</sub>, c<sub>T</sub>, c<sub>N</sub>)</code> in v11.4 (<code>multiz#28</code>) accelerated one timed deep merge within a 216-genome roast <b>33.8-fold</b> (<code>981 → 29 s</code> against the 11.3 release) and cut a whole 4.4 Mb piece <b>6.5-fold</b> (<code>7.3 → 1.1 h</code>, one run each as reported upstream), with output identical apart from <code>#</code> header lines.</li>
+        <li><b>Growler LASTZ (<code>growler_ucsc_pair</code>, LASTZ 1.04.52/1.04.60):</b> Couples KegAlign v0.3.4 GPU collection seeding (Gulhan et al. 2025) with indexed <code>.2bit</code> archives, compact LAV, and piped PSL chaining (Harris 2007, Kent et al. 2003). Batching anchor files into <code>≤50,000</code>-segment chunks cuts <code>EH23a × EH23b</code> gapped extension <b>7.8-fold</b> (<code>389.0 → 49.8 slot-h</code>, <code>1.88 h</code> wall-clock, median 28 min/job, under <code>3.97 GB</code> RAM). Output matches <b>99.99%</b> of UCSC’s <code>hg38 chr21 × panTro6 chr21</code> <code>all.chain</code> and <code>rbest.chain</code> pairs and yields byte-identical <code>doRecipBest</code> chains across 5 test queries.</li>
+        <li><b>Storage and 218-run production cohort:</b> Purging transient intermediate collections after workflow completion cut total Galaxy history storage across all 218 runs (54,554 jobs, 10,325 job-hours) from <b>14.96 TB to 6.50 TB</b> (<b>−56.5%</b>, <code>8.45 TB</code> saved). Syntenic nets cover a median <b>65.2%</b> of <code>cs10</code> non-N bases across 216 queries (range 12.2–85.1%, vs. <b>70.0%</b> and 29.3–88.1% in <code>rbest</code>, with 40.0% diploid vs. 54.0% phased median query-side coverage).</li>
+        <li><b>Streaming 64-bit column-count MULTIZ 11.3/11.4:</b> In v11.3 (<code>multiz#19</code>, Blanchette et al. 2004), coordinate-ordered streaming cursors replaced in-memory MAF buffering (v11.2) and <code>int64_t</code> accumulators fixed 32-bit overflow across 29 deep blocks on <code>NC_044376.1.02</code> (24 with scores <code>≥2<sup>31</sup></code>). Peak memory fell <b>51.7-fold</b> on <code>hg38</code> 5-way <code>chrX</code> (<code>677 → 13 MiB</code>, 217-way worker RAM <code>≤14.1 MB</code>). In v11.4 (<code>multiz#28</code>), factoring <code>mz_yama.c</code> DP loops through column nucleotide counts <code>(c<sub>A</sub>, c<sub>C</sub>, c<sub>G</sub>, c<sub>T</sub>, c<sub>N</sub>)</code> sped up a deep 216-genome block merge <b>33.8-fold</b> (<code>981 → 29 s</code> vs. v11.3). Whole-piece runtime on a 4.1 Mb segment dropped <b>6.5-fold</b> (<code>7.3 → 1.1 h</code>, 82 chr pieces merged under v11.3 and 113 + scaffolds under v11.4) with byte-identical output.</li>
       </ul>
       <figure class="push">
-        <img src="figures/figure3_scalability_benchmarks.svg" alt="216-query syntenic coverage waterfall and scalability benchmarks for Growler LASTZ and MULTIZ 11.3/11.4">
-        <figcaption><b>Figure 3 | 216-query syntenic coverage waterfall and scalability benchmarks.</b> Sorted <code>synNet</code> (median 65.2%, range 12.2–85.1%) and <code>rbest</code> 1-to-1 (median 70.0%, range 29.3–88.1%) coverage across 216 queries by assembly class (<b>A</b>), chunked LASTZ speedup, <code>hg38 chr21</code> parity, and 218-run storage purge summed over runs (<b>B</b>), and MULTIZ v11.3 streaming RAM (51.7×) and v11.4 column-count speedups on one deep merge (33.8×) and one 4.4 Mb piece (6.5×) (<b>C</b>).</figcaption>
+        <img src="figures/figure3_scalability_benchmarks.svg" alt="216-query syntenic coverage waterfall and scalability benchmarks for Growler LASTZ and MULTIZ 11.4">
+        <figcaption><b>Figure 3 | 216-query syntenic coverage waterfall and scalability benchmarks.</b> Panel <b>A</b>: sorted <code>synNet</code> (median 65.2%, range 12.2–85.1%) and <code>rbest</code> 1-to-1 (median 70.0%, range 29.3–88.1%) coverage across 216 queries by assembly class. Panel <b>B</b>: chunked LASTZ speedup, <code>hg38 chr21</code> parity, and 218-run storage purge. Panel <b>C</b>: MULTIZ v11.3/v11.4 streaming RAM reduction (51.7×) and column-count DP speedup (33.8× block, 6.5× piece).</figcaption>
       </figure>
     </section>
   </div>
@@ -233,9 +247,9 @@ footer h2 { color: #fff; margin-bottom: 0.09in; font-size: 31pt; }
     <section>
       <h2><span class="k">E</span>Tandem metabolic clusters and syntenic net limits</h2>
       <ul class="bullets">
-        <li><b><code>cs10</code> tandem census and permutation audit:</b> Adapting MCScanX tandem criteria (Wang et al. 2012) to stricter BLASTp thresholds (<i>E</i> ≤ 10<sup>−10</sup>, top 10 hits), <b>3,035</b> of <code>cs10</code>'s 25,296 RefSeq protein-coding genes reside in 1,208 tandem arrays (<i>K</i> = 0) and <b>5,123 (20.3%)</b> in 1,796 clusters (<i>K</i> ≤ 10), including <b>41 terpene synthases (TPS)</b> (31 in 9 clusters + 10 singletons) and <b>35 cannabinoid oxidocyclases (BBE-like)</b> (29 in 9 clusters + 6 singletons including <code>CBDAS</code>). Across 20,000 cluster-level permutations, nominal TPS low-identity enrichment (37.0% vs 11.0% controls, <i>p</i> = 0.022) does not survive family-wise correction (<i>p</i><sub>FWER</sub> = 0.12).</li>
-        <li><b>Functional <code>CBDAS</code> vs B-locus pseudogenes:</b> At <code>cs10</code> functional <code>CBDAS</code> (<code>LOC115697762</code>, chr7:30.98 Mb, Grassa et al. 2021), our 217-way alignment separates <b>79 assemblies</b> (59 plants, including 56 Lynch full-length <code>CBDAS</code>) at <code>≥98.5%</code> identity and <b>6 assemblies</b> below <code>93.0%</code> (<code>≥50%</code> CDS) from <b>77 assemblies</b> (67 plants) at <code>93.0–98.5%</code>. In 63 of the 77, Lynch et al. (2025) annotations place the alignment on the ~94% <code>CBDAS</code>-like B-locus pseudogene that Laverty et al. (2019) described near <code>THCAS</code> (62 of 63 in THC-dominant cultivars). The other 14, including two at 97.3 and 97.4%, carry no annotation.</li>
-        <li><b><code>netFilter -syn</code> pruning vs paralog reuse:</b> UCSC applies its human-mouse distance and score cutoffs (<code>maxFar = 200 kb</code>, <code>minTopScore = 300,000</code>) only to contiguous assemblies and gives the rest reciprocal-best nets (Miller et al. 2007). Applied beyond that rule to all 216, including at least 65 that fail a scaffold-N50 contiguity test, it pruned <b>4.7% of TPS</b> (418/8,856) and <b>10.7% of BBE-like</b> (807/7,560)—dropping 54 <code>CBDAS</code> assemblies (under <code>50%</code> CDS) in <code>synNet</code>, including Finola's intact 99.4% transposed copy (<code>CM011610.1:21.84 Mb</code>, 26.8 Mb from its enclosing gap). Of the 1,225 alignments the filter's removal recovers, <b>46.4%</b> (569) overlap another family gene's query interval, against 10–21% of those it keeps. Resolving rearranged clusters thus needs <code>rbest</code> nets or recalibrated thresholds with duplication-aware orthology such as TOAST and BOAST (Hou et al. 2006, 2009).</li>
+        <li><b>Genome-wide tandem census and permutation audit:</b> Under MCScanX tandem criteria (Wang et al. 2012) adapted to stricter BLASTp thresholds (<i>E</i> ≤ 10<sup>−10</sup>, top 10 hits), <b>3,035</b> of <code>cs10</code>’s 25,296 RefSeq protein-coding genes reside in 1,208 tandem arrays (<i>K</i> = 0) and <b>5,123 (20.3%)</b> in 1,796 clusters (<i>K</i> ≤ 10). These clusters include <b>41 terpene synthases (TPS)</b> (31 in 9 clusters + 10 singletons) and <b>35 cannabinoid oxidocyclases (BBE-like)</b> (29 in 9 clusters + 6 singletons including <code>CBDAS</code>). Across 20,000 cluster-level permutations, nominal TPS low-identity enrichment (37.0% vs. 11.0% controls, <i>p</i> = 0.022) does not survive family-wise correction (<i>p</i><sub>FWER</sub> = 0.12, threshold-free <i>p</i> = 0.40, BBE-like 2.8%, <i>p</i> = 0.59).</li>
+        <li><b>Functional <code>CBDAS</code> vs. B-locus pseudogenes:</b> At <code>cs10</code> functional <code>CBDAS</code> (<code>LOC115697762</code>, chr7:30.98 Mb, Grassa et al. 2021), our 217-way alignment separates <b>79 assemblies</b> (59 plants, including 56 Lynch full-length <code>CBDAS</code>) at <code>≥98.5%</code> identity and <b>6 assemblies</b> below <code>93.0%</code> (<code>≥50%</code> CDS) from <b>77 assemblies</b> (67 plants) at <code>93.0–98.5%</code>. In that middle band, all 63 Lynch-called contigs (62 THC-type, 1 both, 14 uncalled, Lynch et al. 2025) pair <code>cs10</code> <code>CBDAS</code> with the ~94% B-locus pseudogene near <code>THCAS</code>.</li>
+        <li><b><code>netFilter -syn</code> pruning vs. paralog reuse:</b> Human-mouse cutoffs (<code>maxFar = 200 kb</code>, plus <code>minTopScore = 300,000</code> for 14.5% of losses) pruned <b>4.7% of TPS</b> (418/8,856: 4.2% clustered, 6.4% singleton) and <b>10.7% of BBE-like</b> (807/7,560: 7.5% clustered, 26.2% singleton vs. 5.2%/13.1% controls). In <code>synNet</code>, this dropped 54 <code>CBDAS</code> assemblies (under <code>50%</code> CDS), including Finola’s intact 99.4% transposed copy (<code>CM011610.1:21.84 Mb</code>, 26.8 Mb from its enclosing gap). Removing <code>netFilter -syn</code> leaves <b>46.4%</b> of recovered pairs (569/1,225) overlapping another paralog’s interval. We therefore provide complementary <code>rbest</code> nets alongside TOGA2 and TOAST/BOAST orthology (Hou et al. 2006, 2009).</li>
       </ul>
       <figure class="push">
         <div class="browser-grid">
@@ -249,20 +263,20 @@ footer h2 { color: #fff; margin-bottom: 0.09in; font-size: 31pt; }
           </div>
         </div>
         <img src="figures/figure4_tandem_clusters.svg" alt="CBDAS trimodal stratification and netFilter -syn pruning vs paralog reuse">
-        <figcaption><b>Figure 4 | Live HighGen UCSC Track Hub on <code>chr7</code> and <code>netFilter -syn</code> trade-off.</b> Browser views of the 6 Mb cannabinoid synthase super-cluster (left) and <code>multiz217way</code> at <code>CBDAS</code> (right), paired with 216-query <code>CBDAS</code> resolution (<b>A</b>) and <code>netFilter -syn</code> pruning beside the 46.4% of recovered pairs that overlap another family gene (<b>B</b>).</figcaption>
+        <figcaption><b>Figure 4 | Live HighGen UCSC Track Hub on <code>chr7</code> and <code>netFilter -syn</code> trade-off.</b> Browser views of the 6 Mb cannabinoid synthase super-cluster (left) and <code>multiz217way</code> at <code>CBDAS</code> (right). Below: (<b>A</b>) 216-query <code>CBDAS</code> stratification and (<b>B</b>) <code>netFilter -syn</code> pruning vs. 46.4% paralog interval reuse.</figcaption>
       </figure>
     </section>
 
     <section class="grow">
       <h2><span class="k">F</span>Panagram bitmaps, TOGA2 pilot, and phenotype ledger</h2>
       <ul class="bullets">
-        <li><b>Panagram v1.1.0 pan-<i>k</i>-mer indexing (<code>panagram_index</code> / <code>panagram_view</code>, Jenike et al. 2026, Kokot et al. 2017, Aylward et al. 2023):</b> Tier P1 (17 genomes: <code>cs10</code> + 16 Salk haplotypes from 9 plants, 13.3 Gb) selected <i>k</i> = 21 over <i>k</i> = 31 (higher linear 1 Mb window Pearson <i>r</i> with <code>rbest</code> identity in <b>16/16 Salk haplotypes</b>, mean <i>r</i> = 0.7150 vs 0.6901, 16/16 higher at <i>k</i> = 21). Tier P2 across <b>43 genomes</b> (32.64 Gb, 5.05 h on 16 Laila slots, 1.14 GB index) passed <i>r</i> ≥ 0.50 in <b>41 of 42 chain-scored query genomes</b> (<i>r</i> = 0.5848–0.8118, including <code>Pink pepper</code> at <i>r</i> = 0.7376), passed non-PAR <code>chrY</code> separation (3/3 males 0.976–0.987 vs 3/3 V3 females ≤ 0.077 across 205,619 100-bp-subsampled <code>AH3Ma</code>-absent positions), flagged 2 higher-QV Guppy 5 SUP trio-binned ONT haplotypes on <code>G3</code> count tolerance (<code>Punto Rojo</code> −10.4%, <code>Cherry Pie</code> −10.8%, Pike et al. 2025), and saw only one Sri Lankan ONT haplotype (<code>ASM5191173v1</code>, <i>r</i> = 0.4763, Merqury QV 24.01/24.11, Pike et al. 2026) fall below 0.50, for a cause still open.</li>
-        <li><b>TOGA2 v2.0.9 orthology pilot (Kirilenko et al. 2023, Malovichko et al. 2026):</b> On the <code>cs10</code> reference annotation, we stratified all <b>25,261</b> nuclear protein-coding genes (33,639 transcripts, excluding mitochondrion <code>NC_029855.1</code>) into <b>24,503 standard</b> and <b>758 reference-anomaly</b> genes alongside 221 inventoried <code>all.chain</code> datasets (1.45 TB). On its zero-divergence identity-chain control, TOGA2 called <b>25 of 24,503 lost/uncertain (0.10%</b>: 1 L + 24 UL against a ≤ 0.5% bar). On <code>EH23a</code>, the production, loose, and <code>RepeatFiller</code>-filled-and-cleaned chains called <b>2,077 (8.48%)</b>, <b>1,778 (7.26%)</b>, and <b>1,660 (6.77%)</b> standard genes L/UL. The filled and production arms disagree on the class of 713 of the 2,161 genes either calls L, UL, or M (33.0%). On false presence, the second of the plan's two ranking criteria, production ranks first (4,306 standard genes with more than one query gene, against 5,058 loose and 5,245 filled). The first criterion is not yet implemented, so the arms are not ranked, no arm is chosen, and no gene loss is reported.</li>
-        <li><b>Provenance-verified phenotype ledger:</b> Joining 30 publications (43 audited extractions, including 988 Lynch et al. 2025 Figshare rows) and 10 NCBI BioSamples across 215 assemblies yielded <b>1,341 trait records</b> across <b>154 plants in 78 pedigree families</b> (69 plants in the largest Salk family, 71 singletons with no pedigree link we parsed). A first between-family test of a pre-specified candidate needs at least 30 unrelated plants (one per family), a conventional floor at which the smallest attainable <i>p</i> is 7 × 10<sup>−6</sup>. Under strict <code>measured</code>/<code>reported</code> filtering, none of 14 traits yet meets it (<code>Varin</code> comes closest at 30 families, but 37 of 38 non-WT plants derive from <code>HO40</code>).</li>
+        <li><b>Panagram v1.1.0 pan-<i>k</i>-mer indexing (<code>panagram_index</code> / <code>panagram_view</code>, Jenike et al. 2026, Kokot et al. 2017, Aylward et al. 2023):</b> Tier P1 (17 genomes: <code>cs10</code> + 16 Salk haplotypes from 9 plants, 13.3 Gb) selected <i>k</i> = 21 over <i>k</i> = 31 on higher 1 Mb window Pearson <i>r</i> with <code>rbest</code> identity across <b>16/16 Salk haplotypes</b> (mean <i>r</i> = 0.7150 vs. 0.6901, Δ<i>r</i> = +0.0249 within the 0.05 equivalence band). Tier P2 indexed <b>43 genomes</b> (32.64 Gb, 5.05 h on 16 Laila slots, 1.14 GB index). It passed <i>r</i> ≥ 0.50 in <b>41 of 42 chain-scored queries</b> (<i>r</i> = 0.5848–0.8118, <code>Pink pepper</code> <i>r</i> = 0.7376) and separated non-PAR <code>chrY</code> cleanly (3/3 males 0.976–0.987 vs. 3/3 V3 females ≤ 0.0773 across 205,619 subsampled <code>AH3Ma</code>-absent positions). It flagged 2 Guppy 5 SUP trio-binned ONT haplotypes on <code>G3</code> count tolerance (<code>Punto Rojo</code> −10.4%, <code>Cherry Pie</code> −10.8%, Pike et al. 2025). Only one Sri Lankan ONT haplotype fell below 0.50 (<code>ASM5191173v1</code>, <i>r</i> = 0.4763, Merqury QV 24.01/24.11, Pike et al. 2026), for reasons still under investigation.</li>
+        <li><b>TOGA2 v2.0.9 orthology pilot (Kirilenko et al. 2023, Malovichko et al. 2026):</b> On <code>cs10</code>, we stratified all <b>25,261</b> nuclear protein-coding genes (33,639 transcripts, excluding mitochondrion <code>NC_029855.1</code>) into <b>24,503 standard</b> and <b>758 reference-anomaly</b> genes alongside 221 inventoried <code>all.chain</code> datasets (1.45 TB). On its zero-divergence identity-chain control (<code>C-floor</code>), TOGA2 called <b>25 of 24,503 lost/uncertain (0.10%)</b>—1 L + 24 UL against a ≤ 0.5% bar. On <code>EH23a</code>, the production, loose, and <code>RepeatFiller</code>-filled-and-cleaned chains called <b>2,077 (8.48%)</b>, <b>1,778 (7.26%)</b>, and <b>1,660 (6.77%)</b> standard genes L/UL. Filled and production arms disagree on 713 of 2,161 L/UL/M genes (33.0%), while production yields the fewest multi-copy false presences (4,306 standard genes vs. 5,058 loose and 5,245 filled). Because our top-ranked native-model check (<code>B6</code>) is still pending, the pilot selects no arm and reports no gene loss.</li>
+        <li><b>Pedigree-verified phenotype ledger:</b> We joined 40 sources across 215 assemblies—30 publications (29 papers, including 2 supplements, plus 988 Lynch et al. 2025 Figshare rows across 190 assemblies from 43 audited extractions in <code>passed.tsv</code>) and 10 NCBI BioSamples. This yielded <b>1,341 trait records</b> across <b>154 plants in 78 pedigree families</b> (69 plants in the largest Salk family, 71 singletons). Under strict <code>measured</code>/<code>reported</code> filtering, 0 of 14 traits pass our ≥30-family, ≥2-class (≥5 families/class) association screen. <code>Varin</code> spans 30 families (37/38 non-WT plants in <code>HO40</code> across 3 classes), while <code>Chemotype</code> reaches 30 families with 2 classes ≥5 only if Lynch’s HPLC methods sentence covers its table column.</li>
       </ul>
       <figure class="push">
         <img src="figures/figure5_panagram_kmer.svg" alt="Panagram AH3Mb.chrY PAR boundary profile, rbest chain correlation scatter, TOGA2 pilot, and phenotype database">
-        <figcaption><b>Figure 5 | Alignment-free Panagram <code>chrY</code> profile and <code>rbest</code> correlation.</b> Chromosome-wide <code>AH3Mb.chrY</code> (0–110.7 Mb) <i>k</i> = 21 profile showing PAR all-21-mer containment (0–29.08 Mb) and MSY male-specific 21-mer recall across 205,619 subsampled positions (<b>A</b>), and all 631 eligible 1 Mb windows on <code>GRMa</code> (<i>r</i> = 0.8118) with Tier P2, TOGA2, and phenotype scorecards (<b>B</b>).</figcaption>
+        <figcaption><b>Figure 5 | Alignment-free Panagram <code>chrY</code> profile and <code>rbest</code> correlation.</b> Panel <b>A</b>: chromosome-wide <code>AH3Mb.chrY</code> (0–110.7 Mb) <i>k</i> = 21 profile of PAR all-21-mer containment (0–29.08 Mb) and MSY male-specific 21-mer recall across 205,619 subsampled positions. Panel <b>B</b>: all 631 eligible 1 Mb windows on <code>GRMa</code> (<i>r</i> = 0.8118) with Tier P2, TOGA2, and phenotype scorecards.</figcaption>
       </figure>
     </section>
   </div>
@@ -270,14 +284,14 @@ footer h2 { color: #fff; margin-bottom: 0.09in; font-size: 31pt; }
 
 <footer>
   <div>
-    <h2>Public tools, workflows, and 228-stanza (219-assembly) browser hub</h2>
+    <h2>Open tools, workflows, and 228-stanza (219-assembly) browser hub</h2>
     <div class="axes">
       <div>4-detector masking<span>→</span><code>brc-tools</code></div>
       <div>GPU seeding + chunked LASTZ<span>→</span><code>growler_lastz_lav</code></div>
-      <div>217-way streaming TBA<span>→</span><code>MULTIZ 11.3/11.4</code></div>
+      <div>217-way streaming TBA<span>→</span><code>MULTIZ 11.4</code></div>
       <div>Pan-<i>k</i>-mer + orthology<span>→</span><code>Panagram</code> and <code>TOGA2</code></div>
     </div>
-    <div class="ack"><b>Availability:</b> HighGen 228-stanza UCSC Track Hub (219 unique assemblies across 157 plants + 9 alias stanzas: <code>multiz217way.bigMaf.bb</code>, reading frames, pairwise chains/nets, <code>rbest</code> chains, gene models, and repeat masks): <code>https://depot.galaxyproject.org/highgen/hub.txt</code> (each assembly's hub page names its source and original location and gives a citation and a licence line, four pages lack a data holder, and 9 CoGe/NGDC redistribution grants are pending per <code>assembly_licences.md</code>). Analysis repository, scoring matrix, and scripts (licence pending): <code>https://github.com/richard-burhans/cannabis-genome</code>. Galaxy tool wrappers (<code>panagram_index</code>, <code>panagram_view</code>, <code>growler_lastz</code>, <code>gt-multiz-roast</code>) and workflows (<code>growler_ucsc_pair</code>, <code>wfi_split</code>, <code>wfi_roast</code>, <code>wfi_track</code>): <code>https://github.com/richard-burhans/galaxytools</code> (MIT) and <code>https://github.com/nekrut/brc-tools</code> (masking workflow, licence pending) · MULTIZ 11.3/11.4: <code>https://github.com/multiz/multiz</code> · LASTZ 1.04.52/1.04.60: <code>https://github.com/lastz/lastz</code> · KegAlign 0.3.4: <code>https://github.com/galaxyproject/KegAlign</code> · Panagram 1.1.0: <code>https://github.com/kjenike/panagram</code> · TOGA2 2.0.9: <code>https://github.com/hillerlab/TOGA2</code>.</div>
+    <div class="ack"><b>Acknowledgements:</b> Work in the authors’ groups is supported by National Institutes of Health grants U24HG002371, U24HG006620, U24HG010263, U24CA284167, U24AI183870, and R01GM151683, and by National Science Foundation grants 2419522 and 2138585. <b>Availability:</b> HighGen 228-stanza UCSC Track Hub (219 unique assemblies across 157 plants + 9 alias stanzas: <code>multiz217way.bigMaf.bb</code>, reading frames, pairwise chains/nets, <code>rbest</code> chains, gene models, and repeat masks): <code>https://depot.galaxyproject.org/highgen/hub.txt</code> (each assembly’s hub page credits its source, with 9 CoGe/NGDC redistribution licenses pending per <code>assembly_licences.md</code>). Analysis repository, scoring matrix, and scripts: <code>https://github.com/richard-burhans/cannabis-genome</code>. Galaxy wrappers (<code>panagram_index</code>, <code>panagram_view</code>, <code>growler_lastz</code>, <code>gt-multiz-roast</code>) and workflows (<code>growler_ucsc_pair</code>, <code>wfi_split</code>, <code>wfi_roast</code>, <code>wfi_track</code>): <code>https://github.com/richard-burhans/galaxytools</code> (MIT) and <code>https://github.com/nekrut/brc-tools</code> · MULTIZ 11.3/11.4: <code>https://github.com/multiz/multiz</code> · LASTZ 1.04.52/1.04.60: <code>https://github.com/lastz/lastz</code> · KegAlign 0.3.4: <code>https://github.com/galaxyproject/KegAlign</code> · Panagram 1.1.0: <code>https://github.com/kjenike/panagram</code> · TOGA2 2.0.9: <code>https://github.com/hillerlab/TOGA2</code>. Related CSHL posters: Galaxy UDTs (van den Beek) · Orbit (Cain) · Galaxy Workflow Foundry (Chilton) · disassembler (Seacord) · VGP diploid curation (Larivière).</div>
   </div>
   <div class="qrs">
     <div class="qr"><img src="qr-hub.svg" alt="QR code: HighGen Track Hub"><div>HighGen Hub</div></div>

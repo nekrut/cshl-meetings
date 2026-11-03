@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Resolving both haplotypes of vertebrate genomes through diploid curation with the VGP Galaxy workflows — CSHL BDS 2026</title>
+<style>
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-Italic.ttf') format('truetype'); font-weight: 400; font-style: italic; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Next'; src: url('../chilton/fonts/AtkinsonHyperlegibleNext-ExtraBold.ttf') format('truetype'); font-weight: 800; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Mono'; src: url('../chilton/fonts/AtkinsonHyperlegibleMono-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Mono'; src: url('../chilton/fonts/AtkinsonHyperlegibleMono-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Atkinson Hyperlegible Mono'; src: url('../chilton/fonts/AtkinsonHyperlegibleMono-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+@font-face { font-family: 'IBM Plex Sans'; src: url('../chilton/fonts/IBMPlexSans-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'IBM Plex Mono'; src: url('../chilton/fonts/IBMPlexMono-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+
+@page { size: 44in 44in; margin: 0; }
+:root {
+  --ink: #18243a;
+  --navy: #2c3143;
+  --muted: #4f5b70;
+  --line: #d5dbe5;
+  --panel: #f4f6fa;
+  --paper: #ffffff;
+  --gold: #ffd700;
+  --gold-border: #eab308;
+  --gold-soft: #fffbeb;
+  --teal: #0b7a75;
+  --teal-soft: #dff2ef;
+  --purple: #5b3fa8;
+  --purple-soft: #ede9fa;
+  --green: #2c7a4b;
+  --green-soft: #e2f3e8;
+  --code-inline: #e3e8f0;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; width: 44in; height: 44in; overflow: hidden; background: var(--paper); }
+body {
+  font-family: "Atkinson Hyperlegible Next", "IBM Plex Sans", sans-serif;
+  color: var(--ink); font-size: 21pt; line-height: 1.26;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  display: grid; grid-template-rows: auto 1fr auto;
+}
+code, pre, .mono { font-family: "Atkinson Hyperlegible Mono", "IBM Plex Mono", monospace; }
+code { font-size: 0.88em; background: var(--code-inline); padding: 0.01in 0.07in; border-radius: 0.05in; font-weight: 600; }
+.sym { font-family: "IBM Plex Sans", sans-serif; font-weight: 400; font-style: normal; }
+h2 i, b i, strong i { font-weight: 400; }
+
+/* Header — Style 1 Galaxy Classic Masthead */
+header {
+  background: var(--navy); color: #fff;
+  padding: 0.44in 0.92in 0.42in; display: grid;
+  grid-template-columns: 1fr auto; gap: 0.7in; align-items: center;
+  border-bottom: 0.2in solid var(--gold);
+}
+.kicker { font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 21pt; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.12in; }
+header h1 { margin: 0; font-size: 67pt; line-height: 1.05; font-weight: 800; letter-spacing: -0.015em; }
+header h1 .udt { color: var(--gold); }
+.authors { margin-top: 0.18in; font-size: 24.5pt; font-weight: 700; line-height: 1.22; color: #f8fafc; }
+.authors u { text-decoration-color: var(--gold); text-underline-offset: 0.05in; }
+.affil { display: block; margin-top: 0.07in; font-size: 19.5pt; font-weight: 400; color: #cfd6e6; line-height: 1.2; }
+header code, footer code { background: rgba(255, 255, 255, 0.14); color: var(--gold); }
+
+.head-right { display: grid; justify-items: stretch; gap: 0.24in; width: 8.6in; }
+.head-logos { display: flex; align-items: center; justify-content: space-between; gap: 0.22in; }
+.head-logos .gxy { height: 1.08in; width: auto; display: block; }
+.consortium-pill {
+  background: #fff; border-radius: 0.16in; padding: 0.12in 0.2in;
+  display: flex; align-items: center; gap: 0.18in;
+}
+.consortium-pill img { height: 0.84in; width: auto; display: block; }
+.qr-card { background: #fff; color: var(--ink); border-radius: 0.2in; padding: 0.22in 0.26in; display: grid; grid-template-columns: auto 1fr; gap: 0.24in; align-items: center; }
+.qr-card img { width: 2.1in; height: 2.1in; display: block; }
+.qr-card .t { font-size: 26pt; font-weight: 800; line-height: 1.12; color: var(--navy); }
+.qr-card .u { font-size: 18.5pt; color: var(--muted); margin-top: 0.07in; line-height: 1.22; }
+
+/* Main 2-row Bento grid */
+main {
+  padding: 0.32in 0.88in 0.3in;
+  display: grid; grid-template-rows: 17.55in 1fr; gap: 0.34in;
+  min-height: 0;
+}
+section {
+  background: var(--panel); border-radius: 0.22in; padding: 0.26in 0.34in 0.28in;
+  border: 2px solid #dfe5ef; border-top: 0.12in solid var(--navy);
+  display: flex; flex-direction: column; min-height: 0;
+}
+h2 {
+  margin: 0 0 0.12in; font-size: 31pt; line-height: 1.08; font-weight: 800; color: var(--navy);
+  display: flex; align-items: center; gap: 0.18in; letter-spacing: -0.01em; flex: none;
+}
+h2 .k {
+  flex: none; width: 0.66in; height: 0.66in; border-radius: 50%; background: var(--gold); color: var(--navy);
+  display: grid; place-items: center; font-size: 27pt; font-weight: 800;
+}
+
+/* Top Row: Col 1 (Overview + Rocket Frog) | Col 2 (Fig 1 Phylogeny) | Col 3 (Fig 2 Quality) */
+.top-row {
+  display: grid; grid-template-columns: 15.1in 11.75in 1fr; gap: 0.34in; min-height: 0;
+}
+.col1-stack {
+  display: flex; flex-direction: column; gap: 0.32in; min-height: 0;
+}
+.stats-strip {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.16in; margin-bottom: 0.16in; flex: none;
+}
+.stat {
+  background: #fff; border: 2px solid var(--line); border-left: 0.1in solid var(--gold-border);
+  border-radius: 0.14in; padding: 0.14in 0.18in;
+}
+.stat.teal { border-left-color: var(--teal); }
+.stat.purple { border-left-color: var(--purple); }
+.stat .sk { font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 14pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); display: block; }
+.stat .sv { font-size: 33pt; font-weight: 800; color: var(--navy); line-height: 1.06; display: block; margin: 0.03in 0; font-variant-numeric: tabular-nums; }
+.stat.teal .sv { color: var(--teal); }
+.stat.purple .sv { color: var(--purple); }
+.stat .sn { font-size: 16pt; color: var(--muted); line-height: 1.15; display: block; }
+
+.prose p { margin: 0 0 0.14in; font-size: 20.5pt; line-height: 1.27; color: var(--ink); }
+.prose p:last-child { margin-bottom: 0; }
+.prose b { color: var(--navy); }
+
+.brand-bar {
+  margin-top: 0.2in; padding: 0.14in 0.22in; background: #fff; border: 2px solid var(--line);
+  border-radius: 0.14in; display: flex; align-items: center; justify-content: space-between; gap: 0.18in;
+}
+.brand-bar img { height: 0.68in; width: auto; max-width: 2.25in; object-fit: contain; display: block; }
+.brand-bar img.tall { height: 0.8in; }
+
+/* Figure frame + caption inside cards */
+.fig-card {
+  flex: 1; min-height: 0; background: #fff; border: 2px solid var(--line); border-radius: 0.16in;
+  overflow: hidden; display: flex; flex-direction: column;
+}
+.fig-card .img-wrap {
+  flex: 1; min-height: 0; padding: 0.1in 0.12in 0.06in;
+  display: flex; align-items: center; justify-content: center; background: #fff;
+}
+.fig-card .img-wrap img {
+  max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block;
+}
+.fig-card.fill-w .img-wrap img {
+  width: 100%; height: 100%; object-fit: contain;
+}
+.fig-cap {
+  padding: 0.12in 0.18in 0.14in; border-top: 2px solid var(--line); background: #fff;
+  font-size: 16.8pt; line-height: 1.22; color: var(--ink); flex: none;
+}
+.fig-cap b { color: var(--navy); }
+
+/* Bottom Row: Col 1 (Fig 4 Pipeline) | Col 2 (Fig 5 Zebra Finch) */
+.bot-row {
+  display: grid; grid-template-columns: 11.5in 1fr; gap: 0.34in; min-height: 0;
+}
+
+.zf-grid {
+  flex: 1; min-height: 0;
+  display: grid; grid-template-columns: 7.4in 9.9in 1fr; gap: 0.26in;
+}
+.zf-col { display: flex; flex-direction: column; gap: 0.2in; min-height: 0; }
+
+.swatches {
+  display: flex; flex-wrap: wrap; gap: 0.06in 0.18in;
+  font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 14.5pt; font-weight: 600; color: var(--muted);
+}
+.sw { display: inline-flex; align-items: center; gap: 0.06in; white-space: nowrap; }
+.sw i { display: inline-block; width: 0.18in; height: 0.18in; border: 1.5px solid #94a3b8; border-radius: 0.03in; }
+
+.callout-list {
+  flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 0.14in;
+}
+.callout {
+  background: #fff; border: 2px solid var(--line); border-left: 0.1in solid var(--navy);
+  border-radius: 0.14in; padding: 0.13in 0.18in; font-size: 18pt; line-height: 1.22;
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+}
+.callout.c-col { border-left-color: var(--purple); }
+.callout.c-tel { border-left-color: var(--teal); }
+.callout.c-sw  { border-left-color: #c026d3; }
+.callout.c-jn  { border-left-color: #dc2626; }
+.callout .ct { font-size: 19.5pt; font-weight: 800; color: var(--navy); margin-bottom: 0.04in; }
+.callout p { margin: 0; }
+
+.collin-box {
+  background: #fff; border: 2px solid var(--line); border-radius: 0.16in; padding: 0.16in 0.2in;
+  display: flex; flex-direction: column; gap: 0.12in; flex: none;
+}
+.collin-title { font-size: 21pt; font-weight: 800; color: var(--navy); margin: 0; }
+.collin-figs {
+  display: grid; grid-template-columns: 4.15in 1fr; gap: 0.18in; align-items: center;
+}
+.collin-figs img { width: 100%; height: 3.9in; object-fit: contain; display: block; }
+.collin-defs {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.14in;
+  border-top: 1.5px solid var(--line); padding-top: 0.1in; font-size: 16.5pt; line-height: 1.2;
+}
+.collin-defs b { color: var(--navy); display: block; font-size: 17.5pt; margin-bottom: 0.02in; }
+
+/* Footer — Style 1 Galaxy Classic Footer */
+footer {
+  background: var(--navy); color: #fff; padding: 0.32in 0.92in 0.36in;
+  display: grid; grid-template-columns: 1fr auto; gap: 0.7in; align-items: center;
+  border-top: 0.2in solid var(--gold);
+}
+.axes { display: flex; flex-wrap: wrap; gap: 0.44in; font-size: 23.5pt; font-weight: 700; margin-bottom: 0.12in; }
+.axes span { color: var(--gold); padding: 0 0.06in; font-family: "IBM Plex Sans", sans-serif; font-weight: 400; }
+.ack { font-size: 18.2pt; color: #dce3f0; line-height: 1.28; max-width: 31.8in; }
+.ack b { color: var(--gold); }
+.qrs { display: flex; gap: 0.28in; }
+.qr { background: #fff; color: var(--navy); border-radius: 0.18in; padding: 0.15in; text-align: center; width: 2.45in; }
+.qr img { width: 2.05in; height: 2.05in; display: block; margin: 0 auto 0.05in; }
+.qr div { font-size: 18.5pt; font-weight: 800; line-height: 1.1; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="kicker">CSHL Biological Data Science · November 4–7, 2026</div>
+    <h1>Resolving both haplotypes of vertebrate genomes through <span class="udt">diploid curation</span> with the VGP Galaxy workflows</h1>
+    <div class="authors"><u>Delphine Larivière</u>, Kirsty McCaffrey, Erick Duarte, Ying Chen, Bonhwang Koo, Jack A. Medico, Marco Sollitto, Nadolina Brajuka, Jennifer Balacco, Saim Momin, Patrik Smeds, Jo Wood, Dominic Absolon, Joanna Collins, Tom Mathers, Michael Paulini, Sarah Pelan, Camilla Santos, Kerstin Howe, Danny Jackson, Melissa A. Wilson, Ross Lazarus, Nate Coraor, Marius van den Beek, Michael C. Schatz, Erich D. Jarvis, Anton Nekrutenko, Giulio Formenti
+      <span class="affil">Vertebrate Genomes Project (VGP) · Galaxy Project · European Reference Genome Atlas (ERGA) · Wellcome Sanger Institute · The Rockefeller University · The Pennsylvania State University · Johns Hopkins University · University of Freiburg · Arizona State University</span>
+    </div>
+  </div>
+  <div class="head-right">
+    <div class="head-logos">
+      <img src="../chilton/assets/galaxy_logo_white.svg" alt="Galaxy Project" class="gxy">
+      <div class="consortium-pill">
+        <img src="figures/logo_vgp.png" alt="Vertebrate Genomes Project">
+        <img src="figures/logo_erga.png" alt="European Reference Genome Atlas">
+      </div>
+    </div>
+    <div class="qr-card">
+      <img src="qr-vgp.svg" alt="QR: VGP on Galaxy">
+      <div>
+        <div class="t">VGP on Galaxy</div>
+        <div class="u">galaxyproject.org/projects/vgp · Phased assembly &amp; diploid curation suite.</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- TOP ROW -->
+  <div class="top-row">
+    <div class="col1-stack">
+      <section style="flex: none;">
+        <h2><span class="k">1</span>Scaling diploid reference genomes in Galaxy</h2>
+        <div class="stats-strip">
+          <div class="stat">
+            <span class="sk">VGP Phase 1</span>
+            <span class="sv">817</span>
+            <span class="sn">curated vertebrate genomes</span>
+          </div>
+          <div class="stat purple">
+            <span class="sk">Chr. assignment</span>
+            <span class="sv">97% <span style="font-size:21pt;font-weight:600;color:#4f5b70">vs. 95%</span></span>
+            <span class="sn">dual vs. single curation</span>
+          </div>
+          <div class="stat teal">
+            <span class="sk">Phased PARs</span>
+            <span class="sv">54 / 64</span>
+            <span class="sn">vs. 1 / 107 in pri/alt</span>
+          </div>
+        </div>
+        <div class="prose">
+          <p>The Vertebrate Genomes Project (VGP) builds chromosome-level diploid reference genomes, targeting one near-error-free reference per vertebrate order in Phase 1. Producing these references across a distributed community requires accessible, reproducible methods that preserve contiguity, base accuracy, and phasing. Even with modern long-read assemblers, structural errors persist and manual curation remains essential.</p>
+          <p>The open VGP workflow suite in Galaxy runs on shared public infrastructure and improves completeness from two directions. <b>Assembly updates</b> refine haplotype phasing, Hi-C duplicate handling, gene-completeness scoring, contamination screening, and standardized quality-control reporting. <b>Simultaneous dual curation</b> builds joint Hi-C contact maps across both haplotypes, revealing shared structural signals that resolve misassemblies and phasing switches ambiguous in isolation.</p>
+          <p>Dual curation raises median chromosome assignment from 95% to 97%, delivering two phased haplotypes at the completeness of a conventional single-haplotype reference. Version-controlled workflows tested by the Intergalactic Workflow Commission (IWC) attach a FAIR provenance record to every genome.</p>
+        </div>
+        <div class="brand-bar">
+          <img src="figures/logo_pennstate.png" alt="Penn State">
+          <img src="figures/logo_jhu.png" alt="Johns Hopkins University" class="tall">
+          <img src="figures/logo_freiburg.png" alt="University of Freiburg" class="tall">
+          <img src="figures/logo_gtn.png" alt="Galaxy Training Network" class="tall">
+          <img src="figures/logo_tacc.png" alt="TACC">
+          <img src="figures/logo_jetstream2.png" alt="Jetstream2">
+          <img src="figures/logo_czi.png" alt="Chan Zuckerberg Initiative" class="tall">
+        </div>
+      </section>
+
+      <section style="flex: 1;">
+        <h2><span class="k">4</span><span>Diploid Hi-C curation in <i>Allobates femoralis</i></span></h2>
+        <div class="fig-card fill-w">
+          <div class="img-wrap">
+            <img src="figures/fig3_rocket_frog_hic.png" alt="Guiana rocket frog pre- and post-curation diploid Hi-C contact maps">
+          </div>
+          <div class="fig-cap">
+            <p style="margin:0"><b>Figure 3 | Diploid curation resolves both haplotypes in the Guiana rocket frog (<i>Allobates femoralis</i>).</b> <b>(a, a.2)</b> Pre-curation Hi-C map. Gray grid lines mark initial scaffold boundaries, scissors mark Hi-C-supported break sites, and light and dark blue boxes trace fragments of two homologous chromosome pairs split across scaffolds. <b>(b, b.2)</b> Post-curation map. Dark grid lines mark applied breaks, yielding three resolved chromosome pairs (dashed boxes).</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section>
+      <h2><span class="k">2</span>VGP Phase 1 phylogeny &amp; curation</h2>
+      <div class="fig-card fill-w">
+        <div class="img-wrap">
+          <img src="figures/fig1_vgp_phylogeny.png" alt="Circular phylogeny and temporal distribution of 817 curated vertebrate genomes">
+        </div>
+        <div class="fig-cap">
+          <p style="margin:0"><b>Figure 1 | Phylogenetic and temporal distribution across 817 curated vertebrate genomes.</b> <b>(a)</b> Open Tree of Life topology. Concentric rings (inner to outer): major lineage, release year (2018–2026), sequencing platform, assembly and curation mode, and contig N50 (median 13.0 Mb, range 0.2–174.9 Mb). <b>(b)</b> Annual assemblies by platform and curation category. <b>(c)</b> Curation category proportions per clade.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="k">3</span>Assembly quality across curation strategies</h2>
+      <div class="fig-card fill-w">
+        <div class="img-wrap">
+          <img src="figures/fig2_curation_quality.png" alt="Assembly quality metrics across curation strategies">
+        </div>
+        <div class="fig-cap">
+          <p style="margin:0"><b>Figure 2 | Assembly quality across curation strategies.</b> <b>(a)</b> Median contig N50 per release year by sequencing platform. <b>(b)</b> Contig N50 across major lineages and platforms. <b>(c)</b> Scaffold N50 percent change from curation across 585 curated haplotypes. <b>(d)</b> Assembled sequence assigned to chromosomes (%). <b>(e)</b> Terminal telomeres recovered (% of twice chromosome count). <b>(f)</b> Ancestral pseudoautosomal region (PAR) status across 171 mammal and bird species with a sequenced heterogametic sex.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- BOTTOM ROW -->
+  <div class="bot-row">
+    <section>
+      <h2><span class="k">5</span>Pre- &amp; post-curation workflows</h2>
+      <div class="fig-card fill-w">
+        <div class="img-wrap">
+          <img src="figures/fig4_curation_pipeline.png" alt="Three-stage automated and manual Pretext curation workflow">
+        </div>
+        <div class="fig-cap">
+          <p style="margin:0"><b>Figure 4 | Automated Galaxy workflows flanking interactive curation.</b> Three-stage pipeline on <code>iwc.galaxyproject.org</code>: <b>(1)</b> pre-curation Hi-C map and track build, <b>(2)</b> manual refinement in <code>PretextView</code>, and <b>(3)</b> automated AGP application, <code>JBrowse2</code> QC, and GenomeArk/NCBI release.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="k">6</span><span>Single vs. dual curation and HiFi vs. ONT in zebra finch (<i>Taeniopygia guttata</i>)</span></h2>
+      <div class="zf-grid">
+        <!-- ZF Col 1: 5-panel benchmark stack -->
+        <div class="fig-card fill-w">
+          <div class="img-wrap" style="padding: 0.1in 0.1in 0.04in;">
+            <img src="figures/fig5_zebra_finch_metrics.png" alt="Zebra finch benchmark metrics a-e">
+          </div>
+          <div class="fig-cap" style="padding: 0.1in 0.14in 0.12in;">
+            <div class="swatches">
+              <span class="sw"><i style="background:#00b4d8"></i>HiFi + Single</span>
+              <span class="sw"><i style="background:#6d4aff"></i>HiFi + Dual</span>
+              <span class="sw"><i style="background:#2d8a4e"></i>ONT + Dual</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ZF Col 2: Experimental design + Findings a-e -->
+        <div class="zf-col">
+          <div class="fig-card fill-w" style="flex: none; height: 4.85in;">
+            <div class="img-wrap" style="padding: 0.08in 0.12in;">
+              <img src="figures/fig5_experimental_design.png" alt="Zebra finch HiFi and ONT experimental design">
+            </div>
+          </div>
+          <div class="callout-list">
+            <div class="callout c-col">
+              <div class="ct">Figure 5a–b · Collinearity recovery</div>
+              <p><b>Dual curation</b> maximizes macrochromosome recovery (99.3% HiFi, 99.7% ONT) and captures the sex-chromosome PAR (<code>chrW</code>). <b>Single curation</b> recovers slightly more telomere-proximal microchromosome sequence (99.5% vs. 99.4%). Dot chromosomes remain fragmented in HiFi (49.1% single, 33.9% dual) and jump to 88.9% in ONT dual curation.</p>
+            </div>
+            <div class="callout c-tel">
+              <div class="ct">Figure 5c · Telomere recovery</div>
+              <p>Consistent with collinearity, dual curation recovers both telomeres on more macrochromosomes (19 HiFi, 20 ONT vs. 18 single), whereas single curation leads in microchromosomes (34 vs. 30). ONT dual recovers both telomeres on 15 of 22 dot chromosomes.</p>
+            </div>
+            <div class="callout c-sw">
+              <div class="ct">Figure 5d · Switch blocks</div>
+              <p>Dual curation resolves more than half of HiFi switch blocks (23 to 11 in dot chromosomes and 3 to 1 in macrochromosomes). ONT dual assemblies contain near-zero switch blocks.</p>
+            </div>
+            <div class="callout c-jn">
+              <div class="ct">Figure 5e · Curation joins</div>
+              <p>Single curation introduces more manual joins in dot chromosomes (34 vs. 18 HiFi dual, 2 ONT dual), matching its higher HiFi dot-chromosome collinearity.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ZF Col 3: Defining Collinearity + Dot chromosomes f -->
+        <div class="zf-col">
+          <div class="collin-box">
+            <div class="collin-title">Defining collinearity</div>
+            <div class="collin-figs">
+              <img src="figures/fig5_collinearity_dotplot.png" alt="Collinearity dotplot">
+              <img src="figures/fig5_collinearity_schematic.png" alt="Reference vs Query collinearity blocks">
+            </div>
+            <div class="collin-defs">
+              <div><b>Chain</b>Monotonically ordered gapless blocks on one strand.</div>
+              <div><b>Collinear</b>Chains sharing identical order and orientation.</div>
+              <div><b>Non-collinear</b>Chains reordered, inverted, or on separate scaffolds.</div>
+            </div>
+          </div>
+
+          <div class="fig-card fill-w">
+            <div class="img-wrap" style="padding: 0.08in 0.1in 0.04in;">
+              <img src="figures/fig5_dot_chromosomes.png" alt="Maternal and paternal chr35 and chr37 alignments">
+            </div>
+            <div class="fig-cap">
+              <p style="margin: 0 0 0.08in;"><b>Figure 5f | ONT recovers dot chromosomes.</b> Manual joining of two scaffolds reconstructs paternal <code>chr35</code> as a chromosome-scale scaffold at 87% collinearity, far outperforming HiFi. ONT dual curation recovers 98% of maternal and 96% of paternal <code>chr37</code>.</p>
+              <div class="swatches">
+                <span class="sw"><i style="background:#9ad9ea"></i>Collinear</span>
+                <span class="sw"><i style="background:#f5c26b"></i>Non-collinear</span>
+                <span class="sw"><i style="background:#f4b6c2"></i>Uncovered</span>
+                <span class="sw"><i style="background:#d946ef"></i>Switch block</span>
+                <span class="sw"><i style="background:#ef4444"></i>Curation join</span>
+                <span class="sw"><i style="background:#111827"></i>Gap / Telomere</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div>
+    <div class="axes">
+      <div>Phased draft + Hi-C <span>→</span> Stage 1 <code>PretextMap</code> + tracks</div>
+      <div>Joint diploid map <span>→</span> Stage 2 <code>PretextView</code> dual curation</div>
+      <div>Curated AGP <span>→</span> Stage 3 <code>gfastats</code> + GenomeArk &amp; NCBI</div>
+    </div>
+    <div class="ack"><b>Acknowledgements:</b> Work in the authors’ groups is supported by National Institutes of Health grants U24HG002371, U24HG006620, U24HG010263, U24CA284167, U24AI183870, and R01GM151683, and by National Science Foundation grants 2419522 and 2138585. Workflows &amp; data: iwc.galaxyproject.org · galaxyproject.org/projects/vgp · genomeark.org. Visit VGP &amp; Galaxy posters #36 &amp; #74, plus Galaxy UDTs (van den Beek) · Orbit (Cain) · Galaxy Workflow Foundry (Chilton) · HighGen (Burhans) · Logan disassembler (Seacord).</div>
+  </div>
+  <div class="qrs">
+    <div class="qr"><img src="qr-iwc.svg" alt="QR: IWC Workflows"><div>IWC Workflows</div></div>
+    <div class="qr"><img src="qr-genomeark.svg" alt="QR: GenomeArk"><div>GenomeArk</div></div>
+    <div class="qr"><img src="qr-gtn.svg" alt="QR: GTN Tutorials"><div>GTN Tutorials</div></div>
+  </div>
+</footer>
+</body>
+</html>
