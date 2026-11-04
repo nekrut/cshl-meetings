@@ -604,14 +604,14 @@ def build_figure3() -> None:
     out.append(f'<rect x="{cx0}" y="648" width="{380 * 29 / 981:.1f}" height="21" rx="2" fill="{BLUE}"/>')
     out.append(f'<text x="{cx0+18}" y="662" class="lbl mono" fill="{BLUE}">5×5 column-count DP: 29 s (33.8×)</text>')
 
-    out.append(f'<text x="{cx0}" y="690" class="lbl">One 4.4 Mb Piece, 216-Genome Roast (multiz#28)</text>')
+    out.append(f'<text x="{cx0}" y="690" class="lbl">One 4.4 Mb Piece, 216-Genome Roast (same host)</text>')
     out.append(f'<rect x="{cx0}" y="696" width="380" height="21" rx="4" fill="{GREY}"/>')
-    out.append(f'<text x="{cx0+8}" y="710" class="ax mono" fill="#ffffff" font-weight="700">Release 11.3: 7.3 h (ours, 10-way concurrent)</text>')
-    out.append(f'<rect x="{cx0}" y="720" width="58.1" height="21" rx="3" fill="{GREEN}"/>')
-    out.append(f'<text x="{cx0+65}" y="734" class="lbl mono" fill="{GREEN}">1.1 h (11.4, upstream host)</text>')
+    out.append(f'<text x="{cx0+8}" y="710" class="ax mono" fill="#ffffff" font-weight="700">Release 11.3: 3.9 h (median of 3 runs)</text>')
+    out.append(f'<rect x="{cx0}" y="720" width="{380 * 2873 / 14085:.1f}" height="21" rx="3" fill="{GREEN}"/>')
+    out.append(f'<text x="{cx0+85}" y="734" class="lbl mono" fill="{GREEN}">0.80 h (11.4, 4.9×)</text>')
 
     out.append(f'<rect x="{cx0}" y="746" width="414" height="28" rx="6" fill="#fff4d1" stroke="{GOLD}"/>')
-    out.append(f'<text x="{cx0+207}" y="764" text-anchor="middle" class="lbl">Our idle-host 11.3 run: 3.8 h · same-host re-time pending</text>')
+    out.append(f'<text x="{cx0+207}" y="764" text-anchor="middle" class="lbl">Same idle host, interleaved runs · output identical</text>')
 
     out.append("</svg>")
     (OUT_DIR / "figure3_scalability_benchmarks.svg").write_text("\n".join(out))
