@@ -611,7 +611,7 @@ def build_figure3() -> None:
     out.append(f'<text x="{cx0+85}" y="734" class="lbl mono" fill="{GREEN}">0.80 h (11.4, 4.9×)</text>')
 
     out.append(f'<rect x="{cx0}" y="746" width="414" height="28" rx="6" fill="#fff4d1" stroke="{GOLD}"/>')
-    out.append(f'<text x="{cx0+207}" y="764" text-anchor="middle" class="lbl">Same idle host, interleaved runs · output identical</text>')
+    out.append(f'<text x="{cx0+207}" y="764" text-anchor="middle" class="lbl">Same host, interleaved runs · output identical</text>')
 
     out.append("</svg>")
     (OUT_DIR / "figure3_scalability_benchmarks.svg").write_text("\n".join(out))
